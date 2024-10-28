@@ -1,0 +1,8 @@
+bin/Debug/net8.0/P_P
+*.json
+*.dll
+*.pdb
+obj/Debug/*
+obj/Debug/net8.0/P_P.AssemblyInfo.cs
+obj/Debug/net8.0/P_P.AssemblyInfo.cs
+obj/Debug/net8.0/P_P.AssemblyInfoInputs.cache
