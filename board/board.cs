@@ -17,7 +17,7 @@ namespace P_P
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Console.Write(gameBoard[i, j] + " ");
+                    Console.Write("🔲" + " ");
                 }
                 Console.WriteLine();
             }
