@@ -1,12 +1,12 @@
 namespace P_P{
 public class BaseCharacter
 {
-    public string? name;
+    public string? icon;
     public string? ability;
     public int await_time;
     public BaseCharacter(string? name , string? ability , int await_time)
     {
-        this.name = name;
+        this.icon = name;
         this.ability = ability;
         this.await_time = await_time;
     }
