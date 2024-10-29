@@ -4,20 +4,32 @@ namespace P_P
     {
         private int columns;
         private int rows;
-        private int[,] gameBoard;
+        public string[,] gameBoard;
         public Board(int columns, int rows)
         {
             this.columns = columns;
             this.rows = rows;
-            this.gameBoard = new int[rows, columns];
+            this.gameBoard = new string[rows, columns];
         }
-        public void print_board()
+        public string[,] create_board()
         {
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Console.Write("🔲" + " ");
+                    this.gameBoard[i,j] = "🔲";
+                }
+            }
+            return this.gameBoard;
+            }
+        public void print_board(string [,] gameboard)
+        {
+            Console.Clear();
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    Console.Write(gameBoard[i,j] + " ");
                 }
                 Console.WriteLine();
             }
