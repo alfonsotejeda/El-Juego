@@ -11,7 +11,8 @@
             Console.Write("Elija una opción: ");
             if (menu.choosen_opcion(Console.ReadLine()) == "1")
             {
-                Board board = new Board(20 , 20);
+                
+                Board board = new Board(10 , 10);
                 string [,] game_board = board.create_board();
                 while(true)
                 {

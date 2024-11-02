@@ -13,11 +13,36 @@ namespace P_P
         }
         public string[,] create_board()
         {
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < rows/2; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < columns/2; j++)
                 {
+                    
                     this.gameBoard[i,j] = "🔲";
+                }
+            }
+            for (int i = rows/2; i < rows; i++)
+            {
+                for (int j = 0; j < columns/2; j++)
+                {
+                    
+                    this.gameBoard[i,j] = "🔳";
+                }
+            }
+            for (int i = rows/2; i < rows; i++)
+            {
+                for (int j = columns/2; j < columns; j++)
+                {
+                    
+                    this.gameBoard[i,j] = "🔲";
+                }
+            }
+            for (int i = 0; i < rows/2; i++)
+            {
+                for (int j = columns/2; j < columns; j++)
+                {
+                    
+                    this.gameBoard[i,j] = "🔳";
                 }
             }
             return this.gameBoard;
