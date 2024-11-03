@@ -5,6 +5,8 @@ namespace P_P
         private int columns;
         private int rows;
         public string[,] gameBoard;
+
+        public string wall = "🟫";
         public Board(int columns, int rows)
         {
             this.columns = columns;
@@ -13,40 +15,14 @@ namespace P_P
         }
         public string[,] create_board()
         {
-            for (int i = 0; i < rows/2; i++)
-            {
-                for (int j = 0; j < columns/2; j++)
-                {
-                    
-                    this.gameBoard[i,j] = "🔲";
-                }
-            }
-            for (int i = rows/2; i < rows; i++)
-            {
-                for (int j = 0; j < columns/2; j++)
-                {
-                    
-                    this.gameBoard[i,j] = "🔳";
-                }
-            }
-            for (int i = rows/2; i < rows; i++)
-            {
-                for (int j = columns/2; j < columns; j++)
-                {
-                    
-                    this.gameBoard[i,j] = "🔲";
-                }
-            }
-            for (int i = 0; i < rows/2; i++)
-            {
-                for (int j = columns/2; j < columns; j++)
-                {
-                    
-                    this.gameBoard[i,j] = "🔳";
-                }
-            }
+            Maze_Generator maze_Generator = new Maze_Generator();
+
+            maze_Generator.Generate_Maze(0,rows/2,0,columns/2,wall,this.gameBoard);
+            maze_Generator.Generate_Maze(rows/2,rows,0,columns/2,wall,this.gameBoard);
+            maze_Generator.Generate_Maze(rows/2,rows,columns/2,columns,wall,this.gameBoard);
+            maze_Generator.Generate_Maze(0,rows/2,columns/2,columns,wall,this.gameBoard);
             return this.gameBoard;
-            }
+        }
         public void print_board(string [,] gameboard)
         {
             Console.Clear();
