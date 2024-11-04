@@ -16,11 +16,13 @@ namespace P_P
         public string[,] create_board()
         {
             Maze_Generator maze_Generator = new Maze_Generator();
+            maze_Generator.Generate_Empty_Maze(this.gameBoard , wall);
 
-            maze_Generator.Generate_Maze(0,rows/2,0,columns/2,wall,this.gameBoard);
-            maze_Generator.Generate_Maze(rows/2,rows,0,columns/2,wall,this.gameBoard);
-            maze_Generator.Generate_Maze(rows/2,rows,columns/2,columns,wall,this.gameBoard);
-            maze_Generator.Generate_Maze(0,rows/2,columns/2,columns,wall,this.gameBoard);
+            maze_Generator.Generate_Maze(0,rows/2,0,columns/2,wall,"⬜️",this.gameBoard);
+            maze_Generator.Generate_Maze(rows-1,rows/2,0,columns/2,wall,"⬜️",this.gameBoard);
+            maze_Generator.Generate_Maze(rows/2,rows-1,columns/2,columns-1,wall,"⬜️",this.gameBoard);
+            maze_Generator.Generate_Maze(0,rows/2,columns/2,columns-1,wall,"⬜️",this.gameBoard);
+            this.gameBoard[15,15] = "🏆";
             return this.gameBoard;
         }
         public void print_board(string [,] gameboard)

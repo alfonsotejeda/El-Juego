@@ -19,7 +19,8 @@ public class BaseCharacter
             ConsoleKeyInfo key = Console.ReadKey();
             int new_row = player_start_row;
             int new_column = player_start_column;
-            game_board[new_row,new_column] = board.wall;
+            //parcheeeeeeeeee!!!!!!!!!!!!!!
+            game_board[new_row,new_column] = "⬜️";
 
             switch (key.Key)
             {
