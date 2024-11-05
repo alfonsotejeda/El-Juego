@@ -5,7 +5,7 @@ namespace P_P
         private Random rand = new Random();
         
         // Agregamos una propiedad para controlar la complejidad
-        private readonly double LoopProbability = 0.05; // 20% de probabilidad de crear bucles
+        private readonly double LoopProbability = 0.08; // Reducido de 0.15
         private readonly int MinPathLength = 20; // Longitud mínima del camino
 
         // Método auxiliar para calcular la distancia Manhattan entre dos puntos
@@ -13,10 +13,6 @@ namespace P_P
         {
             return Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
         }
-
-        // The main method for generating a maze. It takes the start and end positions,
-        // as well as the symbols for walls, paths, and the game board.
-        // Initialize all elements of the game board as walls
         public void Generate_Empty_Maze(string[,] game_board , string wall)
         {
             for (int i = 0; i < game_board.GetLength(0); i++)
@@ -118,7 +114,7 @@ namespace P_P
             // Creamos caminos desde cada esquina hacia el centro
             foreach (var startPoint in startPoints)
             {
-                CreatePathToCenter(startPoint.Item1, startPoint.Item2, centerX, centerY, wall, path, game_board);
+                CreatePathToCenter(startPoint.Item1, startPoint.Item2, centerX, centerY, "⬛", "⬜", game_board);
             }
 
             // Agregamos algunos caminos adicionales para hacer el laberinto más interesante
@@ -171,7 +167,7 @@ namespace P_P
             int[] dx = { -1, 1, 0, 0 };
             int[] dy = { 0, 0, -1, 1 };
             
-            int steps = rand.Next(3, 7); // Longitud aleatoria de la ramificación
+            int steps = rand.Next(4, 10); // Aumenta la longitud de las ramificaciones
             int direction = rand.Next(4); // Dirección aleatoria
             
             int currentX = x;
@@ -199,22 +195,55 @@ namespace P_P
 
         private void AddAdditionalPaths(string[,] game_board, string wall, string path)
         {
-            int maxAttempts = 100;
+            // Aumentamos el número de intentos y caminos
+            int maxAttempts = 300;
             int pathsAdded = 0;
             
-            while (pathsAdded < 50 && maxAttempts > 0)
+            while (pathsAdded < 150 && maxAttempts > 0)
             {
                 int x = rand.Next(1, game_board.GetLength(0) - 1);
                 int y = rand.Next(1, game_board.GetLength(1) - 1);
                 
-                if (game_board[x, y] == path)
+                if (game_board[x, y] == "⬜")
                 {
-                    if (TryAddPath(x, y, wall, path, game_board))
+                    // Intentar crear un camino ancho
+                    if (TryAddWidePath(x, y, "⬛", "⬜", game_board))
                     {
                         pathsAdded++;
                     }
                 }
                 maxAttempts--;
+            }
+
+            // Ensanchar caminos existentes
+            WidenExistingPaths(game_board, "⬛", "⬜");
+        }
+
+        private void WidenExistingPaths(string[,] game_board, string wall, string path)
+        {
+            for (int i = 1; i < game_board.GetLength(0) - 1; i++)
+            {
+                for (int j = 1; j < game_board.GetLength(1) - 1; j++)
+                {
+                    if (game_board[i, j] == "⬜")
+                    {
+                        // Reducir la probabilidad de ensanchar a 15%
+                        if (rand.NextDouble() < 0.15)
+                        {
+                            // Solo ensanchar en direcciones cardinales, no en diagonales
+                            for (int d = 0; d < 4; d++)
+                            {
+                                int dx = d < 2 ? d * 2 - 1 : 0;
+                                int dy = d < 2 ? 0 : (d - 2) * 2 - 1;
+                                
+                                if (game_board[i + dx, j + dy] == "⬛")
+                                {
+                                    game_board[i + dx, j + dy] = "⬜";
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -241,18 +270,18 @@ namespace P_P
                     return false;
                 }
                 
-                if (game_board[newX, newY] == wall)
+                if (game_board[newX, newY] == "⬛")
                 {
                     newPath.Add((newX, newY));
                     currentX = newX;
                     currentY = newY;
                 }
-                else if (game_board[newX, newY] == path && i > 1)
+                else if (game_board[newX, newY] == "⬜" && i > 1)
                 {
                     // Si encontramos otro camino después de al menos 2 pasos, conectamos
                     foreach (var (px, py) in newPath)
                     {
-                        game_board[px, py] = path;
+                        game_board[px, py] = "⬜";
                     }
                     return true;
                 }
@@ -260,6 +289,110 @@ namespace P_P
                 {
                     return false;
                 }
+            }
+            
+            return false;
+        }
+
+        private bool TryAddWidePath(int x, int y, string wall, string path, string[,] game_board)
+        {
+            int[] dx = { -1, 1, 0, 0 };
+            int[] dy = { 0, 0, -1, 1 };
+            
+            // Lista para almacenar las celdas que formarán el nuevo camino
+            List<(int x, int y)> newPathCells = new List<(int x, int y)>();
+            
+            // Elegir una dirección aleatoria
+            int direction = rand.Next(4);
+            int length = rand.Next(3, 7); // Longitud del camino
+            
+            int currentX = x;
+            int currentY = y;
+            
+            // Intentar crear un camino en la dirección elegida
+            for (int i = 0; i < length; i++)
+            {
+                int newX = currentX + dx[direction];
+                int newY = currentY + dy[direction];
+                
+                // Verificar límites y que no estemos muy cerca del borde
+                if (newX <= 1 || newX >= game_board.GetLength(0) - 2 ||
+                    newY <= 1 || newY >= game_board.GetLength(1) - 2)
+                {
+                    break;
+                }
+                
+                // Verificar si podemos crear un camino ancho
+                bool canCreateWidePath = true;
+                for (int wx = -1; wx <= 1; wx++)
+                {
+                    for (int wy = -1; wy <= 1; wy++)
+                    {
+                        int checkX = newX + wx;
+                        int checkY = newY + wy;
+                        
+                        // Si encontramos un camino existente que no es adyacente al inicio,
+                        // podemos conectarnos a él
+                        if (game_board[checkX, checkY] == "⬜" && 
+                            (Math.Abs(checkX - x) > 1 || Math.Abs(checkY - y) > 1))
+                        {
+                            // Agregar todas las celdas acumuladas al camino
+                            foreach (var cell in newPathCells)
+                            {
+                                game_board[cell.x, cell.y] = "⬜";
+                            }
+                            // Agregar la celda actual y sus adyacentes
+                            for (int ax = -1; ax <= 1; ax++)
+                            {
+                                for (int ay = -1; ay <= 1; ay++)
+                                {
+                                    if (game_board[newX + ax, newY + ay] == "⬛")
+                                    {
+                                        game_board[newX + ax, newY + ay] = "⬜";
+                                    }
+                                }
+                            }
+                            return true;
+                        }
+                        
+                        // Si encontramos algo que no es pared (excepto en el punto de inicio),
+                        // no podemos crear el camino aquí
+                        if ((checkX != x || checkY != y) && 
+                            game_board[checkX, checkY] != "⬛")
+                        {
+                            canCreateWidePath = false;
+                            break;
+                        }
+                    }
+                    if (!canCreateWidePath) break;
+                }
+                
+                if (!canCreateWidePath) break;
+                
+                // Agregar la celda actual a la lista de nuevo camino
+                newPathCells.Add((newX, newY));
+                currentX = newX;
+                currentY = newY;
+            }
+            
+            // Si el camino es lo suficientemente largo, crearlo
+            if (newPathCells.Count >= 2)
+            {
+                foreach (var cell in newPathCells)
+                {
+                    // Crear un camino ancho
+                    for (int wx = -1; wx <= 1; wx++)
+                    {
+                        for (int wy = -1; wy <= 1; wy++)
+                        {
+                            if (game_board[cell.x + wx, cell.y + wy] == "⬛")
+                            {
+                                game_board[cell.x + wx, cell.y + wy] = "⬜";
+                            }
+                        }
+                    }
+                }
+                return true;
             }
             
             return false;
