@@ -8,49 +8,49 @@ namespace P_P
         static void Main(string[] args)
         {
             Menu menu = new Menu();
-            menu.print_menu();
+            menu.printMenu();
             System.Console.WriteLine();
             Console.Write("Elija una opción: ");
             string? userInput = Console.ReadLine();
-            if (userInput != null && menu.choosen_opcion(userInput) == "1")
+            if (userInput != null && menu.choosenOpcion(userInput) == "1")
             {
                 
-                Board board = new Board(30 , 30);
-                string [,] game_board = board.create_board();
+                Board board = new Board(15 , 15);
+                string [,] gameBoard = board.createBoard();
 
             //Define characters
-            int player1_start_row = 1;
-            int player1_start_column = 1;
-            BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦" , "defense" , 5 , ref player1_start_row , ref player1_start_column);
+            int player1StartRow = 1;
+            int player1StartColumn = 1;
+            BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦" , "defense" , 5 , ref player1StartRow , ref player1StartColumn);
 
-            int player2_start_row = 28;
-            int player2_start_column = 28;
-            RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "atack" , 4 , ref player2_start_row , ref player2_start_column);
+            int player2StartRow = 28;
+            int player2StartColumn = 28;
+            RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack" , 4 , ref player2StartRow , ref player2StartColumn);
 
-                game_board[blueSquareCharacter.player_start_row,blueSquareCharacter.player_start_column] = blueSquareCharacter.icon;
-                // game_board[redSquareCharacter.player_start_row,redSquareCharacter.player_start_column] = redSquareCharacter.icon;
+                gameBoard[blueSquareCharacter.playerStartRow,blueSquareCharacter.playerStartColumn] = blueSquareCharacter.icon;
+                // gameBoard[redSquareCharacter.playerStartRow,redSquareCharacter.playerStartColumn] = redSquareCharacter.icon;
                 while(true)
                 {
-                        board.print_board(game_board);
-                        for (int i = 0 ; i < blueSquareCharacter.movement_capacity;i++)
+                        board.printBoard(gameBoard);
+                        for (int i = 0 ; i < blueSquareCharacter.movementCapacity;i++)
                         {
-                            Console.WriteLine($"{blueSquareCharacter.movement_capacity - i}: movements left");
-                            blueSquareCharacter.Move(ref blueSquareCharacter.player_start_row,ref blueSquareCharacter.player_start_column,game_board,board);
-                            board.print_board(game_board);
+                            Console.WriteLine($"{blueSquareCharacter.movementCapacity - i}: movements left");
+                            blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow,ref blueSquareCharacter.playerStartColumn,gameBoard,board);
+                            board.printBoard(gameBoard);
 
                         }
-                        for (int i = 0 ; i < redSquareCharacter.movement_capacity;i++)
+                        for (int i = 0 ; i < redSquareCharacter.movementCapacity;i++)
                         {
-                            Console.WriteLine($"{redSquareCharacter.movement_capacity - i}: movements left");
-                            redSquareCharacter.Move(ref redSquareCharacter.player_start_row,ref redSquareCharacter.player_start_column,game_board,board);
-                            board.print_board(game_board);
+                            Console.WriteLine($"{redSquareCharacter.movementCapacity - i}: movements left");
+                            redSquareCharacter.Move(ref redSquareCharacter.playerStartRow,ref redSquareCharacter.playerStartColumn,gameBoard,board);
+                            board.printBoard(gameBoard);
                         }
                 }
             }
-            else if(userInput != null && menu.choosen_opcion(userInput) == "2"){
+            else if(userInput != null && menu.choosenOpcion(userInput) == "2"){
                 System.Console.WriteLine("En contrucción");
             }
-            else if(userInput != null && menu.choosen_opcion(userInput) == "3"){
+            else if(userInput != null && menu.choosenOpcion(userInput) == "3"){
                 System.Console.WriteLine("En contrucción");
             }
         }
