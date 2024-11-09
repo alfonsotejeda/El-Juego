@@ -15,7 +15,7 @@ namespace P_P
 
             int currentRow = startRow + 1;
             int currentCol = startCol + 1;
-            RecursiveBacktracker(startRow, startCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
+            RecursiveBacktracker(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
         }
 
         private void RecursiveBacktracker(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, string[,] maze , string path , string wall)
