@@ -16,6 +16,23 @@ namespace P_P
             int currentRow = startRow + 1;
             int currentCol = startCol + 1;
             RecursiveBacktracker(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
+
+            Random random = new Random();
+            for (int row = startRow; row < endRow; row++)
+            {
+                for (int col = startCol; col < endCol; col++)
+                {
+                    if(gameBoard[row, col] == wallCharacter)
+                    {
+                        int chance = 10;
+                        if(random.Next(0, 100) < chance)
+                        {
+                            gameBoard[row , col] = "⬜️";
+                        }
+
+                    }
+                }
+            }
         }
 
         private void RecursiveBacktracker(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, string[,] maze , string path , string wall)
