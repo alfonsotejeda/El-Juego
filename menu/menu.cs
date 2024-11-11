@@ -9,7 +9,7 @@ namespace P_P
         {
         }
 
-        public void print_menu()
+        public void printMenu()
         {
             Console.Clear(); // Limpia la pantalla antes de mostrar el menú
             Console.ForegroundColor = ConsoleColor.Cyan; // Color para mejor visualización
@@ -28,7 +28,7 @@ namespace P_P
             Console.ResetColor(); // Restaura el color original
         }
 
-        public string choosen_opcion(string opcion)
+        public string choosenOpcion(string opcion)
         {
             // Validación básica de la entrada
             while (!new[] {"1", "2", "3"}.Contains(opcion))

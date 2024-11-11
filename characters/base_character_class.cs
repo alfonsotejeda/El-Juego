@@ -3,49 +3,49 @@ public class BaseCharacter
 {
     public string icon;
     public string ability;
-    public int movement_capacity;
-    public int player_start_column;
-    public int player_start_row;
-    public BaseCharacter(string name, string ability, int movement_capacity, int player_start_column, int player_start_row)
+    public int movementCapacity;
+    public int playerStartColumn;
+    public int playerStartRow;
+    public BaseCharacter(string name, string ability, int movementCapacity, int playerStartColumn, int playerStartRow)
     {
         this.icon = name ?? throw new ArgumentNullException(nameof(name));
         this.ability = ability ?? throw new ArgumentNullException(nameof(ability));
-        this.movement_capacity = movement_capacity;
-        this.player_start_column = player_start_column;
-        this.player_start_row = player_start_row;
+        this.movementCapacity = movementCapacity;
+        this.playerStartColumn = playerStartColumn;
+        this.playerStartRow = playerStartRow;
     }
-    public void Move(ref int player_start_row , ref int player_start_column, string[,]game_board,Board board)
+    public void Move(ref int playerStartRow, ref int playerStartColumn, string[,] gameBoard, Board board)
     {
-            ConsoleKeyInfo key = Console.ReadKey();
-            int new_row = player_start_row;
-            int new_column = player_start_column;
+        ConsoleKeyInfo key = Console.ReadKey();
+        int newRow = playerStartRow;
+        int newColumn = playerStartColumn;
 
-            switch (key.Key)
-            {
-                case ConsoleKey.UpArrow:
-                    new_row --;
-                    break;
-                case ConsoleKey.DownArrow:
-                    new_row ++;
-                    break;
-                case ConsoleKey.LeftArrow:
-                    new_column --;
-                    break;
-                case ConsoleKey.RightArrow:
-                    new_column ++;
-                    break;
-            }
+        switch (key.Key)
+        {
+            case ConsoleKey.UpArrow:
+                newRow--;
+                break;
+            case ConsoleKey.DownArrow:
+                newRow++;
+                break;
+            case ConsoleKey.LeftArrow:
+                newColumn--;
+                break;
+            case ConsoleKey.RightArrow:
+                newColumn++;
+                break;
+        }
 
-            // Verificar si la nueva posición es válida (no es pared)
-            if (new_row >= 0 && new_row < game_board.GetLength(0) && 
-                new_column >= 0 && new_column < game_board.GetLength(1) && 
-                game_board[new_row, new_column] != board.wall)
-            {
-                game_board[player_start_row, player_start_column] = "⬜️";
-                player_start_row = new_row;
-                player_start_column = new_column;
-                game_board[player_start_row, player_start_column] = icon;
-            }
+        // Verificar si la nueva posición es válida (no es pared)
+        if (newRow >= 0 && newRow < gameBoard.GetLength(0) && 
+            newColumn >= 0 && newColumn < gameBoard.GetLength(1) && 
+            gameBoard[newRow, newColumn] != board.wall)
+        {
+            gameBoard[playerStartRow, playerStartColumn] = "⬜️";
+            playerStartRow = newRow;
+            playerStartColumn = newColumn;
+            gameBoard[playerStartRow, playerStartColumn] = icon;
+        }
     }
 
 }

@@ -13,24 +13,24 @@ namespace P_P
             this.rows = rows;
             this.gameBoard = new string[rows, columns];
         }
-        public string[,] create_board()
+        public string[,] createBoard()
         {
-            Maze_Generator maze_Generator = new Maze_Generator();
+            MazeGenerator mazeGenerator = new MazeGenerator();
 
-            maze_Generator.Generate_Maze(0,rows/2,0,columns/2,wall,this.gameBoard);
-            maze_Generator.Generate_Maze(rows/2,rows,0,columns/2,wall,this.gameBoard);
-            maze_Generator.Generate_Maze(rows/2,rows,columns/2,columns,wall,this.gameBoard);
-            maze_Generator.Generate_Maze(0,rows/2,columns/2,columns,wall,this.gameBoard);
+            mazeGenerator.GenerateMaze(0, rows / 2, 0, columns / 2, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze(rows / 2, rows, 0, columns / 2, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze(rows / 2, rows, columns / 2, columns, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze(0, rows / 2, columns / 2, columns, wall, this.gameBoard);
             return this.gameBoard;
         }
-        public void print_board(string [,] gameboard)
+        public void printBoard(string[,] gameBoard)
         {
             Console.Clear();
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    Console.Write(gameBoard[i,j] + " ");
+                    Console.Write(gameBoard[i, j] + " ");
                 }
                 Console.WriteLine();
             }
