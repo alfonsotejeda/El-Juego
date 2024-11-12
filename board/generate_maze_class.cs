@@ -1,14 +1,67 @@
 namespace P_P
 {
-    public class Maze_Generator{
-        public void Generate_Maze(int start_position_i, int end_position_i, int start_position_j, int end_position_j, string wall, string[,] game_board)
+    public class MazeGenerator
+    {
+        public void GenerateMaze(int startRow, int endRow, int startCol, int endCol, string wallCharacter, string[,] gameBoard)
         {
-            for (int i = start_position_i; i < end_position_i; i++)
+            for (int row = startRow; row < endRow; row++)
             {
-                for (int j = start_position_j; j < end_position_j; j++) // Corrected the loop condition to end_position_j
+                for (int col = startCol; col < endCol; col++)
                 {
-                    game_board[i, j] = wall; // Using the passed wall character instead of a hardcoded one
-                }    
+                    gameBoard[row, col] = wallCharacter;
+                }
+            }
+
+
+            int currentRow = startRow + 1;
+            int currentCol = startCol + 1;
+            RecursiveBacktracker(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
+
+            Random random = new Random();
+            for (int row = startRow; row < endRow; row++)
+            {
+                for (int col = startCol; col < endCol; col++)
+                {
+                    if(gameBoard[row, col] == wallCharacter)
+                    {
+                        int chance = 10;
+                        if(random.Next(0, 100) < chance)
+                        {
+                            gameBoard[row , col] = "⬜️";
+                        }
+
+                    }
+                }
+            }
+        }
+
+        private void RecursiveBacktracker(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, string[,] maze , string path , string wall)
+        {
+            maze[currentRow , currentCol] = path;
+            Random random = new Random();
+            int[] rowDirections = { 0, 2, 0, -2 };
+            int[] colDirections = { -2, 0, 2, 0 };
+
+            var directions = Enumerable.Range(0,4).ToList();
+
+            while(directions.Count() > 0)
+            {
+                int index = random.Next(directions.Count);
+                int direction = directions[index];
+                directions.RemoveAt(index);
+                int newRow = currentRow + rowDirections[direction]; 
+                int newCol = currentCol + colDirections[direction]; 
+
+                if (newRow >= startRow && newRow < endRow &&
+                    newCol >= startCol && newCol < endCol &&
+                    maze[newRow,newCol] == wall)
+                {
+                    int middleRow = currentRow+rowDirections[direction]/2;
+                    int middleCol = currentCol+colDirections[direction]/2;
+                    maze[middleRow , middleCol] = path;
+                    RecursiveBacktracker(newRow , newCol , startRow , endRow , startCol , endCol, maze , "⬜️" , wall);
+                }
+
             }
         }
     }
