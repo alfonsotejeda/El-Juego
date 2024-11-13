@@ -23,12 +23,12 @@ namespace P_P
             int player1StartColumn = 1;
             BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦" , "defense" , 5 , ref player1StartRow , ref player1StartColumn);
 
-            int player2StartRow = 28;
-            int player2StartColumn = 28;
+            int player2StartRow = 30;
+            int player2StartColumn = 30;
             RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack" , 4 , ref player2StartRow , ref player2StartColumn);
 
                 gameBoard[blueSquareCharacter.playerStartRow,blueSquareCharacter.playerStartColumn] = blueSquareCharacter.icon;
-                // gameBoard[redSquareCharacter.playerStartRow,redSquareCharacter.playerStartColumn] = redSquareCharacter.icon;
+                gameBoard[redSquareCharacter.playerStartRow,redSquareCharacter.playerStartColumn] = redSquareCharacter.icon;
                 while(true)
                 {
                         board.PrintBoardSpectre(gameBoard);
@@ -42,12 +42,12 @@ namespace P_P
                             board.PrintBoardSpectre(gameBoard);
 
                         }
-                        // for (int i = 0 ; i < redSquareCharacter.movementCapacity;i++)
-                        // {
-                        //     Console.WriteLine($"{redSquareCharacter.movementCapacity - i}: movements left");
-                        //     redSquareCharacter.Move(ref redSquareCharacter.playerStartRow,ref redSquareCharacter.playerStartColumn,gameBoard,board);
-                        //     board.PrintBoardSpectre(gameBoard);
-                        // }
+                        for (int i = 0 ; i < redSquareCharacter.movementCapacity;i++)
+                        {
+                            Console.WriteLine($"{redSquareCharacter.movementCapacity - i}: movements left");
+                            redSquareCharacter.Move(ref redSquareCharacter.playerStartRow,ref redSquareCharacter.playerStartColumn,gameBoard,board);
+                            board.PrintBoardSpectre(gameBoard);
+                        }
                 }
             }
             else if(userInput != null && menu.choosenOpcion(userInput) == "2"){

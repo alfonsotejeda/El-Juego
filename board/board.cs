@@ -65,6 +65,9 @@ namespace P_P
                         case "🔲":
                             canvas.SetPixel(row , column , Color.Black);
                             break;
+                        case "🟥":
+                            canvas.SetPixel(row , column , Color.Red);
+                            break;
                     }
                     
                 }
