@@ -15,7 +15,7 @@ namespace P_P
             if (userInput != null && menu.choosenOpcion(userInput) == "1")
             {
                 
-                Board board = new Board(20 , 20);
+                Board board = new Board(33 , 33);
                 string [,] gameBoard = board.createBoard();
 
             //Define characters
@@ -31,19 +31,22 @@ namespace P_P
                 // gameBoard[redSquareCharacter.playerStartRow,redSquareCharacter.playerStartColumn] = redSquareCharacter.icon;
                 while(true)
                 {
-                        board.printBoard(gameBoard);
+                        board.PrintBoardSpectre(gameBoard);
+                        // board.PrintBoard(gameBoard);
+                        // Console.ReadKey();
+                        // board.createBoard();
                         for (int i = 0 ; i < blueSquareCharacter.movementCapacity;i++)
                         {
                             Console.WriteLine($"{blueSquareCharacter.movementCapacity - i}: movements left");
                             blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow,ref blueSquareCharacter.playerStartColumn,gameBoard,board);
-                            board.printBoard(gameBoard);
+                            board.PrintBoardSpectre(gameBoard);
 
                         }
                         // for (int i = 0 ; i < redSquareCharacter.movementCapacity;i++)
                         // {
                         //     Console.WriteLine($"{redSquareCharacter.movementCapacity - i}: movements left");
                         //     redSquareCharacter.Move(ref redSquareCharacter.playerStartRow,ref redSquareCharacter.playerStartColumn,gameBoard,board);
-                        //     board.printBoard(gameBoard);
+                        //     board.PrintBoardSpectre(gameBoard);
                         // }
                 }
             }

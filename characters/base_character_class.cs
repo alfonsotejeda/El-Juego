@@ -22,16 +22,16 @@ public class BaseCharacter
 
         switch (key.Key)
         {
-            case ConsoleKey.LeftArrow:
+            case ConsoleKey.UpArrow:
                 newRow--;
                 break;
-            case ConsoleKey.RightArrow:
+            case ConsoleKey.DownArrow:
                 newRow++;
                 break;
-            case ConsoleKey.UpArrow:
+            case ConsoleKey.LeftArrow:
                 newColumn--;
                 break;
-            case ConsoleKey.DownArrow:
+            case ConsoleKey.RightArrow:
                 newColumn++;
                 break;
         }
