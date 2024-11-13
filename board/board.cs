@@ -1,3 +1,4 @@
+using Spectre.Console;
 namespace P_P
 {
     public class Board
@@ -26,14 +27,31 @@ namespace P_P
         public void printBoard(string[,] gameBoard)
         {
             Console.Clear();
-            for (int i = 0; i < rows; i++)
+                // Create a canvas
+            var canvas = new Canvas(gameBoard.GetLength(0), gameBoard.GetLength(1));
+
+            // Draw some shapes
+            for(int row = 0; row < canvas.Width; row++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int column = 0 ; column < canvas.Height; column++)
                 {
-                    Console.Write(gameBoard[i, j] + " ");
+                    switch (gameBoard[row, column])
+                    {
+                        case "🟫":
+                            canvas.SetPixel(row, column, Color.Black);
+                            break;
+                        case "⬜️":
+                            canvas.SetPixel(row, column, Color.White);
+                            break;
+                        case "🟦":
+                            canvas.SetPixel(row, column, Color.Blue);
+                            break;
+                    }
+                    
                 }
-                Console.WriteLine();
             }
+            AnsiConsole.Write(canvas);
+
         }
     }
 }
