@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Hv/ekqEm06Y=",
+  "dgSpecHash": "8zMFAM034cc=",
   "success": true,
   "projectFilePath": "/Users/alfonso/Documents/P_P/P_P.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/alfonso/.nuget/packages/spectre.console/0.49.1/spectre.console.0.49.1.nupkg.sha512",
+    "/Users/alfonso/.nuget/packages/spectre.console.cli/0.49.1/spectre.console.cli.0.49.1.nupkg.sha512"
+  ],
   "logs": []
 }
