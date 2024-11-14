@@ -33,6 +33,8 @@ namespace P_P
             //0 0
             //0 1 
             mazeGenerator.GenerateMaze(rows / 2, rows, columns / 2, columns, wall, this.gameBoard);
+
+
                     
 
             return this.gameBoard;
@@ -68,6 +70,9 @@ namespace P_P
                         case "🟥":
                             canvas.SetPixel(row , column , Color.Red);
                             break;
+                        case "🔳":
+                            canvas.SetPixel(row , column , Color.BlueViolet);
+                            break;
                     }
                     
                 }
@@ -76,6 +81,7 @@ namespace P_P
         }
     public void PrintBoard(string[,] game_boar)
     {
+        Console.Clear();
         for (int i = 0; i < game_boar.GetLength(0); i++)
         {
             for (int j = 0; j < game_boar.GetLength(1); j++)

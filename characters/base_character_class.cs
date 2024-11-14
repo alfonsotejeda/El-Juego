@@ -6,6 +6,7 @@ public class BaseCharacter
     public int movementCapacity;
     public int playerStartColumn;
     public int playerStartRow;
+    public string iconOfNextPositon;
     public BaseCharacter(string name, string ability, int movementCapacity, int playerStartColumn, int playerStartRow)
     {
         this.icon = name ?? throw new ArgumentNullException(nameof(name));
@@ -36,14 +37,16 @@ public class BaseCharacter
                 break;
         }
 
-        // Verificar si la nueva posición es válida (no es pared)
+        // Verificar si la nueva posición es válida (no es pared ni trampa cerrada)
         if (newRow >= 0 && newRow < gameBoard.GetLength(0) && 
             newColumn >= 0 && newColumn < gameBoard.GetLength(1) && 
-            gameBoard[newRow, newColumn] != board.wall)
+            gameBoard[newRow, newColumn] != board.wall &&
+            gameBoard[newRow, newColumn] != "🟫")
         {
             gameBoard[playerStartRow, playerStartColumn] = "⬜️";
             playerStartRow = newRow;
             playerStartColumn = newColumn;
+            iconOfNextPositon = gameBoard[playerStartRow , playerStartColumn];
             gameBoard[playerStartRow, playerStartColumn] = icon;
         }
     }
