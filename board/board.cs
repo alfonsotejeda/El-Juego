@@ -7,6 +7,7 @@ namespace P_P
         private int rows;
         public string[,] gameBoard;
 
+        
         public string wall = "🟫";
         public Board(int columns, int rows)
         {
@@ -20,7 +21,7 @@ namespace P_P
             
             //1 0
             //0 0 
-            mazeGenerator.GenerateMaze(0, rows / 2, 0, columns / 2, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze( 0, rows / 2, 0, columns / 2, wall, this.gameBoard);
 
             //0 1
             //0 0
@@ -33,8 +34,9 @@ namespace P_P
             //0 0
             //0 1 
             mazeGenerator.GenerateMaze(rows / 2, rows, columns / 2, columns, wall, this.gameBoard);
-                    
 
+            // defining tramps
+            
             return this.gameBoard;
         }
         public void PrintBoardSpectre(string[,] gameBoard)
@@ -68,14 +70,19 @@ namespace P_P
                         case "🟥":
                             canvas.SetPixel(row , column , Color.Red);
                             break;
+                        case "🔳":
+                            canvas.SetPixel(row , column , Color.BlueViolet);
+                            break;
                     }
                     
                 }
             }
             AnsiConsole.Write(canvas);
         }
-    public void PrintBoard(string[,] game_boar)
+        
+        public void PrintBoard(string[,] game_boar)
     {
+        Console.Clear();
         for (int i = 0; i < game_boar.GetLength(0); i++)
         {
             for (int j = 0; j < game_boar.GetLength(1); j++)

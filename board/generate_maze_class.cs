@@ -16,26 +16,10 @@ namespace P_P
             int currentRow = startRow + 1;
             int currentCol = startCol + 1;
             RecursiveBacktracker(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
+            RandomizeWalls(startRow, endRow, startCol, endCol, wallCharacter, gameBoard);
 
-            Random random = new Random();
-            for (int row = startRow+1; row < endRow-1; row++)
-            {
-                for (int col = startCol+1; col < endCol-1; col++)
-                {
-                    if(gameBoard[row, col] == wallCharacter)
-                    {
-                        int chance = 10;
-                        if(random.Next(0, 100) < chance)
-                        {
-                            gameBoard[row , col] = "⬜️";
-                        }
-
-                    }
-                }
-            }
             //center
             gameBoard[gameBoard.GetLength(0)/2 , gameBoard.GetLength(1)/2] = "🏆";
-
             //across the center
             for (int row = gameBoard.GetLength(0)/2 - 1; row <= gameBoard.GetLength(0)/2 + 1; row ++)
             {
@@ -48,7 +32,6 @@ namespace P_P
                 }
 
             }
-
         }
 
         private void RecursiveBacktracker(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, string[,] maze , string path , string wall)
@@ -78,6 +61,25 @@ namespace P_P
                     RecursiveBacktracker(newRow , newCol , startRow , endRow , startCol , endCol, maze , "⬜️" , wall);
                 }
 
+            }
+        }
+
+        public void RandomizeWalls(int startRow, int endRow, int startCol, int endCol, string wallCharacter, string[,] gameBoard)
+        {
+            Random random = new Random();
+            for (int row = startRow + 1; row < endRow - 1; row++)
+            {
+                for (int col = startCol + 1; col < endCol - 1; col++)
+                {
+                    if (gameBoard[row, col] == wallCharacter)
+                    {
+                        int chance = 10;
+                        if (random.Next(0, 100) < chance)
+                        {
+                            gameBoard[row, col] = "⬜️";
+                        }
+                    }
+                }
             }
         }
     }
