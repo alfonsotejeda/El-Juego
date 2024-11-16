@@ -13,7 +13,7 @@ namespace P_P
             switch (direction)
             {
                 case 0: // Arriba
-                    if (row > 0) gameBoard[row - 1, column] = "🟫";
+                    if (row > 1) gameBoard[row - 1, column] = "🟫";
                     break;
                 case 1: // Abajo
                     if (row < gameBoard.GetLength(0) - 1) gameBoard[row + 1, column] = "🟫";

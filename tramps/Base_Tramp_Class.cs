@@ -12,9 +12,9 @@ namespace P_P
             this.numberOfTraps = numberOfTraps;
         }
 
-        public bool CheckTrap(BaseCharacter baseCharacter, string[,] gameBoard)
+        public bool CheckTrap(BaseCharacter baseCharacter, string[,] gameBoard , bool[,] trampBoard)
         {
-            return baseCharacter.iconOfNextPositon == icon;
+            return trampBoard[baseCharacter.playerStartRow, baseCharacter.playerStartColumn];
         }
         public void CreateRandomTraps(string[,] gameBoard , int startRow , int endRow , int startColumn , int endColumn)
         {
