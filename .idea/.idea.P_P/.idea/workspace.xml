@@ -7,7 +7,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7405cc25-4516-489f-bf7e-0ed5ece4d787" name="Changes" comment="Create and teste a basic tramp" />
+    <list default="true" id="7405cc25-4516-489f-bf7e-0ed5ece4d787" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.P_P/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.P_P/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/P_P.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/P_P.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/P_P.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/obj/P_P.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,7 +58,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "XThreadsFramesViewSplitterKey": "0.18956521",
-    "git-widget-placeholder": "Making__Tramps",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -93,8 +100,17 @@
       <workItem from="1731717209280" duration="149000" />
       <workItem from="1731721967113" duration="68000" />
       <workItem from="1731722492844" duration="51000" />
-      <workItem from="1731769713557" duration="5029000" />
+      <workItem from="1731769713557" duration="5644000" />
     </task>
+    <task id="LOCAL-00001" summary="Updating gitignore">
+      <option name="closed" value="true" />
+      <created>1731777236664</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731777236664</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,6 +132,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Create and teste a basic tramp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create and teste a basic tramp" />
+    <MESSAGE value="Updating gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating gitignore" />
   </component>
 </project>

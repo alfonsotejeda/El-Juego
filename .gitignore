@@ -13,3 +13,10 @@ obj/.DS_Store
 obj/Debug/net8.0/P_P.assets.cache
 obj/rider.project.model.nuget.info
 obj/rider.project.model.nuget.info
+obj/rider.project.restore.info
+.gitignore
+.idea/.idea.P_P/.idea/workspace.xml
+obj/project.assets.json
+obj/project.nuget.cache
+obj/rider.project.restore.info
+obj/Debug/net8.0/P_P.assets.cache
