@@ -40,7 +40,7 @@ public class BaseCharacter
         // Verificar si la nueva posición es válida (no es pared ni trampa cerrada)
         if (newRow >= 0 && newRow < gameBoard.GetLength(0) && 
             newColumn >= 0 && newColumn < gameBoard.GetLength(1) && 
-            gameBoard[newRow, newColumn] != board.wall &&
+            gameBoard[newRow, newColumn] != board.Wall &&
             gameBoard[newRow, newColumn] != "🟫")
         {
             gameBoard[playerStartRow, playerStartColumn] = "⬜️";

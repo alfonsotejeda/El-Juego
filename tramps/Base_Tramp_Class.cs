@@ -6,15 +6,21 @@ namespace P_P
         public int[] positionRow = new int[100]; // Fila de la posición del tramp
         public int[] positionColumn = new int[100]; // Columna de la posición del trampprivate int nunmberOfTramps;
         private int numberOfTraps;
-        public BaseTramp( string icon,int numberOfTraps)
+        public string? trampId;
+        public BaseTramp( string icon,int numberOfTraps , string? trampId)
         {
             this.icon = icon;
             this.numberOfTraps = numberOfTraps;
+            this.trampId = trampId;
         }
 
-        public bool CheckTrap(BaseCharacter baseCharacter, string[,] gameBoard , bool[,] trampBoard)
+        public bool CheckTrap(BaseCharacter baseCharacter, string[,] gameBoard , string[,] trampBoard , string trampId)
         {
-            return trampBoard[baseCharacter.playerStartRow, baseCharacter.playerStartColumn];
+            if(trampBoard[baseCharacter.playerStartRow , baseCharacter.playerStartColumn] == trampId)
+            {
+                return true;
+            }
+            return false;
         }
         public void CreateRandomTraps(string[,] gameBoard , int startRow , int endRow , int startColumn , int endColumn)
         {

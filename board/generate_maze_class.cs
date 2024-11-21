@@ -15,7 +15,7 @@ namespace P_P
 
             int currentRow = startRow + 1;
             int currentCol = startCol + 1;
-            RecursiveBacktracker(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
+            GenerateRecursiveMaze(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard , "⬜️" , wallCharacter);
             RandomizeWalls(startRow, endRow, startCol, endCol, wallCharacter, gameBoard);
 
             //center
@@ -34,7 +34,7 @@ namespace P_P
             }
         }
 
-        private void RecursiveBacktracker(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, string[,] maze , string path , string wall)
+        private void GenerateRecursiveMaze(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, string[,] maze , string path , string wall)
         {
             maze[currentRow , currentCol] = path;
             Random random = new Random();
@@ -43,7 +43,7 @@ namespace P_P
 
             var directions = Enumerable.Range(0,4).ToList();
 
-            while(directions.Count() > 0)
+            while(directions.Count > 0)
             {
                 int index = random.Next(directions.Count);
                 int direction = directions[index];
@@ -58,13 +58,13 @@ namespace P_P
                     int middleRow = currentRow+rowDirections[direction]/2;
                     int middleCol = currentCol+colDirections[direction]/2;
                     maze[middleRow , middleCol] = path;
-                    RecursiveBacktracker(newRow , newCol , startRow , endRow , startCol , endCol, maze , "⬜️" , wall);
+                    GenerateRecursiveMaze(newRow , newCol , startRow , endRow , startCol , endCol, maze , "⬜️" , wall);
                 }
 
             }
         }
 
-        public void RandomizeWalls(int startRow, int endRow, int startCol, int endCol, string wallCharacter, string[,] gameBoard)
+        private void RandomizeWalls(int startRow, int endRow, int startCol, int endCol, string wallCharacter, string[,] gameBoard)
         {
             Random random = new Random();
             for (int row = startRow + 1; row < endRow - 1; row++)

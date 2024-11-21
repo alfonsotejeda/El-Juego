@@ -3,41 +3,58 @@ namespace P_P
 {
     public class Board
     {
-        private int columns;
-        private int rows;
-        public string[,] gameBoard;
+        private int _columns;
+        private int _rows;
+        public string[,] GameBoard;
+        public string[,] TrampBoard;
 
         
-        public string wall = "🟫";
+        public string Wall = "🟫";
         public Board(int columns, int rows)
         {
-            this.columns = columns;
-            this.rows = rows;
-            this.gameBoard = new string[rows, columns];
+            this._columns = columns;
+            this._rows = rows;
+            this.GameBoard = new string[rows, columns];
+            this.TrampBoard = new string[rows , columns];
         }
-        public string[,] createBoard()
+        public string[,] CreateBoard()
         {
             MazeGenerator mazeGenerator = new MazeGenerator();
             
             //1 0
             //0 0 
-            mazeGenerator.GenerateMaze( 0, rows / 2, 0, columns / 2, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze( 0, _rows / 2, 0, _columns / 2, Wall, this.GameBoard);
 
             //0 1
             //0 0
-            mazeGenerator.GenerateMaze(0, rows / 2, columns / 2, columns, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze(0, _rows / 2, _columns / 2, _columns, Wall, this.GameBoard);
                     
             //0 0
             //1 0    
-            mazeGenerator.GenerateMaze(rows / 2, rows, 0, columns / 2, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze(_rows / 2, _rows, 0, _columns / 2, Wall, this.GameBoard);
             
             //0 0
             //0 1 
-            mazeGenerator.GenerateMaze(rows / 2, rows, columns / 2, columns, wall, this.gameBoard);
+            mazeGenerator.GenerateMaze(_rows / 2, _rows, _columns / 2, _columns, Wall, this.GameBoard);
 
             // defining tramps
-            
-            return this.gameBoard;
+            ClosePathTramp closePathTramp = new ClosePathTramp("🔳" , 7 , "C");
+            closePathTramp.CreateRandomTraps( GameBoard , 0, _rows / 2, 0, _columns / 2);
+            closePathTramp.CreateRandomTraps( GameBoard ,0, _rows / 2, _columns / 2, _columns);
+            closePathTramp.CreateRandomTraps( GameBoard , _rows / 2, _rows, 0, _columns / 2);
+            closePathTramp.CreateRandomTraps(GameBoard, _rows / 2, _rows, _columns / 2, _columns);
+            for (int i = 1; i < _rows; i++)
+            {
+                for (int j = 1; j < _columns; j++)
+                {
+                    if (GameBoard[i, j] == "🔳")
+                    {
+                        TrampBoard[i, j] = closePathTramp.trampId;
+                        // gameBoard[i, j] = "⬜️";
+                    }
+                }
+            } 
+            return this.GameBoard;
         }
         public void PrintBoardSpectre(string[,] gameBoard)
         {
@@ -80,14 +97,14 @@ namespace P_P
             AnsiConsole.Write(canvas);
         }
         
-        public void PrintBoard(string[,] game_boar)
+        public void PrintBoard(string[,] gameBoar)
     {
         Console.Clear();
-        for (int i = 0; i < game_boar.GetLength(0); i++)
+        for (int i = 0; i < gameBoar.GetLength(0); i++)
         {
-            for (int j = 0; j < game_boar.GetLength(1); j++)
+            for (int j = 0; j < gameBoar.GetLength(1); j++)
             {
-                Console.Write(game_boar[i, j] + " ");
+                Console.Write(gameBoar[i, j] + " ");
             }
             Console.WriteLine();
         }

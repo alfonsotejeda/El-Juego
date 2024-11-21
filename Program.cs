@@ -17,38 +17,21 @@ namespace P_P
                 int columns = 33;
                 
                 Board board = new Board(columns , rows);
-                string [,] gameBoard = board.createBoard();
+                string [,] gameBoard = board.CreateBoard();
+                string [,] trampBoard = board.TrampBoard;
                 
-                //Define tramps
-                ClosePathTramp closePathTramp = new ClosePathTramp("🔳" , 7);
-                closePathTramp.CreateRandomTraps( gameBoard , 0, rows / 2, 0, columns / 2);
-                closePathTramp.CreateRandomTraps( gameBoard ,0, rows / 2, columns / 2, columns);
-                closePathTramp.CreateRandomTraps( gameBoard , rows / 2, rows, 0, columns / 2);
-                closePathTramp.CreateRandomTraps(gameBoard, rows / 2, rows, columns / 2, columns);
-                bool[,] closeTrampBoard = new bool[rows,columns];
-
-                for (int i = 1; i < rows; i++)
-                {
-                    for (int j = 1; j < columns; j++)
-                    {
-                        if (gameBoard[i, j] == "🔳")
-                        {
-                            closeTrampBoard[i, j] = true;
-                            gameBoard[i, j] = "⬜️";
-                        }
-                    }
-                }
-
-
+                //Define Tramps
+                ClosePathTramp closePathTramp = new ClosePathTramp("🔳" , 7 , "C");
+                
                 //Define characters
                 int player1StartRow = 1;
                 int player1StartColumn = 1;
-                BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦" , "defense" , 100 , ref player1StartRow , ref player1StartColumn);
+                BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦" , "defense" , 5 , ref player1StartRow , ref player1StartColumn);
 
                 int player2StartRow = 31;
                 int player2StartColumn = 31;
-                RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack" , 4 , ref player2StartRow , ref player2StartColumn);
-       
+                RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack" , 5 , ref player2StartRow , ref player2StartColumn);
+
                 gameBoard[blueSquareCharacter.playerStartRow,blueSquareCharacter.playerStartColumn] = blueSquareCharacter.icon;
                 gameBoard[redSquareCharacter.playerStartRow,redSquareCharacter.playerStartColumn] = redSquareCharacter.icon;
                 while(true)
@@ -57,14 +40,16 @@ namespace P_P
                         for (int i = 0; i < blueSquareCharacter.movementCapacity; i++)
                         {
                             blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow, ref blueSquareCharacter.playerStartColumn, gameBoard, board);
-                            if (closeTrampBoard[blueSquareCharacter.playerStartRow,blueSquareCharacter.playerStartColumn])
+                            if (trampBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn] != " ")
                             {
-                                closePathTramp.ClosePath(blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn , gameBoard);
-                                closeTrampBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn] = false;
-                                Console.WriteLine("Haz Pisado una trampa!!!!!!! \n Presiona una tecla para continuar...");
-                                Console.ReadKey();
-                                
-                            }
+                                if (trampBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn] == closePathTramp.trampId)
+                                {
+                                    closePathTramp.ClosePath(blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn , gameBoard);
+                                    trampBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn] = null;
+                                    Console.WriteLine("Haz caido en un trampa");
+                                    Console.ReadKey();
+                                }
+                            } 
                             board.PrintBoardSpectre(gameBoard);
                         }
                         for (int i = 0 ; i < redSquareCharacter.movementCapacity;i++)

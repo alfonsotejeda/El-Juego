@@ -2,7 +2,7 @@ namespace P_P
 {
     class ClosePathTramp : BaseTramp
     {
-        public ClosePathTramp(string icon , int numberOfTraps) : base(icon , numberOfTraps)
+        public ClosePathTramp(string icon , int numberOfTraps , string? trampId) : base(icon , numberOfTraps , trampId)
         {
         }
         public void ClosePath(int row, int column, string[,] gameBoard)
