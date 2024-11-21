@@ -55,7 +55,7 @@ public class BaseCharacter
             gameBoard[playerStartRow, playerStartColumn].IsPath = false;
 
             // Actualizar el tablero
-            board.PrintBoard(gameBoard);
+            board.PrintBoardSpectre(gameBoard);
         }
     }
 

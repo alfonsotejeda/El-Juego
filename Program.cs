@@ -19,7 +19,7 @@ namespace P_P
                 Board board = new Board(columns , rows);
                 Shell [,] gameBoard = board.CreateBoard();
                 
-                board.PrintBoard(gameBoard);
+                board.PrintBoardSpectre(gameBoard);
                 //Define Tramps
                 ClosePathTramp closePathTramp = new ClosePathTramp("🔳" , 7 , "C");
                 
@@ -41,6 +41,7 @@ namespace P_P
 
                 while(true)
                 {
+                    board.PrintBoardSpectre(gameBoard);
                     blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow, ref blueSquareCharacter.playerStartColumn , gameBoard , board);
                 }
             }

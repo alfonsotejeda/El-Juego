@@ -31,12 +31,43 @@ namespace P_P
             mazeGenerator.GenerateMaze(0, _rows / 2, _columns / 2, _columns, GameBoard);
             mazeGenerator.GenerateMaze(_rows / 2, _rows, 0, _columns / 2, GameBoard);
             mazeGenerator.GenerateMaze(_rows / 2, _rows, _columns / 2, _columns, GameBoard);
+            
+            
 
             return GameBoard;
         }
         public void PrintBoardSpectre(Shell[,] gameBoard)
         {
+            AnsiConsole.Clear();
+            
+            // Definir el tamaño del lienzo
+            int canvasWidth = gameBoard.GetLength(1);
+            int canvasHeight = gameBoard.GetLength(0);
+            Canvas canvas = new Canvas(canvasWidth, canvasHeight);
 
+            // Imprimir cada celda como un "píxel" en el lienzo
+            for (int i = 0; i < canvasHeight; i++)
+            {
+                for (int j = 0; j < canvasWidth; j++)
+                {
+                    switch (gameBoard[i, j])
+                    {
+                        case Shell shell when shell.HasCharacter:
+                            canvas.SetPixel(j, i, Color.White);
+                            break;
+                        case Shell shell when shell.IsWall:
+                            canvas.SetPixel(j, i, Color.Grey);
+                            break;
+                        case Shell shell when shell.IsPath:
+                            canvas.SetPixel(j, i, Color.Black);
+                            break;
+                        case Shell shell when shell.IsTrophy:
+                            canvas.SetPixel(j, i, Color.Yellow);
+                            break;
+                    }
+                }
+            }
+            AnsiConsole.Write(canvas);
         }
         
         public void PrintBoard(Shell[,] gameBoard)
@@ -60,7 +91,7 @@ namespace P_P
                 }
                 else if (gameBoard[i, j].IsTrophy)
                 {
-                    Console.Write("🏆 ");
+                    Console.Write("🏆");
                 }
             }
             Console.WriteLine();
