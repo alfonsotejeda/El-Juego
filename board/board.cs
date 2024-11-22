@@ -53,13 +53,13 @@ namespace P_P
                     switch (gameBoard[i, j])
                     {
                         case Shell shell when shell.HasCharacter:
-                            canvas.SetPixel(j, i, Color.White);
+                            canvas.SetPixel(j, i, Color.Blue);
                             break;
                         case Shell shell when shell.IsWall:
-                            canvas.SetPixel(j, i, Color.Grey);
+                            canvas.SetPixel(j, i, Color.Black);
                             break;
                         case Shell shell when shell.IsPath:
-                            canvas.SetPixel(j, i, Color.Black);
+                            canvas.SetPixel(j, i, Color.White);
                             break;
                         case Shell shell when shell.IsTrophy:
                             canvas.SetPixel(j, i, Color.Yellow);
