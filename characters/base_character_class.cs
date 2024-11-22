@@ -15,7 +15,7 @@ public class BaseCharacter
         this.playerStartColumn = playerStartColumn;
         this.playerStartRow = playerStartRow;
     }
-    public void Move(ref int playerStartRow, ref int playerStartColumn, string[,] gameBoard, Board board)
+    public void Move(ref int playerStartRow, ref int playerStartColumn, Shell[,] gameBoard, Board board)
     {
         ConsoleKeyInfo key = Console.ReadKey();
         int newRow = playerStartRow;
@@ -37,17 +37,25 @@ public class BaseCharacter
                 break;
         }
 
-        // Verificar si la nueva posición es válida (no es pared ni trampa cerrada)
         if (newRow >= 0 && newRow < gameBoard.GetLength(0) && 
             newColumn >= 0 && newColumn < gameBoard.GetLength(1) && 
-            gameBoard[newRow, newColumn] != board.Wall &&
-            gameBoard[newRow, newColumn] != "🟫")
+            !gameBoard[newRow, newColumn].IsWall && 
+            !gameBoard[newRow, newColumn].HasCharacter)
         {
-            gameBoard[playerStartRow, playerStartColumn] = "⬜️";
+            // Limpiar posición anterior
+            gameBoard[playerStartRow, playerStartColumn].HasCharacter = false;
+            gameBoard[playerStartRow, playerStartColumn].CharacterIcon = null;
+            gameBoard[playerStartRow, playerStartColumn].IsPath = true;
+
+            // Actualizar nueva posición
             playerStartRow = newRow;
             playerStartColumn = newColumn;
-            iconOfNextPositon = gameBoard[playerStartRow , playerStartColumn];
-            gameBoard[playerStartRow, playerStartColumn] = icon;
+            gameBoard[playerStartRow, playerStartColumn].HasCharacter = true;
+            gameBoard[playerStartRow, playerStartColumn].CharacterIcon = this.icon;
+            gameBoard[playerStartRow, playerStartColumn].IsPath = false;
+
+            // Actualizar el tablero
+            board.PrintBoardSpectre(gameBoard);
         }
     }
 
