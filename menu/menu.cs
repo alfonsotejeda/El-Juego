@@ -1,42 +1,85 @@
+using Spectre.Console;
+
 namespace P_P
 {
     public class Menu
     {
-        private const string BORDER = "+===========================================+";
-        private const string EMPTY_LINE = "|                                           |";
+        private const string TITLE = "BIENVENIDO AL JUEGO";
+        private bool isSpanish = true;
         
         public Menu()
         {
         }
 
-        public void printMenu()
+        public string ShowMenu()
         {
-            Console.Clear(); // Limpia la pantalla antes de mostrar el menú
-            Console.ForegroundColor = ConsoleColor.Cyan; // Color para mejor visualización
+            AnsiConsole.Clear();
             
-            Console.WriteLine(BORDER);
-            Console.WriteLine("|           🎮 BIENVENIDO AL JUEGO 🎮          |");
-            Console.WriteLine(BORDER);
-            Console.WriteLine(EMPTY_LINE);
-            Console.WriteLine("|  [1] ▶ 🎯 Iniciar Juego                      |");
-            Console.WriteLine("|  [2] ▶ 🌍 Cambiar Idioma                     |");
-            Console.WriteLine("|  [3] ▶ 🚪 Salir                              |");
-            Console.WriteLine(EMPTY_LINE);
-            Console.WriteLine(BORDER);
-            Console.WriteLine("\n🎲 Por favor, seleccione una opción (1-3): ");
+            // Create a fancy header
+            var rule = new Rule($"[bold yellow]{(isSpanish ? TITLE : "WELCOME TO THE GAME")}[/]");
+            rule.Style = Style.Parse("yellow");
             
-            Console.ResetColor(); // Restaura el color original
+            AnsiConsole.Write(rule);
+            AnsiConsole.WriteLine();
+
+            // Create the menu
+            var choices = isSpanish
+                ? new[] { " Iniciar Juego", " Cambiar Idioma", " Salir" }
+                : new[] { " Start Game", " Change Language", " Exit" };
+
+            var selection = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title(isSpanish ? "[blue]¿Qué te gustaría hacer?[/]" : "[blue]What would you like to do?[/]")
+                    .PageSize(10)
+                    .HighlightStyle(new Style(foreground: Color.Cyan1))
+                    .AddChoices(choices));
+
+            // Convert selection back to number
+            string option = selection switch
+            {
+                " Iniciar Juego" => "1",
+                " Cambiar Idioma" => "2",
+                " Salir" => "3",
+                " Start Game" => "1",
+                " Change Language" => "2",
+                " Exit" => "3",
+                _ => "1"
+            };
+
+            ProcessOption(option);
+            return option;
         }
 
-        public string choosenOpcion(string opcion)
+        private void ProcessOption(string option)
         {
-            // Validación básica de la entrada
-            while (!new[] {"1", "2", "3"}.Contains(opcion))
+            switch (option)
             {
-                Console.WriteLine("Opción no válida. Por favor, intente nuevamente (1-3): ");
-                opcion = Console.ReadLine();
+                case "2":
+                    ToggleLanguage();
+                    break;
+                case "3":
+                    if (ConfirmExit())
+                        Environment.Exit(0);
+                    break;
             }
-            return opcion;
+        }
+
+        private void ToggleLanguage()
+        {
+            isSpanish = !isSpanish;
+            AnsiConsole.Clear();
+            AnsiConsole.MarkupLine(isSpanish 
+                ? "[green]¡Idioma cambiado a Español![/]" 
+                : "[green]Language changed to English![/]");
+            Thread.Sleep(1500); // Show message briefly
+        }
+
+        private bool ConfirmExit()
+        {
+            return AnsiConsole.Confirm(
+                isSpanish 
+                    ? "¿Estás seguro que deseas salir?" 
+                    : "Are you sure you want to exit?");
         }
     }
 }
