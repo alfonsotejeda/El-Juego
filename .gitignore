@@ -20,3 +20,4 @@ obj/project.assets.json
 obj/project.nuget.cache
 obj/rider.project.restore.info
 obj/Debug/net8.0/P_P.assets.cache
+obj/P_P.csproj.nuget.g.props
