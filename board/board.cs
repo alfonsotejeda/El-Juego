@@ -67,35 +67,64 @@ namespace P_P
                     }
                 }
             }
-            AnsiConsole.Write(canvas);
+
+            // Crear el layout
+            Layout layout = CreateLayout(canvas);
+            AnsiConsole.Write(layout);
+            
         }
         
         public void PrintBoard(Shell[,] gameBoard)
-    {
-        Console.Clear();
-        for (int i = 0; i < gameBoard.GetLength(0); i++)
         {
-            for (int j = 0; j < gameBoard.GetLength(1); j++)
+            Console.Clear();
+            for (int i = 0; i < gameBoard.GetLength(0); i++)
             {
-                if (gameBoard[i, j].HasCharacter)
+                for (int j = 0; j < gameBoard.GetLength(1); j++)
                 {
-                    Console.Write(gameBoard[i, j].CharacterIcon + " ");
+                    if (gameBoard[i, j].HasCharacter)
+                    {
+                        Console.Write(gameBoard[i, j].CharacterIcon + " ");
+                    }
+                    else if (gameBoard[i, j].IsWall)
+                    {
+                        Console.Write(gameBoard[i, j].WallIcon + " ");
+                    }
+                    else if (gameBoard[i, j].IsPath)
+                    {
+                        Console.Write(gameBoard[i, j].PathIcon + " ");
+                    }
+                    else if (gameBoard[i, j].IsTrophy)
+                    {
+                        Console.Write("🏆");
+                    }
                 }
-                else if (gameBoard[i, j].IsWall)
-                {
-                    Console.Write(gameBoard[i, j].WallIcon + " ");
-                }
-                else if (gameBoard[i, j].IsPath)
-                {
-                    Console.Write(gameBoard[i, j].PathIcon + " ");
-                }
-                else if (gameBoard[i, j].IsTrophy)
-                {
-                    Console.Write("🏆");
-                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
         }
-    }
+        private Layout CreateLayout(Canvas canvas)
+        {
+                Layout layout = new Layout("Root")
+                .SplitColumns(
+                    new Layout("Left"),
+                    new Layout("Right")
+                        .SplitRows(
+                            new Layout("Top"),
+                            new Layout("Bottom")));
+
+            Panel mazePanel = new Panel(canvas);
+            Panel topPanel = new Panel("");
+            Panel bottomPanel = new Panel("");
+            // Update the left column
+            layout["Left"].Update(
+                mazePanel
+            );
+            layout["Top"].Update(
+                topPanel
+            );
+            layout["Bottom"].Update(
+                bottomPanel
+            );
+            return layout;
+        }
     }
 }
