@@ -42,19 +42,5 @@ namespace P_P
                     break;
             }
         }
-
-        // public override bool CheckTrap(BaseCharacter baseCharacter, string[,] gameBoard)
-        // {
-        //     // Verifica si en la posición actual hay una trampa
-        //     if (gameBoard[playerRow, playerColumn] == this.icon)
-        //     {
-        //         this.positionRow = playerRow;
-        //         this.positionColumn = playerColumn;
-        //         // Limpia la trampa después de activarla
-        //         gameBoard[playerRow, playerColumn] = "⬜️";
-        //         return true;
-        //     }
-        //     return false;
-        // }
     }
 }

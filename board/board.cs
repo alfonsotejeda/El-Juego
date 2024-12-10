@@ -31,11 +31,37 @@ namespace P_P
             mazeGenerator.GenerateMaze(0, _rows / 2, _columns / 2, _columns, GameBoard);
             mazeGenerator.GenerateMaze(_rows / 2, _rows, 0, _columns / 2, GameBoard);
             mazeGenerator.GenerateMaze(_rows / 2, _rows, _columns / 2, _columns, GameBoard);
+
             
             
 
             return GameBoard;
         }
+        private Layout CreateLayout(Canvas canvas)
+                 {
+                         Layout layout = new Layout("Root")
+                         .SplitColumns(
+                             new Layout("Left"),
+                             new Layout("Right")
+                                 .SplitRows(
+                                     new Layout("Top"),
+                                     new Layout("Bottom")));
+         
+                     Panel mazePanel = new Panel(canvas);
+                     Panel topPanel = new Panel("");
+                     Panel bottomPanel = new Panel("");
+                     // Update the left column
+                     layout["Left"].Update(
+                         mazePanel
+                     );
+                     layout["Top"].Update(
+                         topPanel
+                     );
+                     layout["Bottom"].Update(
+                         bottomPanel
+                     );
+                     return layout;
+                 }
         public void PrintBoardSpectre(Shell[,] gameBoard)
         {
             AnsiConsole.Clear();
@@ -50,20 +76,33 @@ namespace P_P
             {
                 for (int j = 0; j < canvasWidth; j++)
                 {
-                    switch (gameBoard[i, j])
+                    if (gameBoard[i, j].IsTrophy)
                     {
-                        case Shell shell when shell.HasCharacter:
-                            canvas.SetPixel(j, i, Color.Blue);
-                            break;
-                        case Shell shell when shell.IsWall:
-                            canvas.SetPixel(j, i, Color.Black);
-                            break;
-                        case Shell shell when shell.IsPath:
-                            canvas.SetPixel(j, i, Color.White);
-                            break;
-                        case Shell shell when shell.IsTrophy:
-                            canvas.SetPixel(j, i, Color.Yellow);
-                            break;
+                        canvas.SetPixel(j , i ,Color.Chartreuse3);
+                    }
+                    if (gameBoard[i, j].IsWall)
+                    {
+                        canvas.SetPixel(j , i ,Color.Black);
+                    }
+                    if (gameBoard[i, j].IsPath)
+                    {
+                        canvas.SetPixel(j , i ,Color.White);
+                    }
+                    if (gameBoard[i, j].IsTramp)
+                    {
+                        canvas.SetPixel(j , i ,Color.Red);
+                    }
+                    if (gameBoard[i, j].HasCharacter)
+                    {
+                        switch (gameBoard[i,j].CharacterIcon)
+                        {
+                            case "🟦":
+                                canvas.SetPixel(j , i ,Color.Blue);
+                                break;
+                            case "🟥":
+                                canvas.SetPixel(j , i ,Color.Red);
+                                break;
+                        }
                     }
                 }
             }
@@ -101,30 +140,6 @@ namespace P_P
                 Console.WriteLine();
             }
         }
-        private Layout CreateLayout(Canvas canvas)
-        {
-                Layout layout = new Layout("Root")
-                .SplitColumns(
-                    new Layout("Left"),
-                    new Layout("Right")
-                        .SplitRows(
-                            new Layout("Top"),
-                            new Layout("Bottom")));
-
-            Panel mazePanel = new Panel(canvas);
-            Panel topPanel = new Panel("");
-            Panel bottomPanel = new Panel("");
-            // Update the left column
-            layout["Left"].Update(
-                mazePanel
-            );
-            layout["Top"].Update(
-                topPanel
-            );
-            layout["Bottom"].Update(
-                bottomPanel
-            );
-            return layout;
-        }
+        
     }
 }

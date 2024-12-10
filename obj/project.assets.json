@@ -116,6 +116,7 @@
       "packagesPath": "/Users/alfonso/.nuget/packages/",
       "outputPath": "/Users/alfonso/Documents/P_P/obj/",
       "projectStyle": "PackageReference",
+      "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
         "/Users/alfonso/.nuget/NuGet/NuGet.Config"
       ],

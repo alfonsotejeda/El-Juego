@@ -31,14 +31,10 @@ namespace P_P
         {
             int rows = 33;
             int columns = 33;
+            string[] tramps = new string[5];
             
             Board board = new Board(columns, rows);
             Shell[,] gameBoard = board.CreateBoard();
-            
-            board.PrintBoardSpectre(gameBoard);
-            
-            //Define Tramps
-            ClosePathTramp closePathTramp = new ClosePathTramp("🔳", 7, "C");
             
             int player1StartRow = 1;
             int player1StartColumn = 1;
@@ -56,12 +52,25 @@ namespace P_P
             gameBoard[redSquareCharacter.playerStartRow, redSquareCharacter.playerStartColumn].CharacterIcon = redSquareCharacter.icon;
             gameBoard[redSquareCharacter.playerStartRow, redSquareCharacter.playerStartColumn].IsPath = false;
 
+            ClosePathTramp closePathTramp = new ClosePathTramp("🟩", 50, "c");
+            closePathTramp.CreateRandomTraps(gameBoard,0 ,rows / 2, 0, columns / 2);
+            tramps[0] = closePathTramp.trampId;
+            
+            
+            
             try
+            
             {
                 while (true)
                 {
                     board.PrintBoardSpectre(gameBoard);
                     blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow, ref blueSquareCharacter.playerStartColumn, gameBoard, board);
+
+                    if (closePathTramp.CheckTrap(blueSquareCharacter, gameBoard))
+                    {
+                        Console.WriteLine("The player is trapped!");
+                        ConsoleKeyInfo key = Console.ReadKey();
+                    }
                     
                     // Check for escape key to return to menu
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)

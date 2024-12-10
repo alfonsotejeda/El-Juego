@@ -14,15 +14,16 @@ namespace P_P
             this.trampId = trampId;
         }
 
-        public bool CheckTrap(BaseCharacter baseCharacter, string[,] gameBoard , string[,] trampBoard , string trampId)
+        public bool CheckTrap(BaseCharacter baseCharacter, Shell[,] gameBoard)
         {
-            if(trampBoard[baseCharacter.playerStartRow , baseCharacter.playerStartColumn] == trampId)
+            if (gameBoard[baseCharacter.playerStartRow, baseCharacter.playerStartColumn].IsTramp)
             {
                 return true;
             }
+
             return false;
         }
-        public void CreateRandomTraps(string[,] gameBoard , int startRow , int endRow , int startColumn , int endColumn)
+        public void CreateRandomTraps(Shell[,] gameBoard , int startRow , int endRow , int startColumn , int endColumn)
         {
             Random random = new Random();
             for (int i = 0; i < numberOfTraps; i++)
@@ -30,11 +31,12 @@ namespace P_P
                 int row = random.Next(startRow, endRow);
                 int column = random.Next(startColumn, endColumn);
                 // Asegurarse de que la posición no esté ocupada
-                if (gameBoard[row, column] == "⬜️") // Suponiendo que "⬜️" es un espacio vacío
+                if (gameBoard[row, column].IsPath == true) // 
                 {
                     this.positionRow[i] = row;
                     this.positionColumn[i] =  column;
-                    gameBoard[row, column] = icon; // Colocar una trampa
+                    gameBoard[row, column].IsTramp = true;
+                    gameBoard[row, column].TrampIcon = icon ;
                 }
                 else
                 {
