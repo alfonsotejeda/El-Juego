@@ -58,6 +58,12 @@ public class BaseCharacter
             board.PrintBoardSpectre(gameBoard);
         }
     }
+    public void PlaceCharacter(Shell[,] gameBoard , BaseCharacter Character)
+    {
+            gameBoard[Character.playerStartRow, Character.playerStartColumn].HasCharacter = true;
+            gameBoard[Character.playerStartRow, Character.playerStartColumn].CharacterIcon = Character.icon;
+            gameBoard[Character.playerStartRow, Character.playerStartColumn].IsPath = false;
+    }
 
 }
 }

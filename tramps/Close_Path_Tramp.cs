@@ -2,7 +2,7 @@ namespace P_P
 {
     class ClosePathTramp : BaseTramp
     {
-        public ClosePathTramp(string icon , int numberOfTraps , string? trampId) : base(icon , numberOfTraps , trampId)
+        public ClosePathTramp(int numberOfTraps , string? trampId) : base( numberOfTraps , trampId)
         {
         }
         public void ClosePath(int row, int column, Shell[,] gameBoard)
@@ -42,5 +42,6 @@ namespace P_P
                     break;
             }
         }
+        
     }
 }

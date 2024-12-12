@@ -2,14 +2,12 @@ namespace P_P
 {
     abstract class BaseTramp
     {
-        public string icon; // Icono del tramp
         public int[] positionRow = new int[100]; // Fila de la posición del tramp
         public int[] positionColumn = new int[100]; // Columna de la posición del trampprivate int nunmberOfTramps;
         private int numberOfTraps;
         public string? trampId;
-        public BaseTramp( string icon,int numberOfTraps , string? trampId)
+        public BaseTramp(int numberOfTraps , string? trampId)
         {
-            this.icon = icon;
             this.numberOfTraps = numberOfTraps;
             this.trampId = trampId;
         }
@@ -36,7 +34,6 @@ namespace P_P
                     this.positionRow[i] = row;
                     this.positionColumn[i] =  column;
                     gameBoard[row, column].IsTramp = true;
-                    gameBoard[row, column].TrampIcon = icon ;
                 }
                 else
                 {
