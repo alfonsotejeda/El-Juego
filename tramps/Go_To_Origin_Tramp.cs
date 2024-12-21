@@ -1,4 +1,4 @@
-namespace P_P
+namespace P_P.tramps
 {
     class GoToOriginTramp : BaseTramp
     {

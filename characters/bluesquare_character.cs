@@ -1,10 +1,10 @@
-namespace P_P
+namespace P_P.characters
 {
     public class BlueSquareCharacter : BaseCharacter
     {
         public new string icon;
-        public BlueSquareCharacter(string icon, string ability, int awaitTime, ref int playerStartRow, ref int playerStartColumn)
-            : base(icon, ability, awaitTime, playerStartColumn, playerStartRow)
+        public BlueSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn)
+            : base(icon, ability, movementCapacity, playerColumn, playerRow)
         {
             this.icon = icon ?? throw new ArgumentNullException(nameof(icon));
         }

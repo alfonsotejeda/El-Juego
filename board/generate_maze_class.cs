@@ -1,4 +1,6 @@
-namespace P_P
+using Random = System.Random;
+
+namespace P_P.board
 {
     public class MazeGenerator
     {
@@ -8,7 +10,7 @@ namespace P_P
             {
                 for (int col = startCol; col < endCol; col++)
                 { 
-                    gameBoard[row, col].IsWall = true;                  
+                    gameBoard[row, col] = new wall("🟫");                  
                 }
             }
 
@@ -27,8 +29,8 @@ namespace P_P
                 {
                     if(!gameBoard[row , column].IsTrophy)
                     {
-                        gameBoard[row , column].IsWall = false;
-                        gameBoard[row , column].IsPath = true;
+                        
+                        gameBoard[row , column] = new path("⬜️");
                     }
                 }
 
@@ -37,8 +39,7 @@ namespace P_P
 
         private void GenerateRecursiveMaze(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, Shell[,] maze )
         {
-            maze[currentRow , currentCol].IsWall = false;
-            maze[currentRow , currentCol].IsPath = true;
+            maze[currentRow , currentCol] = new path("⬜️");
             Random random = new Random();
             int[] rowDirections = { 0, 2, 0, -2 };
             int[] colDirections = { -2, 0, 2, 0 };
@@ -55,32 +56,31 @@ namespace P_P
 
                 if (newRow >= startRow && newRow < endRow &&
                     newCol >= startCol && newCol < endCol &&
-                    maze[newRow,newCol].IsWall)
+                    maze[newRow,newCol].GetType() == typeof(wall))
                 {
                     int middleRow = currentRow+rowDirections[direction]/2;
                     int middleCol = currentCol+colDirections[direction]/2;
-                    maze[middleRow, middleCol].IsWall = false;
-                    maze[middleRow , middleCol].IsPath = true;
+                    maze[middleRow, middleCol] = new path("⬜️");
                     GenerateRecursiveMaze(newRow , newCol , startRow , endRow , startCol , endCol, maze);
                 }
 
             }
         }
 
-        private void RandomizeWalls(int startRow, int endRow, int startCol, int endCol, Shell[,] gameBoard)
+        private static void RandomizeWalls(int startRow, int endRow, int startCol, int endCol, Shell[,] gameBoard)
         {
             Random random = new Random();
             for (int row = startRow + 1; row < endRow - 1; row++)
             {
                 for (int col = startCol + 1; col < endCol - 1; col++)
                 {
-                    if (gameBoard[row, col].IsWall)
+                    if (gameBoard[row, col].GetType() == typeof(wall))
                     {
-                        int chance = 10;
+                        int chance = 15;
                         if (random.Next(0, 100) < chance)
                         {
-                            gameBoard[row, col].IsWall = false;
-                            gameBoard[row, col].IsPath = true;
+                            gameBoard[row, col] = new path("⬜️");
+
                         }
                     }
                 }

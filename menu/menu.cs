@@ -1,6 +1,6 @@
 using Spectre.Console;
 
-namespace P_P
+namespace P_P.menu
 {
     public class Menu
     {

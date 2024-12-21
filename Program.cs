@@ -1,6 +1,9 @@
 using System.Dynamic;
+using P_P.board;
+using P_P.characters;
+using P_P.menu;
 using Spectre.Console;
-
+using P_P.PrintingMethods;
 namespace P_P
 {
     public class Program
@@ -29,49 +32,68 @@ namespace P_P
 
         static void RunGame()
         {
-            int rows = 33;
-            int columns = 33;
-            BaseTramp[] tramps = new BaseTramp[5];
+            PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
+            int rows = 21;
+            int columns = 21;
             
             Board board = new Board(columns, rows);
             Shell[,] gameBoard = board.CreateBoard();
             
-            // int player1StartRow = 1;
-            // int player1StartColumn = 1;
-            // BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦", "defense", 5, ref player1StartRow, ref player1StartColumn);
             
-            // int player2StartRow = 31;
-            // int player2StartColumn = 31;
-            // RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack", 5, ref player2StartRow, ref player2StartColumn);
             
-            // blueSquareCharacter.PlaceCharacter(gameBoard , blueSquareCharacter);
-            // redSquareCharacter.PlaceCharacter(gameBoard  , redSquareCharacter);
+            int player1Row = 1;
+            int player1Column = 1;
+            int player1movementCapacity = 5;
+            BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦", "defense", ref player1movementCapacity, ref player1Row, ref player1Column);
+            
+            int player2StartRow = rows - 2;
+            int player2StartColumn = columns - 2;
+            int player2movementCapacity = 5;
+            RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack", ref player2movementCapacity, ref player2StartRow, ref player2StartColumn);
+            
+            int player3StartRow = rows - 2;
+            int player3StartColumn = 1;
+            int player3movementCapacity = 5;
+            GreenSquareCharacter greenSquareCharacter = new GreenSquareCharacter("🟩", "attack", ref player3movementCapacity, ref player3StartRow, ref player3StartColumn);
+
+            int player4StartRow = 1;
+            int player4StartColumn = columns - 2;
+            int player4movementCapacity = 5;
+            YellowSquareCharacter yellowSquareCharacter = new YellowSquareCharacter("🟨", "attack", ref player4movementCapacity, ref player4StartRow, ref player4StartColumn);
+
+            blueSquareCharacter.PlaceCharacter(gameBoard , blueSquareCharacter);
+            redSquareCharacter.PlaceCharacter(gameBoard  , redSquareCharacter);
+            greenSquareCharacter.PlaceCharacter(gameBoard , greenSquareCharacter);
+            yellowSquareCharacter.PlaceCharacter(gameBoard , yellowSquareCharacter);
 
             
             
             
             
-            // try
+            try
             
-            // {
-            //     while (true)
-            //     {
-            //         board.PrintBoardSpectre(gameBoard);
-            //         blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow, ref blueSquareCharacter.playerStartColumn, gameBoard, board);
-            //         // Check for escape key to return to menu
-            //         if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
-            //         {
-            //             if (AnsiConsole.Confirm("¿Deseas volver al menú principal?"))
-            //                 break;
-            //         }
-            //     }
-            // }
-            // catch (Exception ex)
-            // {
-            //     AnsiConsole.MarkupLine($"[red]Error en el juego: {ex.Message}[/]");
-            //     AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para volver al menú...[/]");
-            //     Console.ReadKey(true);
-            // }
+            {
+                while (true)
+                {
+                   printingMethods.PrintBoardSpectre(gameBoard); 
+                   blueSquareCharacter.TakeTurn(gameBoard , blueSquareCharacter);
+                   yellowSquareCharacter.TakeTurn(gameBoard , yellowSquareCharacter);
+                   greenSquareCharacter.TakeTurn(gameBoard , greenSquareCharacter);
+                   redSquareCharacter.TakeTurn(gameBoard , redSquareCharacter);
+                   
+                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
+                    {
+                        if (AnsiConsole.Confirm("¿Deseas volver al menú principal?"))
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AnsiConsole.MarkupLine($"[red]Error en el juego: {ex.Message}[/]");
+                AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para volver al menú...[/]");
+                Console.ReadKey(true);
+            }
         }
     }
 }
