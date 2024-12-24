@@ -69,25 +69,17 @@ namespace P_P
             yellowSquareCharacter.PlaceCharacter(gameBoard , yellowSquareCharacter);
             
             
-            
-            GoToOriginTramp goToOriginTramp = new GoToOriginTramp(4 , "goToOrigin");
-            ReduceLiveTramp reduceLiveTramp = new ReduceLiveTramp(4 , "reduceLive");
-            ClosePathTramp closePathTramp = new ClosePathTramp(4 , "closePath");
-            
-            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,1, rows/2, 1, columns/2);
-            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,1, rows/2, columns/2, columns);
-            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,rows/2, rows, 1, columns/2);
-            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,rows/2, rows, columns/2, columns);
-       
-            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,1, rows/2, 1, columns/2);
-            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,1, rows/2, columns/2, columns);
-            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,rows/2, rows, 1, columns/2);
-            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,rows/2, rows, columns/2, columns);
-            
-            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,1, rows/2, 1, columns/2);
-            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,1, rows/2, columns/2, columns);
-            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,rows/2, rows, 1, columns/2);
-            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,rows/2, rows, columns/2, columns);
+            List<BaseTramp> tramps = new List<BaseTramp>();
+            tramps.Add(new GoToOriginTramp("goToOrigin"));
+            tramps.Add(new ReduceLiveTramp("reduceLive"));
+            tramps.Add(new ClosePathTramp("closePath"));
+            foreach (BaseTramp tramp in tramps)
+            {
+                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows/2, 1, columns/2 , 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows/2, columns/2, columns,4);
+                tramp.CreateRandomTraps(gameBoard, tramp, rows/2, rows, 1, columns/2,4);
+                tramp.CreateRandomTraps(gameBoard, tramp, rows/2, rows, columns/2, columns,4);
+            }
             
             try
             
@@ -95,10 +87,10 @@ namespace P_P
                 while (true)
                 {
                    printingMethods.PrintGameSpectre(gameBoard , blueSquareCharacter); 
-                   blueSquareCharacter.TakeTurn(gameBoard , blueSquareCharacter);
-                   yellowSquareCharacter.TakeTurn(gameBoard , yellowSquareCharacter);
-                   greenSquareCharacter.TakeTurn(gameBoard , greenSquareCharacter);
-                   redSquareCharacter.TakeTurn(gameBoard , redSquareCharacter);
+                   blueSquareCharacter.TakeTurn(gameBoard , blueSquareCharacter, tramps);
+                   yellowSquareCharacter.TakeTurn(gameBoard , yellowSquareCharacter,tramps);
+                   greenSquareCharacter.TakeTurn(gameBoard , greenSquareCharacter,tramps);
+                   redSquareCharacter.TakeTurn(gameBoard , redSquareCharacter,tramps);
                    
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
                     {

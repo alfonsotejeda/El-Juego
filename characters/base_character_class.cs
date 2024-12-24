@@ -1,6 +1,7 @@
 using P_P.board;
 using P_P.PrintingMethods;
 using P_P;
+using P_P.tramps;
 namespace P_P.characters{
 public class BaseCharacter
 {
@@ -68,7 +69,7 @@ public class BaseCharacter
             gameBoard[character.PlayerRow, character.PlayerColumn].CharacterIcon = character.Icon;
     }
 
-    public void TakeTurn(Shell[,] gameBoard, BaseCharacter character)
+    public void TakeTurn(Shell[,] gameBoard, BaseCharacter character ,List<BaseTramp> tramps)
     {
         PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
         while (character.MovementCapacity != 0)
@@ -77,14 +78,18 @@ public class BaseCharacter
             if (gameBoard[character.PlayerRow, character.PlayerColumn].HasObject)
             {
                 string? objectType = gameBoard[character.PlayerRow, character.PlayerColumn].ObjectType;
-                gameBoard[character.PlayerRow, character.PlayerColumn].CreateObject(objectType).Interact(gameBoard, character);
-                
-                gameBoard[character.PlayerRow, character.PlayerColumn].HasObject = false;
-                gameBoard[character.PlayerRow, character.PlayerColumn].ObjectType = null;
-                
-                
-                Console.WriteLine("Interacción con objeto");
-                Console.ReadKey();
+                {
+                    if (objectType == "tramp")
+                    {
+                        foreach (BaseTramp tramp in tramps)
+                        {
+                            if (tramp.trampId == gameBoard[character.PlayerRow, character.PlayerColumn].ObjectId)
+                            {
+                                tramp.Interact(gameBoard, character);
+                            }
+                        }
+                    }
+                }
                 printingMethods.PrintGameSpectre(gameBoard , character);
             }
         }

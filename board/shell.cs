@@ -10,6 +10,7 @@ public class Shell
     public string? CharacterIcon { get; set; }
     
     public string? ObjectType { get; set; }
+    public string? ObjectId { get; set; }
     public bool HasCharacter { get; set; }
     
     public bool HasObject { get; set; }
@@ -21,13 +22,8 @@ public class Shell
         CharacterIcon = null;
         HasCharacter = false;
         HasObject = false;
+        ObjectType = null;
+        ObjectId = null;
     }
-    public virtual InteractiveObjects CreateObject(string objectType)
-    {
-        return objectType switch
-        {
-            "tramp" => new BaseTramp(0, null),
-            _ => new InteractiveObjects(objectType)
-        };
-    }
+  
 }

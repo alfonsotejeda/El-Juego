@@ -6,12 +6,10 @@ namespace P_P.tramps
     public class BaseTramp : InteractiveObjects
     {
         public int[] positionRow = new int[100]; 
-        public int[] positionColumn = new int[100]; 
-        private int numberOfTraps;
+        public int[] positionColumn = new int[100];
         public string? trampId;
-        public BaseTramp(int numberOfTraps , string? trampId) : base("tramp")
+        public BaseTramp( string? trampId) : base("tramp")
         {
-            this.numberOfTraps = numberOfTraps;
             this.trampId = trampId;
         }
 
@@ -19,7 +17,7 @@ namespace P_P.tramps
         {
             return gameBoard[baseCharacter.PlayerRow, baseCharacter.PlayerColumn].HasObject && gameBoard[baseCharacter.PlayerRow, baseCharacter.PlayerColumn].ObjectType == "tramp";
         }
-        public void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn)
+        public virtual void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn , int numberOfTraps)
         {
             Random random = new Random();
             for (int i = 0; i < numberOfTraps; i++)

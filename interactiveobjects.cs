@@ -1,6 +1,7 @@
 
 using P_P.board;
 using P_P.characters;
+using P_P.PrintingMethods;
 
 namespace P_P;
 
@@ -21,5 +22,14 @@ namespace P_P;
 
         public virtual void Interact(Shell[,] gameboard, BaseCharacter character)
         {
+            PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
+        }
+        public void CleanPosition(Shell[,] gameboard, BaseCharacter character)
+        {
+            gameboard[character.PlayerRow, character.PlayerColumn].HasCharacter = false;
+            gameboard[character.PlayerRow, character.PlayerColumn].CharacterIcon = null;
+            gameboard[character.PlayerRow, character.PlayerColumn].HasObject = false;
+            gameboard[character.PlayerRow, character.PlayerColumn].ObjectId = null;
+            gameboard[character.PlayerRow, character.PlayerColumn].ObjectType = null;
         }
 }
