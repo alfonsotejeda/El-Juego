@@ -1,5 +1,6 @@
 using P_P.board;
-
+using P_P.PrintingMethods;
+using P_P;
 namespace P_P.characters{
 public class BaseCharacter
 {
@@ -8,7 +9,7 @@ public class BaseCharacter
     public int MovementCapacity;
     public int PlayerColumn;
     public int PlayerRow;
-    public int Life = 100;
+    public int Live = 100;
     public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow)
     {
         this.Icon = name ?? throw new ArgumentNullException(nameof(name));
@@ -17,7 +18,7 @@ public class BaseCharacter
         this.PlayerColumn = playerColumn;
         this.PlayerRow = playerRow;
     }
-    public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity ,Shell[,] gameBoard)
+    public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity ,Shell[,] gameBoard , BaseCharacter character)
     {
         ConsoleKeyInfo key = Console.ReadKey();
         int newRow = playerRow;
@@ -58,7 +59,7 @@ public class BaseCharacter
             // Actualizar el tablero
             movementCapacity--;
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            printingMethods.PrintBoardSpectre(gameBoard);
+            printingMethods.PrintGameSpectre(gameBoard , character);
         }
     }
     public void PlaceCharacter(Shell[,] gameBoard , BaseCharacter character)
@@ -69,15 +70,28 @@ public class BaseCharacter
 
     public void TakeTurn(Shell[,] gameBoard, BaseCharacter character)
     {
+        PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
         while (character.MovementCapacity != 0)
         {
-            character.Move(ref character.PlayerRow, ref character.PlayerColumn, ref character.MovementCapacity,gameBoard);    
+            character.Move(ref character.PlayerRow, ref character.PlayerColumn, ref character.MovementCapacity,gameBoard , character);
+            if (gameBoard[character.PlayerRow, character.PlayerColumn].HasObject)
+            {
+                string? objectType = gameBoard[character.PlayerRow, character.PlayerColumn].ObjectType;
+                gameBoard[character.PlayerRow, character.PlayerColumn].CreateObject(objectType).Interact(gameBoard, character);
+                
+                gameBoard[character.PlayerRow, character.PlayerColumn].HasObject = false;
+                gameBoard[character.PlayerRow, character.PlayerColumn].ObjectType = null;
+                
+                
+                Console.WriteLine("Interacción con objeto");
+                Console.ReadKey();
+                printingMethods.PrintGameSpectre(gameBoard , character);
+            }
         }
         MovementCapacity = 5;
-        Console.WriteLine("Next Turn");
+        Console.WriteLine("Turno finalizado . Toca enter para pasar al siguiente jugador");
         Console.ReadKey();
-        PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-        printingMethods.PrintBoardSpectre(gameBoard);
+        printingMethods.PrintGameSpectre(gameBoard , character);
     }
 
 }

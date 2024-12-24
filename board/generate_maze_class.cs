@@ -76,7 +76,7 @@ namespace P_P.board
                 {
                     if (gameBoard[row, col].GetType() == typeof(wall))
                     {
-                        int chance = 15;
+                        int chance = 10;
                         if (random.Next(0, 100) < chance)
                         {
                             gameBoard[row, col] = new path("⬜️");

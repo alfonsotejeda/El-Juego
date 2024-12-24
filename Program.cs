@@ -4,6 +4,8 @@ using P_P.characters;
 using P_P.menu;
 using Spectre.Console;
 using P_P.PrintingMethods;
+using P_P.tramps;
+
 namespace P_P
 {
     public class Program
@@ -65,17 +67,34 @@ namespace P_P
             redSquareCharacter.PlaceCharacter(gameBoard  , redSquareCharacter);
             greenSquareCharacter.PlaceCharacter(gameBoard , greenSquareCharacter);
             yellowSquareCharacter.PlaceCharacter(gameBoard , yellowSquareCharacter);
-
             
             
             
+            GoToOriginTramp goToOriginTramp = new GoToOriginTramp(4 , "goToOrigin");
+            ReduceLiveTramp reduceLiveTramp = new ReduceLiveTramp(4 , "reduceLive");
+            ClosePathTramp closePathTramp = new ClosePathTramp(4 , "closePath");
+            
+            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,1, rows/2, 1, columns/2);
+            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,1, rows/2, columns/2, columns);
+            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,rows/2, rows, 1, columns/2);
+            goToOriginTramp.CreateRandomTraps(gameBoard, goToOriginTramp,rows/2, rows, columns/2, columns);
+       
+            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,1, rows/2, 1, columns/2);
+            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,1, rows/2, columns/2, columns);
+            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,rows/2, rows, 1, columns/2);
+            reduceLiveTramp.CreateRandomTraps(gameBoard, reduceLiveTramp,rows/2, rows, columns/2, columns);
+            
+            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,1, rows/2, 1, columns/2);
+            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,1, rows/2, columns/2, columns);
+            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,rows/2, rows, 1, columns/2);
+            closePathTramp.CreateRandomTraps(gameBoard, closePathTramp,rows/2, rows, columns/2, columns);
             
             try
             
             {
                 while (true)
                 {
-                   printingMethods.PrintBoardSpectre(gameBoard); 
+                   printingMethods.PrintGameSpectre(gameBoard , blueSquareCharacter); 
                    blueSquareCharacter.TakeTurn(gameBoard , blueSquareCharacter);
                    yellowSquareCharacter.TakeTurn(gameBoard , yellowSquareCharacter);
                    greenSquareCharacter.TakeTurn(gameBoard , greenSquareCharacter);
