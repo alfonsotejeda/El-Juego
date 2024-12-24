@@ -91,7 +91,7 @@ public class PrintingMethods
                     .SplitRows(
                         new Layout("Top"),
                         new Layout("Bottom")));
-        // layout["Left"].Size(45);
+        layout["Left"].Size(95);
         // layout["Top"].Size(10);
         // layout["Bottom"].Size(10);
         layout["Left"].Update(canvas);
