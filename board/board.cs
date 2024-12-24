@@ -30,6 +30,19 @@ namespace P_P.board
             mazeGenerator.GenerateMaze(0, _rows / 2, _columns / 2, _columns, GameBoard);
             mazeGenerator.GenerateMaze(_rows / 2, _rows, 0, _columns / 2, GameBoard);
             mazeGenerator.GenerateMaze(_rows / 2, _rows, _columns / 2, _columns, GameBoard);
+            
+            int centerRowStart = _rows / 2 - 1;
+            int centerRowEnd = _rows / 2 + 2;
+            int centerColumnStart = _columns / 2 - 1;
+            int centerColumnEnd = _columns / 2 + 2;
+
+            for (int i = centerRowStart; i < centerRowEnd; i++)
+            {
+                for (int j = centerColumnStart; j < centerColumnEnd; j++)
+                {
+                    GameBoard[i, j] = new path("⬜️");
+                }
+            }
 
             
             

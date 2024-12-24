@@ -19,22 +19,6 @@ namespace P_P.board
             int currentCol = startCol + 1;
             GenerateRecursiveMaze(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard);
             RandomizeWalls(startRow, endRow, startCol, endCol, gameBoard);
-
-            //center
-            gameBoard[gameBoard.GetLength(0)/2 , gameBoard.GetLength(1)/2].IsTrophy = true;
-            //across the center
-            for (int row = gameBoard.GetLength(0)/2 - 1; row <= gameBoard.GetLength(0)/2 + 1; row ++)
-            {
-                for(int column = gameBoard.GetLength(1)/2 - 1; column <= gameBoard.GetLength(1)/2 + 1; column ++)
-                {
-                    if(!gameBoard[row , column].IsTrophy)
-                    {
-                        
-                        gameBoard[row , column] = new path("⬜️");
-                    }
-                }
-
-            }
         }
 
         private void GenerateRecursiveMaze(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, Shell[,] maze )

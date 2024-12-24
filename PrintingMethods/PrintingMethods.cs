@@ -19,36 +19,20 @@ public class PrintingMethods
         {
             for (int j = 0; j < canvasWidth/2; j++)
             {
-                    // if (gameBoard[i, j].IsTrophy)
-                    // {
-                    //     canvas.SetPixel(j , i ,Color.Chartreuse3);
-                    //     canvas.SetPixel(j+1 , i ,Color.Chartreuse3);
-                    //     canvas.SetPixel(j , i+1 ,Color.Chartreuse3);
-                    //     canvas.SetPixel(j+1 , i+1 ,Color.Chartreuse3);
-                    // }
                 if (gameBoard[i, j].GetType() == typeof(wall))
                 {
-                    canvas.SetPixel(j * 2, i * 2, Color.Black);
-                    canvas.SetPixel(j * 2 + 1, i * 2, Color.Black);
-                    canvas.SetPixel(j * 2, i * 2 + 1, Color.Black);
-                    canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.Black);
+                    PrintPixel(canvas , i , j , Color.Black);
                 }
                 else if (gameBoard[i, j].GetType() == typeof(path))
                 {
-                    canvas.SetPixel(j * 2, i * 2, Color.White);
-                    canvas.SetPixel(j * 2 + 1, i * 2, Color.White);
-                    canvas.SetPixel(j * 2, i * 2 + 1, Color.White);
-                    canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.White);
+                    PrintPixel(canvas , i , j , Color.White);
                 }
                 if (gameBoard[i, j].HasObject)
                 {
                     switch (gameBoard[i, j].ObjectType)
                     {
                         case "tramp":
-                            canvas.SetPixel(j * 2, i * 2, Color.DarkRed);
-                            canvas.SetPixel(j * 2 + 1, i * 2, Color.DarkRed);
-                            canvas.SetPixel(j * 2, i * 2 + 1, Color.DarkRed);
-                            canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.DarkRed);
+                            PrintPixel(canvas , i , j , Color.DarkRed);
                             break;
                     }
                 }
@@ -57,28 +41,16 @@ public class PrintingMethods
                     switch (gameBoard[i, j].CharacterIcon)
                     {
                         case "🟦":
-                            canvas.SetPixel(j * 2, i * 2, Color.Blue);
-                            canvas.SetPixel(j * 2 + 1, i * 2, Color.Blue);
-                            canvas.SetPixel(j * 2, i * 2 + 1, Color.Blue);
-                            canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.Blue);
+                            PrintPixel(canvas , i , j , Color.Blue);
                             break;
                         case "🟥":
-                            canvas.SetPixel(j * 2, i * 2, Color.Red);
-                            canvas.SetPixel(j * 2 + 1, i * 2, Color.Red);
-                            canvas.SetPixel(j * 2, i * 2 + 1, Color.Red);
-                            canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.Red);
+                            PrintPixel(canvas , i , j , Color.Red);
                             break;
                         case "🟩":
-                            canvas.SetPixel(j * 2, i * 2, Color.Green);
-                            canvas.SetPixel(j * 2 + 1, i * 2, Color.Green);
-                            canvas.SetPixel(j * 2, i * 2 + 1, Color.Green);
-                            canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.Green);
+                            PrintPixel(canvas , i , j , Color.Green);
                             break;
                         case "🟨":
-                            canvas.SetPixel(j * 2, i * 2, Color.Yellow);
-                            canvas.SetPixel(j * 2 + 1, i * 2, Color.Yellow);
-                            canvas.SetPixel(j * 2, i * 2 + 1, Color.Yellow);
-                            canvas.SetPixel(j * 2 + 1, i * 2 + 1, Color.Yellow);
+                            PrintPixel(canvas , i , j , Color.Yellow);
                             break;
                     }
                 }
@@ -112,35 +84,12 @@ public class PrintingMethods
         AnsiConsole.Write(layout);
             
         }
-    
-
-        
-        public void PrintBoard(Shell[,] gameBoard)
+        private void PrintPixel(Canvas canvas , int i , int j ,Color color)
         {
-            // Console.Clear();
-            // for (int i = 0; i < gameBoard.GetLength(0); i++)
-            // {
-            //     for (int j = 0; j < gameBoard.GetLength(1); j++)
-            //     {
-            //         if (gameBoard[i, j].HasCharacter)
-            //         {
-            //             Console.Write(gameBoard[i, j].CharacterIcon + " ");
-            //         }
-            //         else if (gameBoard[i, j].IsWall)
-            //         {
-            //             Console.Write(gameBoard[i, j].WallIcon + " ");
-            //         }
-            //         else if (gameBoard[i, j].IsPath)
-            //         {
-            //             Console.Write(gameBoard[i, j].PathIcon + " ");
-            //         }
-            //         else if (gameBoard[i, j].IsTrophy)
-            //         {
-            //             Console.Write("🏆");
-            //         }
-            //     }
-            //     Console.WriteLine();
-            // }
+            canvas.SetPixel(j * 2, i * 2, color);
+            canvas.SetPixel(j * 2 + 1, i * 2, color);
+            canvas.SetPixel(j * 2, i * 2 + 1, color);
+            canvas.SetPixel(j * 2 + 1, i * 2 + 1, color );
         }
         
 }
