@@ -11,40 +11,44 @@ namespace P_P.tramps
         }
         public void ClosePath(int row, int column, Shell[,] gameBoard)
         {
-            // Random random = new Random();
-            // int direction = random.Next(0, 4); // 0: arriba, 1: abajo, 2: izquierda, 3: derecha
-            //
-            // switch (direction)
-            // {
-            //     case 0: // Arriba
-            //         if (row > 1) 
-            //         {
-            //             gameBoard[row - 1, column].IsWall = true;
-            //             gameBoard[row - 1, column].IsPath = false;
-            //         }
-            //         break;
-            //     case 1: // Abajo
-            //         if (row < gameBoard.GetLength(0) - 1)
-            //         {
-            //             gameBoard[row + 1, column].IsWall = true;
-            //             gameBoard[row + 1, column].IsPath = false;
-            //         }
-            //         break;
-            //     case 2: // Izquierda
-            //         if (column > 0)
-            //         {
-            //             gameBoard[row, column - 1].IsWall = true;
-            //             gameBoard[row, column - 1].IsPath = false;
-            //         }
-            //         break;
-            //     case 3: // Derecha
-            //         if (column < gameBoard.GetLength(1) - 1)
-            //         {
-            //             gameBoard[row, column + 1].IsWall = true;
-            //             gameBoard[row, column + 1].IsPath = false;
-            //         }
-            //         break;
-            // }
+            Random random = new Random();
+            int direction = random.Next(0, 4); // 0: arriba, 1: abajo, 2: izquierda, 3: derecha
+            
+            switch (direction)
+            {
+                case 0: // Arriba
+                    if (row > 1)
+                    {
+                        gameBoard[row - 1, column] = new wall("🟫");
+                        Console.WriteLine("Se ha cerrado el camino a arriba");
+                        Console.ReadKey();
+                    }
+                    break;
+                case 1:
+                    if (row < gameBoard.GetLength(0) - 1)
+                    {
+                        gameBoard[row + 1, column] = new wall("🟫");
+                        Console.WriteLine("Se ha cerrado el camino a abajo");
+                        Console.ReadKey();
+                    }
+                    break;
+                case 2: // Izquierda
+                    if (column > 0)
+                    {
+                        gameBoard[row, column - 1] = new wall("🟫");
+                        Console.WriteLine("Se ha cerrado el camino a la izquierda");
+                        Console.ReadKey();
+                    }
+                    break;
+                case 3: // Derecha
+                    if (column < gameBoard.GetLength(1) - 1)
+                    {
+                        gameBoard[row, column + 1] = new wall("🟫");
+                        Console.WriteLine("Se ha cerrado el camino a la derecha");
+                        Console.ReadKey();
+                    }
+                    break;
+            }
         }
         public virtual void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn , int numberOfTraps)
         {

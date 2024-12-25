@@ -1,3 +1,4 @@
+using P_P.board;
 namespace P_P.characters
 {
     public class BlueSquareCharacter : BaseCharacter
@@ -7,6 +8,11 @@ namespace P_P.characters
             : base(icon, ability, movementCapacity, playerColumn, playerRow)
         {
             this.icon = icon ?? throw new ArgumentNullException(nameof(icon));
+        }
+
+        public override void UseAbility(Shell[,] gameboard ,BaseCharacter character)
+        {
+            this.Live += 10;
         }
     }
 } 
