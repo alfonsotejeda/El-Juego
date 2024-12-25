@@ -9,7 +9,7 @@ namespace P_P.tramps
         {
             this.trampId = trampId;
         }
-        public override void Interact(Shell[,] gameboard, BaseCharacter character)
+        public override void Interact(Shell[,] gameboard, BaseCharacter character,List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
             if (character.PlayerColumn <= gameboard.GetLength(1)/2 && character.PlayerRow <= gameboard.GetLength(0)/2)
@@ -19,7 +19,7 @@ namespace P_P.tramps
                 character.PlayerColumn = 1;
                 gameboard[1, 1].HasCharacter = true;
                 gameboard[1, 1].CharacterIcon = character.Icon;
-                printingMethods.PrintGameSpectre(gameboard , character);
+                printingMethods.PrintGameSpectre(gameboard , character , characters , tramps);
                 Console.WriteLine("Al origen");
                 
             }
@@ -30,7 +30,7 @@ namespace P_P.tramps
                 character.PlayerColumn = gameboard.GetLength(1) - 2;
                 gameboard[1, gameboard.GetLength(1) - 2].HasCharacter = true;
                 gameboard[1, gameboard.GetLength(1) - 2].CharacterIcon = character.Icon;
-                printingMethods.PrintGameSpectre(gameboard, character);
+                printingMethods.PrintGameSpectre(gameboard , character , characters , tramps);
                 Console.WriteLine("Al origen");
             }
             else if (character.PlayerColumn <= gameboard.GetLength(1)/2 && character.PlayerRow >= gameboard.GetLength(0)/2)
@@ -40,7 +40,7 @@ namespace P_P.tramps
                 character.PlayerColumn = 1;
                 gameboard[gameboard.GetLength(0) - 2, 1].HasCharacter = true;
                 gameboard[gameboard.GetLength(0) - 2, 1].CharacterIcon = character.Icon;
-                printingMethods.PrintGameSpectre(gameboard, character);
+                printingMethods.PrintGameSpectre(gameboard , character , characters , tramps);
                 Console.WriteLine("Al origen");
             }
             else
@@ -50,7 +50,7 @@ namespace P_P.tramps
                 character.PlayerColumn = gameboard.GetLength(1) - 2;
                 gameboard[gameboard.GetLength(0) - 2, gameboard.GetLength(1) - 2].HasCharacter = true;
                 gameboard[gameboard.GetLength(0) - 2, gameboard.GetLength(1) - 2].CharacterIcon = character.Icon;
-                printingMethods.PrintGameSpectre(gameboard, character);
+                printingMethods.PrintGameSpectre(gameboard , character , characters , tramps);
                 Console.WriteLine("Al origen");
                 
             }

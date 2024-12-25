@@ -1,14 +1,16 @@
 using P_P.board;
 using Spectre.Console;
 using P_P.characters;
+using P_P.tramps;
+
 namespace P_P.PrintingMethods;
 
 public class PrintingMethods
 {
-    public void PrintGameSpectre(Shell[,] gameBoard , BaseCharacter baseCharacter)
+    private string consoleMessages = "";
+    public void PrintGameSpectre(Shell[,] gameBoard , BaseCharacter baseCharacter , List<BaseCharacter> characters , List<BaseTramp> tramps )
     {
         AnsiConsole.Clear();
-            
         // Definir el tamaño del lienzo
         int canvasWidth = gameBoard.GetLength(1)*2;
         int canvasHeight = gameBoard.GetLength(0)*2;
@@ -41,16 +43,16 @@ public class PrintingMethods
                     switch (gameBoard[i, j].CharacterIcon)
                     {
                         case "🟦":
-                            PrintPixel(canvas , i , j , Color.Blue);
+                            PrintMulticolorPixel(canvas , i , j , Color.Blue , Color.CadetBlue);
                             break;
                         case "🟥":
-                            PrintPixel(canvas , i , j , Color.Red);
+                            PrintMulticolorPixel(canvas , i , j , Color.Red, Color.MediumVioletRed);
                             break;
                         case "🟩":
-                            PrintPixel(canvas , i , j , Color.Green);
+                            PrintMulticolorPixel(canvas , i , j , Color.Green , Color.Green3);
                             break;
                         case "🟨":
-                            PrintPixel(canvas , i , j , Color.Yellow);
+                            PrintMulticolorPixel(canvas , i , j , Color.Yellow , Color.Gold1);
                             break;
                     }
                 }
@@ -63,8 +65,8 @@ public class PrintingMethods
                     .SplitRows(
                         new Layout("Top"),
                         new Layout("Bottom")));
-        layout["Left"].Size(95);
-        // layout["Top"].Size(10);
+        layout["Left"].Size(133);
+        layout["Top"].Size(10);
         // layout["Bottom"].Size(10);
         layout["Left"].Update(canvas);
         layout["Top"].Update(new BarChart()
@@ -74,13 +76,7 @@ public class PrintingMethods
             .AddItem("PlayerLive", baseCharacter.Live, Color.Green)
             .AddItem("PlayerMovements", baseCharacter.MovementCapacity, Color.Blue)
             .AddItem("PlayerCountDonw", 4, Color.Red));
-        layout["Bottom"].Update(new Table()
-            .Border(TableBorder.Rounded)
-            .BorderColor(Color.White)
-            .AddColumn("Player")
-            .AddColumn("Ability")
-            .AddColumn("Movements")
-        );
+        layout["Bottom"].Update(new Panel(consoleMessages));
         AnsiConsole.Write(layout);
             
         }
@@ -91,5 +87,15 @@ public class PrintingMethods
             canvas.SetPixel(j * 2, i * 2 + 1, color);
             canvas.SetPixel(j * 2 + 1, i * 2 + 1, color );
         }
-        
+        private void PrintMulticolorPixel(Canvas canvas , int i , int j , Color color1 , Color color2)
+        {
+            canvas.SetPixel(j * 2, i * 2, color1);
+            canvas.SetPixel(j * 2 + 1, i * 2, color2);
+            canvas.SetPixel(j * 2, i * 2 + 1, color2);
+            canvas.SetPixel(j * 2 + 1, i * 2 + 1, color1);
+        }
+        public void AddConsoleMessage(string message)
+        {
+            consoleMessages += message + "\n";
+        }
 }

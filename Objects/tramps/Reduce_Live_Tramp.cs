@@ -8,7 +8,7 @@ namespace P_P.tramps
         {
         }
 
-        public override void Interact(Shell[,] gameboard, BaseCharacter character)
+        public override void Interact(Shell[,] gameboard, BaseCharacter character ,List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
             Random random = new Random();
             int liveToReduce = random.Next(1, 50);
@@ -18,6 +18,7 @@ namespace P_P.tramps
             {
                 Console.WriteLine("Critical tramp!");
             }
+            CleanObjectPosition(gameboard , character);
             Console.ReadKey();
         }
 

@@ -2,6 +2,7 @@ using P_P.board;
 using P_P.PrintingMethods;
 using P_P;
 using P_P.tramps;
+using Spectre.Console;
 
 namespace P_P.characters
 {
@@ -23,10 +24,8 @@ namespace P_P.characters
             this.PlayerRow = playerRow;
         }
 
-        public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard,
-            BaseCharacter character)
+        public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character , ConsoleKeyInfo key , List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
-            ConsoleKeyInfo key = Console.ReadKey();
             int newRow = playerRow;
             int newColumn = playerColumn;
 
@@ -65,7 +64,7 @@ namespace P_P.characters
                 // Actualizar el tablero
                 movementCapacity--;
                 PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-                printingMethods.PrintGameSpectre(gameBoard, character);
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
             }
         }
 
@@ -78,50 +77,59 @@ namespace P_P.characters
         public void TakeTurn(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps , List<BaseCharacter> characters)
         {
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
+            printingMethods.AddConsoleMessage("Turno de " + character.Icon);
+            printingMethods.AddConsoleMessage("Pulsa C para cambiar de personaje (y acabar el turno) o cualquier otra tecla para empezar a moverte");
+            AnsiConsole.WriteLine();
             ConsoleKeyInfo key = Console.ReadKey();
-            while (character.MovementCapacity != 0)
+            if (key.Key == ConsoleKey.C)
             {
-                if (key.Key == ConsoleKey.H)
+                AnsiConsole.WriteLine("Introduce el personaje con el que quieres cambiar");
+                DisplayCharactersToChange(characters , character);
+                int characterToChange = int.Parse(Console.ReadLine());
+                character.ChangeWith(character , characters[characterToChange] , gameBoard);
+                AnsiConsole.WriteLine("Te has cambiado con el personaje " + characters[characterToChange].Icon);
+            }
+            else{
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+                while (character.MovementCapacity != 0)
                 {
-                    character.UseAbility(gameBoard , character);    
-                }
-
-                if (key.Key == ConsoleKey.C)
-                {
-                    Console.WriteLine("Introduce el personaje con el que quieres cambiar");
-                    DisplayCharactersToChange(characters , character);
-                    int characterToChange = int.Parse(Console.ReadLine());
-                    character.ChangeWith(character , characters[characterToChange] , gameBoard);
-                }
-                
-                character.Move(ref character.PlayerRow, ref character.PlayerColumn, ref character.MovementCapacity,
-                    gameBoard, character);
-                if (gameBoard[character.PlayerRow, character.PlayerColumn].HasObject)
-                {
-                    string? objectType = gameBoard[character.PlayerRow, character.PlayerColumn].ObjectType;
+                    ConsoleKeyInfo key2 = Console.ReadKey();
+                    if (key2.Key == ConsoleKey.H)
                     {
-                        if (objectType == "tramp")
+                        character.UseAbility(gameBoard , character , tramps, characters);
+                        AnsiConsole.WriteLine("Habilidad usada");
+                        printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
+                    }
+                    else
+                    {
+                        character.Move(ref character.PlayerRow, ref character.PlayerColumn, ref character.MovementCapacity, gameBoard, character , key2 , characters , tramps);
+                    }
+                    if (gameBoard[character.PlayerRow, character.PlayerColumn].HasObject)
+                    {
+                        string? objectType = gameBoard[character.PlayerRow, character.PlayerColumn].ObjectType;
                         {
-                            foreach (BaseTramp tramp in tramps)
+                            if (objectType == "tramp")
                             {
-                                if (tramp.trampId == gameBoard[character.PlayerRow, character.PlayerColumn].ObjectId)
+                                foreach (BaseTramp tramp in tramps)
                                 {
-                                    tramp.Interact(gameBoard, character);
+                                    if (tramp.trampId == gameBoard[character.PlayerRow, character.PlayerColumn].ObjectId)
+                                    {
+                                        tramp.Interact(gameBoard, character , characters , tramps);
+                                    }
                                 }
                             }
                         }
+                        printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
                     }
-                    printingMethods.PrintGameSpectre(gameBoard, character);
                 }
             }
-
             MovementCapacity = 5;
-            Console.WriteLine("Turno finalizado . Toca enter para pasar al siguiente jugador");
+            AnsiConsole.WriteLine("Turno finalizado . Toca enter para pasar al siguiente jugador");
             Console.ReadKey();
-            printingMethods.PrintGameSpectre(gameBoard, character);
+            printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
         }
 
-        public virtual void UseAbility(Shell[,] gameboard , BaseCharacter character)
+        public virtual void UseAbility(Shell[,] gameboard , BaseCharacter character , List<BaseTramp> tramps , List<BaseCharacter> characters)
         {
             
         }
@@ -136,14 +144,22 @@ namespace P_P.characters
             gameBoard[character.PlayerRow, character.PlayerColumn].CharacterIcon = charactertoChange.Icon;
             gameBoard[charactertoChange.PlayerRow, charactertoChange.PlayerColumn].HasCharacter = true;
             gameBoard[charactertoChange.PlayerRow, charactertoChange.PlayerColumn].CharacterIcon = character.Icon;
+            
+            int tempRow = character.PlayerRow;
+            int tempColumn = character.PlayerColumn;
+           
+            character.PlayerRow = charactertoChange.PlayerRow;
+            character.PlayerColumn = charactertoChange.PlayerColumn;
+            charactertoChange.PlayerRow = tempRow;
+            charactertoChange.PlayerColumn = tempColumn;
 
             this.MovementCapacity = 0;
         }
-        private void DisplayCharactersToChange(List<BaseCharacter> characters , BaseCharacter character)
+        public void DisplayCharactersToChange(List<BaseCharacter> characters , BaseCharacter character)
         {
             for (int i = 0; i < characters.Count; i++)
             {
-                if (characters[i] != character) Console.WriteLine($"Personaje {i} : {characters[i].Icon}");
+                if (characters[i] != character) AnsiConsole.WriteLine($"Personaje {i} : {characters[i].Icon}");
             }
         }
     }

@@ -24,7 +24,7 @@ namespace P_P.tramps
             {
                 int row = random.Next(startRow, endRow);
                 int column = random.Next(startColumn, endColumn);
-                if (gameBoard[row, column].GetType() == typeof(path))
+                if (gameBoard[row, column].GetType() == typeof(path) &&  !gameBoard[row, column].HasObject && !gameBoard[row, column].HasCharacter)
                 {
                     this.positionRow[i] = row;
                     this.positionColumn[i] =  column;
@@ -38,7 +38,7 @@ namespace P_P.tramps
                 }
             }
         }
-        public override void Interact(Shell[,] gameboard, BaseCharacter character)
+        public override void Interact(Shell[,] gameboard, BaseCharacter character , List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
             Console.WriteLine("Interacción con la trampa.");
         }

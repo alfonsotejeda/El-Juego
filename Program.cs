@@ -35,8 +35,8 @@ namespace P_P
         static void RunGame()
         {
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            int rows = 21;
-            int columns = 21;
+            int rows = 33;
+            int columns = 33;
             
             Board board = new Board(columns, rows);
             Shell[,] gameBoard = board.CreateBoard();
@@ -60,9 +60,11 @@ namespace P_P
             
             List<BaseCharacter> characters = new List<BaseCharacter>();
             characters.Add(new BlueSquareCharacter("🟦", "defense", ref player1movementCapacity, ref player1Row, ref player1Column));
+            characters.Add(new YellowSquareCharacter("🟨", "jumpOveraWall", ref player4movementCapacity, ref player4StartRow, ref player4StartColumn));
+            characters.Add(new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref player3movementCapacity, ref player3StartRow, ref player3StartColumn));
             characters.Add(new RedSquareCharacter("🟥", "attack", ref player2movementCapacity, ref player2StartRow, ref player2StartColumn));
-            characters.Add(new GreenSquareCharacter("🟩", "attack", ref player3movementCapacity, ref player3StartRow, ref player3StartColumn));
-            characters.Add(new YellowSquareCharacter("🟨", "attack", ref player4movementCapacity, ref player4StartRow, ref player4StartColumn));
+            
+            
 
             foreach (BaseCharacter character in characters)
             {
@@ -88,6 +90,7 @@ namespace P_P
                 {
                     foreach (BaseCharacter character in characters)
                     {
+                        printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
                         character.TakeTurn(gameBoard, character, tramps , characters);
                     }
                    

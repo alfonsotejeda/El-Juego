@@ -49,6 +49,7 @@ namespace P_P.tramps
                     }
                     break;
             }
+            
         }
         public virtual void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn , int numberOfTraps)
         {
