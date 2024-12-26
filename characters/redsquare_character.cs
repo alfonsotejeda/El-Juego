@@ -23,7 +23,34 @@ namespace P_P.characters
 
         public override int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)
         {
-           // Crear las opciones de personajes
+            var posibleChangeCharacters = CreateCharacterOptions(characters, character);
+            int selectedIndex = 0;
+
+            AnsiConsole.Live(printingMethods.layout).Start(ctx =>
+            {
+                bool selectionMade = false;
+
+                while (!selectionMade)
+                {
+                    UpdateMenuContent(posibleChangeCharacters, selectedIndex);
+                    ctx.Refresh();
+
+                    var key = Console.ReadKey(true).Key;
+                    selectedIndex = UpdateSelectedIndex(key, selectedIndex, posibleChangeCharacters.Count, ref selectionMade);
+                }
+
+                var selectedCharacter = characters[selectedIndex];
+                printingMethods.layout["Bottom"].Update(new Panel($"Has atacado al personaje {selectedCharacter.Icon}").Expand());
+                ctx.Refresh();
+
+                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+            });
+
+            return ParseSelectedCharacterIndex(posibleChangeCharacters[selectedIndex]);
+        }
+
+        private List<string> CreateCharacterOptions(List<BaseCharacter> characters, BaseCharacter character)
+        {
             var posibleChangeCharacters = new List<string>();
             for (int i = 0; i < characters.Count; i++)
             {
@@ -32,58 +59,43 @@ namespace P_P.characters
                     posibleChangeCharacters.Add($"Personaje {i} : {characters[i].Icon}");
                 }
             }
+            return posibleChangeCharacters;
+        }
 
-            int selectedIndex = 0; // Índice del personaje seleccionado
+        private void UpdateMenuContent(List<string> posibleChangeCharacters, int selectedIndex)
+        {
+            var menuContent = new Panel(
+                $"Elige al jugador que quieres atacar:\n\n" +
+                string.Join("\n", posibleChangeCharacters.Select((option, index) =>
+                    index == selectedIndex
+                        ? $"[green]> {option}[/]" // Opción seleccionada
+                        : $"  {option}"          // Opciones no seleccionadas
+                ))
+            ).Expand();
 
-            // Usar AnsiConsole.Live para manejar las actualizaciones dinámicas
-            AnsiConsole.Live(printingMethods.layout).Start(ctx =>
+            printingMethods.layout["Bottom"].Update(menuContent);
+        }
+
+        private int UpdateSelectedIndex(ConsoleKey key, int selectedIndex, int optionsCount, ref bool selectionMade)
+        {
+            switch (key)
             {
-                bool selectionMade = false;
+                case ConsoleKey.UpArrow:
+                    selectedIndex = (selectedIndex - 1 + optionsCount) % optionsCount;
+                    break;
+                case ConsoleKey.DownArrow:
+                    selectedIndex = (selectedIndex + 1) % optionsCount;
+                    break;
+                case ConsoleKey.Enter:
+                    selectionMade = true;
+                    break;
+            }
+            return selectedIndex;
+        }
 
-                while (!selectionMade)
-                {
-                    // Actualizar el layout["Bottom"] con las opciones del menú
-                    var menuContent = new Panel(
-                        $"Elige al jugador que quieres atacar:\n\n" +
-                        string.Join("\n", posibleChangeCharacters.Select((option, index) =>
-                            index == selectedIndex
-                                ? $"[green]> {option}[/]" // Opción seleccionada
-                                : $"  {option}"          // Opciones no seleccionadas
-                        ))
-                    ).Expand();
-
-                    printingMethods.layout["Bottom"].Update(menuContent);
-                    ctx.Refresh();
-
-                    // Capturar la entrada del usuario
-                    var key = Console.ReadKey(true).Key;
-                    switch (key)
-                    {
-                        case ConsoleKey.UpArrow:
-                            selectedIndex = (selectedIndex - 1 + posibleChangeCharacters.Count) % posibleChangeCharacters.Count;
-                            break;
-                        case ConsoleKey.DownArrow:
-                            selectedIndex = (selectedIndex + 1) % posibleChangeCharacters.Count;
-                            break;
-                        case ConsoleKey.Enter:
-                            selectionMade = true;
-                            break;
-                    }
-                }
-
-                // Acción tras seleccionar un personaje
-                var selectedCharacter = characters[selectedIndex];
-                printingMethods.layout["Bottom"].Update(
-                    new Panel($"Has atacado al personaje {selectedCharacter.Icon}").Expand()
-                );
-                ctx.Refresh();
-
-                // Volver a imprimir el juego con la selección hecha
-                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
-            });
-            string selectedCharacter = posibleChangeCharacters[selectedIndex];
-            int selectedCharacterIndex = int.Parse(selectedCharacter.Split(' ')[1]);
-            return selectedCharacterIndex;
+        private int ParseSelectedCharacterIndex(string selectedCharacter)
+        {
+            return int.Parse(selectedCharacter.Split(' ')[1]);
         }
     }
-} 
+}

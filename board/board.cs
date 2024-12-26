@@ -12,6 +12,7 @@ namespace P_P.board
             this._rows = rows;
             this.GameBoard = new Shell[rows, columns];
         }
+
         public Shell[,] CreateBoard()
         {
             // Inicializar cada celda del tablero
@@ -44,9 +45,6 @@ namespace P_P.board
                     GameBoard[i, j].IsCenter = true;
                 }
             }
-
-            
-            
 
             return GameBoard;
         }

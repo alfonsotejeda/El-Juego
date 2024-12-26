@@ -1,6 +1,7 @@
 using P_P.board;
 using P_P.tramps;
 using P_P.PrintingMethods;
+
 namespace P_P.characters
 {
     public class GreenSquareCharacter : BaseCharacter
@@ -16,95 +17,64 @@ namespace P_P.characters
         {
             bool quitTrampController = false;
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            if (character.PlayerColumn <= gameboard.GetLength(1)/2 && character.PlayerRow <= gameboard.GetLength(0)/2)
+            if (IsInFirstQuadrant(character, gameboard))
             {
-                for (int row = 0; row < gameboard.GetLength(0)/2; row++)
-                {
-                    for(int column = 0 ; column < gameboard.GetLength(1)/2; column++)
-                    {
-                        if (gameboard[row, column].GetType() == typeof(path) && gameboard[row , column].HasObject && gameboard[row , column].ObjectType == "tramp")
-                        {
-                            Console.WriteLine($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}");
-                            
-                            gameboard[row, column].HasObject = false;
-                            quitTrampController = true;
-                            break;
-                        }
-                    }
-                    if (quitTrampController)
-                    {
-                        break;
-                    }
-                }    
+                quitTrampController = RemoveTrapInQuadrant(gameboard, 0, gameboard.GetLength(0) / 2, 0, gameboard.GetLength(1) / 2);
             }
-            else if (character.PlayerColumn >= gameboard.GetLength(1)/2 && character.PlayerRow <= gameboard.GetLength(0)/2)
+            else if (IsInSecondQuadrant(character, gameboard))
             {
-                for (int row = 0; row < gameboard.GetLength(0)/2; row++)
-                {
-                    for(int column = gameboard.GetLength(1)/2 ; column < gameboard.GetLength(1); column++)
-                    {
-                        if (gameboard[row, column].GetType() == typeof(path) && gameboard[row , column].HasObject && gameboard[row , column].ObjectType == "tramp")
-                        {
-                            Console.WriteLine($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}");
-                            
-                            gameboard[row, column].HasObject = false;
-                            quitTrampController = true;
-                            break;
-                        }
-                    }
-                    if (quitTrampController)
-                    {
-                        break;
-                    }
-                }    
+                quitTrampController = RemoveTrapInQuadrant(gameboard, 0, gameboard.GetLength(0) / 2, gameboard.GetLength(1) / 2, gameboard.GetLength(1));
             }
-            else if (character.PlayerColumn <= gameboard.GetLength(1)/2 && character.PlayerRow >= gameboard.GetLength(0)/2)
+            else if (IsInThirdQuadrant(character, gameboard))
             {
-                for (int row = gameboard.GetLength(0)/2; row < gameboard.GetLength(0); row++)
-                {
-                    for(int column = 0 ; column < gameboard.GetLength(1)/2; column++)
-                    {
-                        if (gameboard[row, column].GetType() == typeof(path) && gameboard[row , column].HasObject && gameboard[row , column].ObjectType == "tramp")
-                        {
-                            Console.WriteLine($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}");
-                            
-                            gameboard[row, column].HasObject = false;
-                            quitTrampController = true;
-                            break;
-                        }
-                    }
-                    if (quitTrampController)
-                    {
-                        break;
-                    }
-                }    
+                quitTrampController = RemoveTrapInQuadrant(gameboard, gameboard.GetLength(0) / 2, gameboard.GetLength(0), 0, gameboard.GetLength(1) / 2);
             }
-            else if (character.PlayerColumn >= gameboard.GetLength(1)/2 && character.PlayerRow >= gameboard.GetLength(0)/2)
+            else if (IsInFourthQuadrant(character, gameboard))
             {
-                for (int row = gameboard.GetLength(0)/2; row < gameboard.GetLength(0); row++)
-                {
-                    for(int column = gameboard.GetLength(1)/2 ; column < gameboard.GetLength(1); column++)
-                    {
-                        if (gameboard[row, column].GetType() == typeof(path) && gameboard[row , column].HasObject && gameboard[row , column].ObjectType == "tramp")
-                        {
-                            Console.WriteLine($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}");
-                            
-                            gameboard[row, column].HasObject = false;
-                            quitTrampController = true;
-                            break;
-                        }
-                    }
-                    if (quitTrampController)
-                    {
-                        break;
-                    }
-                }
+                quitTrampController = RemoveTrapInQuadrant(gameboard, gameboard.GetLength(0) / 2, gameboard.GetLength(0), gameboard.GetLength(1) / 2, gameboard.GetLength(1));
             }
             else
             {
                 Console.WriteLine("No hay trampas cerca");
             }
             Console.ReadKey();
+        }
+
+        private bool IsInFirstQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn <= gameboard.GetLength(1) / 2 && character.PlayerRow <= gameboard.GetLength(0) / 2;
+        }
+
+        private bool IsInSecondQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow <= gameboard.GetLength(0) / 2;
+        }
+
+        private bool IsInThirdQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn <= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
+        }
+
+        private bool IsInFourthQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
+        }
+
+        private bool RemoveTrapInQuadrant(Shell[,] gameboard, int startRow, int endRow, int startColumn, int endColumn)
+        {
+            for (int row = startRow; row < endRow; row++)
+            {
+                for (int column = startColumn; column < endColumn; column++)
+                {
+                    if (gameboard[row, column].GetType() == typeof(path) && gameboard[row, column].HasObject && gameboard[row, column].ObjectType == "tramp")
+                    {
+                        Console.WriteLine($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}");
+                        gameboard[row, column].HasObject = false;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

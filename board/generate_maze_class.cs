@@ -14,14 +14,13 @@ namespace P_P.board
                 }
             }
 
-
             int currentRow = startRow + 1;
             int currentCol = startCol + 1;
             GenerateRecursiveMaze(currentRow, currentCol, startRow, endRow, startCol, endCol, gameBoard);
             RandomizeWalls(startRow, endRow, startCol, endCol, gameBoard);
         }
 
-        private void GenerateRecursiveMaze(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, Shell[,] maze )
+        private void GenerateRecursiveMaze(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, Shell[,] maze)
         {
             maze[currentRow , currentCol] = new path("⬜️");
             Random random = new Random();
@@ -47,7 +46,6 @@ namespace P_P.board
                     maze[middleRow, middleCol] = new path("⬜️");
                     GenerateRecursiveMaze(newRow , newCol , startRow , endRow , startCol , endCol, maze);
                 }
-
             }
         }
 
@@ -64,7 +62,6 @@ namespace P_P.board
                         if (random.Next(0, 100) < chance)
                         {
                             gameBoard[row, col] = new path("⬜️");
-
                         }
                     }
                 }

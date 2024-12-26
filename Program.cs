@@ -35,12 +35,47 @@ namespace P_P
         static void RunGame()
         {
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            int rows = 33;
-            int columns = 33;
+            int rows = 21;
+            int columns = 21;
             
             Board board = new Board(columns, rows);
             Shell[,] gameBoard = board.CreateBoard();
             
+            List<BaseCharacter> characters = InitializeCharacters(rows, columns);
+            List<BaseTramp> tramps = InitializeTraps(rows, columns, gameBoard);
+            
+            foreach (BaseCharacter character in characters)
+            {
+                character.PlaceCharacter(gameBoard, character);
+            }
+            
+            try
+            {
+                while (true)
+                {
+                    foreach (BaseCharacter character in characters)
+                    {
+                        printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                        character.TakeTurn(gameBoard, character, tramps, characters);
+                    }
+                
+                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
+                    {
+                        if (AnsiConsole.Confirm("¿Deseas volver al menú principal?"))
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                AnsiConsole.MarkupLine($"[red]Error en el juego: {ex.Message}[/]");
+                AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para volver al menú...[/]");
+                Console.ReadKey(true);
+            }
+        }
+
+        static List<BaseCharacter> InitializeCharacters(int rows, int columns)
+        {
             int player1Row = 1;
             int player1Column = 1;
             int player1movementCapacity = 100;
@@ -56,57 +91,36 @@ namespace P_P
             int player4StartRow = 1;
             int player4StartColumn = columns - 2;
             int player4movementCapacity = 5;
-            
-            
-            List<BaseCharacter> characters = new List<BaseCharacter>();
-            characters.Add(new BlueSquareCharacter("🟦", "defense", ref player1movementCapacity, ref player1Row, ref player1Column));
-            characters.Add(new YellowSquareCharacter("🟨", "jumpOveraWall", ref player4movementCapacity, ref player4StartRow, ref player4StartColumn));
-            characters.Add(new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref player3movementCapacity, ref player3StartRow, ref player3StartColumn));
-            characters.Add(new RedSquareCharacter("🟥", "attack", ref player2movementCapacity, ref player2StartRow, ref player2StartColumn));
-            
-            
 
-            foreach (BaseCharacter character in characters)
+            List<BaseCharacter> characters = new List<BaseCharacter>
             {
-                character.PlaceCharacter(gameBoard , character);
-            }
-            
-            List<BaseTramp> tramps = new List<BaseTramp>();
-            tramps.Add(new GoToOriginTramp("goToOrigin"));
-            tramps.Add(new ReduceLiveTramp("reduceLive"));
-            tramps.Add(new ClosePathTramp("closePath"));
+                new BlueSquareCharacter("🟦", "defense", ref player1movementCapacity, ref player1Row, ref player1Column),
+                new YellowSquareCharacter("🟨", "jumpOveraWall", ref player4movementCapacity, ref player4StartRow, ref player4StartColumn),
+                new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref player3movementCapacity, ref player3StartRow, ref player3StartColumn),
+                new RedSquareCharacter("🟥", "attack", ref player2movementCapacity, ref player2StartRow, ref player2StartColumn)
+            };
+
+            return characters;
+        }
+
+        static List<BaseTramp> InitializeTraps(int rows, int columns, Shell[,] gameBoard)
+        {
+            List<BaseTramp> tramps = new List<BaseTramp>
+            {
+                new GoToOriginTramp("goToOrigin"),
+                new ReduceLiveTramp("reduceLive"),
+                new ClosePathTramp("closePath")
+            };
+
             foreach (BaseTramp tramp in tramps)
             {
-                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows/2, 1, columns/2 , 4);
-                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows/2, columns/2, columns,4);
-                tramp.CreateRandomTraps(gameBoard, tramp, rows/2, rows, 1, columns/2,4);
-                tramp.CreateRandomTraps(gameBoard, tramp, rows/2, rows, columns/2, columns,4);
+                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows / 2, 1, columns / 2, 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows / 2, columns / 2, columns, 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, rows / 2, rows, 1, columns / 2, 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, rows / 2, rows, columns / 2, columns, 4);
             }
-            
-            try
-            
-            {
-                while (true)
-                {
-                    foreach (BaseCharacter character in characters)
-                    {
-                        printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
-                        character.TakeTurn(gameBoard, character, tramps , characters);
-                    }
-                   
-                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
-                    {
-                        if (AnsiConsole.Confirm("¿Deseas volver al menú principal?"))
-                            break;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                AnsiConsole.MarkupLine($"[red]Error en el juego: {ex.Message}[/]");
-                AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para volver al menú...[/]");
-                Console.ReadKey(true);
-            }
+
+            return tramps;
         }
     }
 }
