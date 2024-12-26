@@ -7,7 +7,22 @@ namespace P_P.PrintingMethods;
 
 public class PrintingMethods
 {
-    private string consoleMessages = "";
+    public string consoleMessages = "";
+    public Layout layout;
+
+    public PrintingMethods()
+    {
+        layout = new Layout("Root")
+            .SplitColumns(
+                new Layout("Left"),
+                new Layout("Right")
+                    .SplitRows(
+                        new Layout("Top"),
+                        new Layout("Bottom")));
+        layout["Left"].Size(133);
+        layout["Top"].Size(10);
+        layout["Bottom"].Size(10);
+    }
     public void PrintGameSpectre(Shell[,] gameBoard , BaseCharacter baseCharacter , List<BaseCharacter> characters , List<BaseTramp> tramps )
     {
         AnsiConsole.Clear();
@@ -58,16 +73,6 @@ public class PrintingMethods
                 }
             }
         }
-        var layout = new Layout("Root")
-            .SplitColumns(
-                new Layout("Left"),
-                new Layout("Right")
-                    .SplitRows(
-                        new Layout("Top"),
-                        new Layout("Bottom")));
-        layout["Left"].Size(133);
-        layout["Top"].Size(10);
-        // layout["Bottom"].Size(10);
         layout["Left"].Update(canvas);
         layout["Top"].Update(new BarChart()
             .Width(60)
@@ -76,7 +81,7 @@ public class PrintingMethods
             .AddItem("PlayerLive", baseCharacter.Live, Color.Green)
             .AddItem("PlayerMovements", baseCharacter.MovementCapacity, Color.Blue)
             .AddItem("PlayerCountDonw", 4, Color.Red));
-        layout["Bottom"].Update(new Panel(consoleMessages));
+       
         AnsiConsole.Write(layout);
             
         }
@@ -93,9 +98,5 @@ public class PrintingMethods
             canvas.SetPixel(j * 2 + 1, i * 2, color2);
             canvas.SetPixel(j * 2, i * 2 + 1, color2);
             canvas.SetPixel(j * 2 + 1, i * 2 + 1, color1);
-        }
-        public void AddConsoleMessage(string message)
-        {
-            consoleMessages += message + "\n";
         }
 }

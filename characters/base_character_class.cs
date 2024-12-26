@@ -14,7 +14,7 @@ namespace P_P.characters
         public int PlayerColumn;
         public int PlayerRow;
         public int Live = 100;
-
+        public  PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
         public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow)
         {
             this.Icon = name ?? throw new ArgumentNullException(nameof(name));
@@ -63,8 +63,9 @@ namespace P_P.characters
                 // gameBoard[playerRow, playerColumn].IsPath = false;
                 // Actualizar el tablero
                 movementCapacity--;
-                PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
+                printingMethods.layout["Bottom"].Update(new Panel("Activa tu habilidad con H o muevete con W,A,S,D").Expand());
                 printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+                
             }
         }
 
@@ -76,20 +77,25 @@ namespace P_P.characters
 
         public void TakeTurn(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps , List<BaseCharacter> characters)
         {
-            PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            printingMethods.AddConsoleMessage("Turno de " + character.Icon);
-            printingMethods.AddConsoleMessage("Pulsa C para cambiar de personaje (y acabar el turno) o cualquier otra tecla para empezar a moverte");
-            AnsiConsole.WriteLine();
+           
+            
+            //revisar como hacer mejor esoo
+            printingMethods.layout["Bottom"].Update(new Panel("Turno de " + character.Icon + "\nPulsa C para cambiar de personaje o cualquier otra tecla para moverte").Expand());
+            printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
             ConsoleKeyInfo key = Console.ReadKey();
             if (key.Key == ConsoleKey.C)
             {
-                AnsiConsole.WriteLine("Introduce el personaje con el que quieres cambiar");
-                DisplayCharactersToChange(characters , character);
-                int characterToChange = int.Parse(Console.ReadLine());
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+                // AnsiConsole.WriteLine("Introduce el personaje con el que quieres cambiar");
+                int characterToChange = DisplayCharactersToChange(characters , character , gameBoard , tramps);
                 character.ChangeWith(character , characters[characterToChange] , gameBoard);
-                AnsiConsole.WriteLine("Te has cambiado con el personaje " + characters[characterToChange].Icon);
+                
+                printingMethods.layout["Bottom"].Update(new Panel("Te has cambiado con el personaje " + characters[characterToChange].Icon).Expand());
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+                //AnsiConsole.WriteLine("Te has cambiado con el personaje " + characters[characterToChange].Icon);
             }
             else{
+                printingMethods.layout["Bottom"].Update(new Panel("Activa tu habilidad con H o muevete con W,A,S,D").Expand());
                 printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
                 while (character.MovementCapacity != 0)
                 {
@@ -97,8 +103,9 @@ namespace P_P.characters
                     if (key2.Key == ConsoleKey.H)
                     {
                         character.UseAbility(gameBoard , character , tramps, characters);
-                        AnsiConsole.WriteLine("Habilidad usada");
+                        printingMethods.layout["Bottom"].Update(new Panel("Habilidad usada").Expand());
                         printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
+                        //AnsiConsole.WriteLine("Habilidad usada");
                     }
                     else
                     {
@@ -124,7 +131,9 @@ namespace P_P.characters
                 }
             }
             MovementCapacity = 5;
-            AnsiConsole.WriteLine("Turno finalizado . Toca enter para pasar al siguiente jugador");
+            printingMethods.layout["Bottom"].Update(new Panel("Turno finalizado . Toca enter para pasar al siguiente jugador").Expand());
+            printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
+            //AnsiConsole.WriteLine("Turno finalizado . Toca enter para pasar al siguiente jugador");
             Console.ReadKey();
             printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
         }
@@ -155,12 +164,69 @@ namespace P_P.characters
 
             this.MovementCapacity = 0;
         }
-        public void DisplayCharactersToChange(List<BaseCharacter> characters , BaseCharacter character)
+       public virtual int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)
         {
+            // Crear las opciones de personajes
+            var posibleChangeCharacters = new List<string>();
             for (int i = 0; i < characters.Count; i++)
             {
-                if (characters[i] != character) AnsiConsole.WriteLine($"Personaje {i} : {characters[i].Icon}");
+                if (characters[i] != character)
+                {
+                    posibleChangeCharacters.Add($"Personaje {i} : {characters[i].Icon}");
+                }
             }
+
+            int selectedIndex = 0; // Índice del personaje seleccionado
+
+            // Usar AnsiConsole.Live para manejar las actualizaciones dinámicas
+            AnsiConsole.Live(printingMethods.layout).Start(ctx =>
+            {
+                bool selectionMade = false;
+
+                while (!selectionMade)
+                {
+                    // Actualizar el layout["Bottom"] con las opciones del menú
+                    var menuContent = new Panel(
+                        $"Elige al jugador con el que quieres cambiar:\n\n" +
+                        string.Join("\n", posibleChangeCharacters.Select((option, index) =>
+                            index == selectedIndex
+                                ? $"[green]> {option}[/]" // Opción seleccionada
+                                : $"  {option}"          // Opciones no seleccionadas
+                        ))
+                    ).Expand();
+
+                    printingMethods.layout["Bottom"].Update(menuContent);
+                    ctx.Refresh();
+
+                    // Capturar la entrada del usuario
+                    var key = Console.ReadKey(true).Key;
+                    switch (key)
+                    {
+                        case ConsoleKey.UpArrow:
+                            selectedIndex = (selectedIndex - 1 + posibleChangeCharacters.Count) % posibleChangeCharacters.Count;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            selectedIndex = (selectedIndex + 1) % posibleChangeCharacters.Count;
+                            break;
+                        case ConsoleKey.Enter:
+                            selectionMade = true;
+                            break;
+                    }
+                }
+
+                // Acción tras seleccionar un personaje
+                var selectedCharacter = characters[selectedIndex];
+                printingMethods.layout["Bottom"].Update(
+                    new Panel($"Te has cambiado con el personaje {selectedCharacter.Icon}").Expand()
+                );
+                ctx.Refresh();
+
+                // Volver a imprimir el juego con la selección hecha
+                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+            });
+            string selectedCharacter = posibleChangeCharacters[selectedIndex];
+            int selectedCharacterIndex = int.Parse(selectedCharacter.Split(' ')[1]);
+            return selectedCharacterIndex;
         }
     }
 }
