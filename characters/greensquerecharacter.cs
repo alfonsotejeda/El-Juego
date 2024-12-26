@@ -67,7 +67,7 @@ namespace P_P.characters
             {
                 for (int column = startColumn; column < endColumn; column++)
                 {
-                    if (gameboard[row, column].GetType() == typeof(path) && gameboard[row, column].HasObject && gameboard[row, column].ObjectType == "tramp")
+                    if (gameboard[row, column].GetType() == typeof(P_P.board.Path) && gameboard[row, column].HasObject && gameboard[row, column].ObjectType == "tramp")
                     {
                         printingMethods.layout["Bottom"].Update(new Panel($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}").Expand());
                         gameboard[row, column].HasObject = false;

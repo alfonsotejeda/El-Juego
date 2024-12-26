@@ -41,7 +41,7 @@ namespace P_P.board
             {
                 for (int j = centerColumnStart; j < centerColumnEnd; j++)
                 {
-                    GameBoard[i, j] = new path("⬜️");
+                    GameBoard[i, j] = new P_P.board.Path("⬜️");
                     GameBoard[i, j].IsCenter = true;
                 }
             }

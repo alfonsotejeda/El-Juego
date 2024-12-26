@@ -39,23 +39,22 @@ namespace P_P.characters
 
                 if (newRow >= 0 && newRow < gameboard.GetLength(0) && newColumn >= 0 && newColumn < gameboard.GetLength(1))
                 {
-                    if (gameboard[newRow, newColumn].GetType() == typeof(wall))
+                    if (gameboard[newRow, newColumn].GetType() == typeof(Wall))
                     {
                         int newRow2 = newRow + dx;
                         int newColumn2 = newColumn + dy;
                         if (newRow2 >= 0 && newRow2 < gameboard.GetLength(0) && newColumn2 >= 0 && newColumn2 < gameboard.GetLength(1))
                         {
-                            if (gameboard[newRow2, newColumn2].GetType() == typeof(path))
+                            if (gameboard[newRow2, newColumn2].GetType() == typeof(P_P.board.Path))
                             {
                                 gameboard[character.PlayerRow, character.PlayerColumn].HasCharacter = false;
                                 gameboard[character.PlayerRow, character.PlayerColumn].CharacterIcon = null;
-                                gameboard[character.PlayerRow, character.PlayerColumn] = new path("⬜️");
+                                gameboard[character.PlayerRow, character.PlayerColumn] = new P_P.board.Path("⬜️");
 
                                 character.PlayerRow = newRow2;
                                 character.PlayerColumn = newColumn2;
                                 gameboard[newRow2, newColumn2].HasCharacter = true;
                                 gameboard[newRow2, newColumn2].CharacterIcon = character.Icon;
-                                break;
                             }
                         }
                     }

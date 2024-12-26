@@ -10,7 +10,7 @@ namespace P_P.board
             {
                 for (int col = startCol; col < endCol; col++)
                 { 
-                    gameBoard[row, col] = new wall("🟫");                  
+                    gameBoard[row, col] = new Wall("🟫");                  
                 }
             }
 
@@ -22,7 +22,7 @@ namespace P_P.board
 
         private void GenerateRecursiveMaze(int currentRow, int currentCol, int startRow, int endRow, int startCol, int endCol, Shell[,] maze)
         {
-            maze[currentRow , currentCol] = new path("⬜️");
+            maze[currentRow , currentCol] = new P_P.board.Path("⬜️");
             Random random = new Random();
             int[] rowDirections = { 0, 2, 0, -2 };
             int[] colDirections = { -2, 0, 2, 0 };
@@ -39,11 +39,11 @@ namespace P_P.board
 
                 if (newRow >= startRow && newRow < endRow &&
                     newCol >= startCol && newCol < endCol &&
-                    maze[newRow,newCol].GetType() == typeof(wall))
+                    maze[newRow,newCol].GetType() == typeof(Wall))
                 {
                     int middleRow = currentRow+rowDirections[direction]/2;
                     int middleCol = currentCol+colDirections[direction]/2;
-                    maze[middleRow, middleCol] = new path("⬜️");
+                    maze[middleRow, middleCol] = new P_P.board.Path("⬜️");
                     GenerateRecursiveMaze(newRow , newCol , startRow , endRow , startCol , endCol, maze);
                 }
             }
@@ -56,12 +56,12 @@ namespace P_P.board
             {
                 for (int col = startCol + 1; col < endCol - 1; col++)
                 {
-                    if (gameBoard[row, col].GetType() == typeof(wall))
+                    if (gameBoard[row, col].GetType() == typeof(Wall))
                     {
                         int chance = 10;
                         if (random.Next(0, 100) < chance)
                         {
-                            gameBoard[row, col] = new path("⬜️");
+                            gameBoard[row, col] = new P_P.board.Path("⬜️");
                         }
                     }
                 }

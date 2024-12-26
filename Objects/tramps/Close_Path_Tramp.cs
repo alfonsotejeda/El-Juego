@@ -74,8 +74,7 @@ namespace P_P.tramps
                 {
                     gameboard[row - 1, column] = new P_P.board.Path("⬜️");
                 }
-                else if (column < centerColumn && gameboard[row
-                , column + 1].GetType() == typeof(Wall))
+                else if (column < centerColumn && gameboard[row, column + 1].GetType() == typeof(Wall))
                 {
                     gameboard[row, column + 1] = new P_P.board.Path("⬜️");
                 }
