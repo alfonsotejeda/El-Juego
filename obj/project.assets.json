@@ -116,7 +116,6 @@
       "packagesPath": "/Users/alfonso/.nuget/packages/",
       "outputPath": "/Users/alfonso/Documents/P_P/obj/",
       "projectStyle": "PackageReference",
-      "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
         "/Users/alfonso/.nuget/NuGet/NuGet.Config"
       ],
@@ -124,6 +123,7 @@
         "net8.0"
       ],
       "sources": {
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

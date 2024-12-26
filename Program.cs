@@ -1,4 +1,4 @@
-using System.Dynamic;
+﻿using System.Dynamic;
 using P_P.board;
 using P_P.characters;
 using P_P.menu;
@@ -43,7 +43,7 @@ namespace P_P
             
             int player1Row = 1;
             int player1Column = 1;
-            int player1movementCapacity = 5;
+            int player1movementCapacity = 100;
             
             int player2StartRow = rows - 2;
             int player2StartColumn = columns - 2;

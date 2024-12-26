@@ -128,6 +128,11 @@ namespace P_P.characters
                         }
                         printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
                     }
+
+                    if (gameBoard[character.PlayerRow, character.PlayerColumn].IsCenter)
+                    {
+                        printingMethods.PrintVictoryMesagge(character);
+                    }
                 }
             }
             MovementCapacity = 5;

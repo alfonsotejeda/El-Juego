@@ -16,8 +16,8 @@ namespace P_P.characters
         public override void UseAbility(Shell[,] gameboard, BaseCharacter character , List<BaseTramp> tramps,List<BaseCharacter> characters)
         {
             Console.WriteLine("Introduce el personaje que quieres Atacar");
-            DisplayCharactersToChange(characters , character , gameboard , tramps);
-            int characterToAttack = int.Parse(Console.ReadLine());
+            int characterToAttack = DisplayCharactersToChange(characters , character , gameboard , tramps);
+            
             characters[characterToAttack].Live -= 10;
         }
 

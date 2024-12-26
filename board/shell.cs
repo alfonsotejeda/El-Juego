@@ -12,6 +12,7 @@ public class Shell
     public bool HasCharacter { get; set; }
     
     public bool HasObject { get; set; }
+    public bool IsCenter;
 
     public Shell()
     {
@@ -20,6 +21,7 @@ public class Shell
         HasObject = false;
         ObjectType = null;
         ObjectId = null;
+        IsCenter = false;
     }
   
 }

@@ -44,6 +44,10 @@ public class PrintingMethods
                 {
                     PrintPixel(canvas , i , j , Color.White);
                 }
+                if(gameBoard[i, j].IsCenter)
+                {
+                    PrintPixel(canvas , i , j , Color.Violet);
+                }
                 if (gameBoard[i, j].HasObject)
                 {
                     switch (gameBoard[i, j].ObjectType)
@@ -98,5 +102,25 @@ public class PrintingMethods
             canvas.SetPixel(j * 2 + 1, i * 2, color2);
             canvas.SetPixel(j * 2, i * 2 + 1, color2);
             canvas.SetPixel(j * 2 + 1, i * 2 + 1, color1);
+        }
+
+        public void PrintVictoryMesagge(BaseCharacter character)
+        {
+            Console.Clear();
+            AnsiConsole.Clear();
+            AnsiConsole.Write(
+                new FigletText("Victoria!")
+                    .Centered()
+                    .Color(Color.Green));
+
+            AnsiConsole.Write(
+                new FigletText(character.Icon)
+                    .Centered()
+                    .Color(Color.Gold1));
+
+            AnsiConsole.Write(
+                    new Markup($"[bold green]Felicidades {character.Icon}, has ganado el juego![/]")
+                        .Centered());
+            
         }
 }
