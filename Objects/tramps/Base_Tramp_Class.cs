@@ -31,7 +31,7 @@ namespace P_P.tramps
         {
             int row = random.Next(startRow, endRow);
             int column = random.Next(startColumn, endColumn);
-            if (gameBoard[row, column].GetType() == typeof(path) && !gameBoard[row, column].HasObject && !gameBoard[row, column].HasCharacter)
+            if (gameBoard[row, column].GetType() == typeof(P_P.board.Path) && !gameBoard[row, column].HasObject && !gameBoard[row, column].HasCharacter)
             {
                 this.positionRow[index] = row;
                 this.positionColumn[index] = column;

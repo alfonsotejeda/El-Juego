@@ -24,7 +24,7 @@ namespace P_P.tramps
                 case 0: // Arriba
                     if (row > 1)
                     {
-                        gameboard[row - 1, column] = new wall("🟫");
+                        gameboard[row - 1, column] = new Wall("🟫");
                         printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino arriba").Expand());
                         Console.ReadKey();
                     }
@@ -32,7 +32,7 @@ namespace P_P.tramps
                 case 1:
                     if (row < gameboard.GetLength(0) - 1)
                     {
-                        gameboard[row + 1, column] = new wall("🟫");
+                        gameboard[row + 1, column] = new Wall("🟫");
                         printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino abajo").Expand());
                         Console.ReadKey();
                     }
@@ -40,7 +40,7 @@ namespace P_P.tramps
                 case 2: // Izquierda
                     if (column > 0)
                     {
-                        gameboard[row, column - 1] = new wall("🟫");
+                        gameboard[row, column - 1] = new Wall("🟫");
                         printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino a la izquierda").Expand());
                         Console.ReadKey();
                     }
@@ -48,7 +48,7 @@ namespace P_P.tramps
                 case 3: // Derecha
                     if (column < gameboard.GetLength(1) - 1)
                     {
-                        gameboard[row, column + 1] = new wall("🟫");
+                        gameboard[row, column + 1] = new Wall("🟫");
                         printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino a la derecha").Expand());
                         Console.ReadKey();
                     }
@@ -66,22 +66,22 @@ namespace P_P.tramps
 
             while (row != centerRow || column != centerColumn)
             {
-                if (row < centerRow && gameboard[row + 1, column].GetType() == typeof(wall))
+                if (row < centerRow && gameboard[row + 1, column].GetType() == typeof(Wall))
                 {
-                    gameboard[row + 1, column] = new path("⬜️");
+                    gameboard[row + 1, column] = new P_P.board.Path("⬜️");
                 }
-                else if (row > centerRow && gameboard[row - 1, column].GetType() == typeof(wall))
+                else if (row > centerRow && gameboard[row - 1, column].GetType() == typeof(Wall))
                 {
-                    gameboard[row - 1, column] = new path("⬜️");
+                    gameboard[row - 1, column] = new P_P.board.Path("⬜️");
                 }
                 else if (column < centerColumn && gameboard[row
-                , column + 1].GetType() == typeof(wall))
+                , column + 1].GetType() == typeof(Wall))
                 {
-                    gameboard[row, column + 1] = new path("⬜️");
+                    gameboard[row, column + 1] = new P_P.board.Path("⬜️");
                 }
-                else if (column > centerColumn && gameboard[row, column - 1].GetType() == typeof(wall))
+                else if (column > centerColumn && gameboard[row, column - 1].GetType() == typeof(Wall))
                 {
-                    gameboard[row, column - 1] = new path("⬜️");
+                    gameboard[row, column - 1] = new P_P.board.Path("⬜️");
                 }
 
                 if (row < centerRow) row++;
@@ -94,14 +94,15 @@ namespace P_P.tramps
             Console.ReadKey();
         }
 
-        public virtual void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn , int numberOfTraps)
+        public override void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn , int numberOfTraps)
+        
         {
             Random random = new Random();
             for (int i = 0; i < numberOfTraps; i++)
             {
                 int row = random.Next(startRow, endRow);
                 int column = random.Next(startColumn, endColumn);
-                if (gameBoard[row, column].GetType() == typeof(path))
+                if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
                 {
                     this.positionRow[i] = row;
                     this.positionColumn[i] =  column;

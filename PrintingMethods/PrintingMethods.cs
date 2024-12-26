@@ -36,11 +36,11 @@ public class PrintingMethods
         {
             for (int j = 0; j < canvasWidth/2; j++)
             {
-                if (gameBoard[i, j].GetType() == typeof(wall))
+                if (gameBoard[i, j].GetType() == typeof(Wall))
                 {
                     PrintPixel(canvas , i , j , Color.Black);
                 }
-                else if (gameBoard[i, j].GetType() == typeof(path))
+                else if (gameBoard[i, j].GetType() == typeof(P_P.board.Path))
                 {
                     PrintPixel(canvas , i , j , Color.White);
                 }

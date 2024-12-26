@@ -4,10 +4,10 @@ namespace P_P.tramps
 {
     class GoToOriginTramp : BaseTramp
     {
-        string? trampId;
-        public GoToOriginTramp(string? trampId) : base(trampId)
+        new string? trampId;
+        public GoToOriginTramp(string? trampId) : base(trampId ?? throw new ArgumentNullException(nameof(trampId)))
         {
-            this.trampId = trampId;
+            this.trampId = trampId ?? throw new ArgumentNullException(nameof(trampId));
         }
         public override void Interact(Shell[,] gameboard, BaseCharacter character,List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
@@ -63,7 +63,7 @@ namespace P_P.tramps
             {
                 int row = random.Next(startRow, endRow);
                 int column = random.Next(startColumn, endColumn);
-                if (gameBoard[row, column].GetType() == typeof(path))
+                if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
                 {
                     this.positionRow[i] = row;
                     this.positionColumn[i] =  column;
