@@ -13,15 +13,27 @@ namespace P_P.characters
 
         public override void UseAbility(Shell[,] gameboard, BaseCharacter character, List<BaseTramp> tramps, List<BaseCharacter> characters)
         {
-            var directions = new (int, int)[]
+            var directions = new Dictionary<char, (int, int)>
             {
-                (0, 1),  // Derecha
-                (0, -1), // Izquierda
-                (1, 0),  // Abajo
-                (-1, 0)  // Arriba
+                {'D', (0, 1)},  // Derecha
+                {'A', (0, -1)}, // Izquierda
+                {'S', (1, 0)},  // Abajo
+                {'W', (-1, 0)}  // Arriba
             };
-            foreach (var (dx, dy) in directions)
+
+            while (true)
             {
+                Console.WriteLine("Elige una dirección para saltar la pared (WASD):");
+                char choice = char.ToUpper(Console.ReadKey().KeyChar);
+                Console.WriteLine();
+
+                if (!directions.ContainsKey(choice))
+                {
+                    Console.WriteLine("Dirección inválida. Inténtalo de nuevo.");
+                    continue;
+                }
+
+                var (dx, dy) = directions[choice];
                 int newRow = character.PlayerRow + dx;
                 int newColumn = character.PlayerColumn + dy;
 
@@ -48,10 +60,7 @@ namespace P_P.characters
                         }
                     }
                 }
-                else
-                {
-                    Console.WriteLine("No hay pared cerca");
-                }
+                Console.WriteLine("No hay pared cerca o no se puede saltar. Inténtalo de nuevo.");
             }
         }
     }
