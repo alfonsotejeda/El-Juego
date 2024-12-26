@@ -1,7 +1,7 @@
 using P_P.board;
 using P_P.tramps;
 using P_P.PrintingMethods;
-
+using Spectre.Console;
 namespace P_P.characters
 {
     public class GreenSquareCharacter : BaseCharacter
@@ -35,8 +35,9 @@ namespace P_P.characters
             }
             else
             {
-                Console.WriteLine("No hay trampas cerca");
+                printingMethods.layout["Bottom"].Update(new Panel("No hay trampas cerca").Expand());
             }
+            printingMethods.layout["Bottom"].Update(new Panel("Presiona cualquier tecla para continuar...").Expand());
             Console.ReadKey();
         }
 
@@ -68,7 +69,7 @@ namespace P_P.characters
                 {
                     if (gameboard[row, column].GetType() == typeof(path) && gameboard[row, column].HasObject && gameboard[row, column].ObjectType == "tramp")
                     {
-                        Console.WriteLine($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}");
+                        printingMethods.layout["Bottom"].Update(new Panel($"Has quitado la trampa: {gameboard[row, column].ObjectId} de la posición {row} , {column}").Expand());
                         gameboard[row, column].HasObject = false;
                         return true;
                     }

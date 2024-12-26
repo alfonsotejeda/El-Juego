@@ -1,56 +1,99 @@
 using P_P.board;
+using P_P.characters;
+using Spectre.Console;
 
 namespace P_P.tramps
 {
     class ClosePathTramp : BaseTramp
     {
-        string? trampId;
-        public ClosePathTramp(string? trampId) : base( trampId)
+        new string? trampId;
+        public ClosePathTramp(string? trampId) : base(trampId ?? "defaultTrampId")
         {
             this.trampId = trampId;
         }
-        public void ClosePath(int row, int column, Shell[,] gameBoard)
+        public override void Interact(Shell[,] gameboard, BaseCharacter character,List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
+            PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
             Random random = new Random();
             int direction = random.Next(0, 4); // 0: arriba, 1: abajo, 2: izquierda, 3: derecha
-            
+            int row = character.PlayerRow;
+            int column = character.PlayerColumn;
+
             switch (direction)
             {
                 case 0: // Arriba
                     if (row > 1)
                     {
-                        gameBoard[row - 1, column] = new wall("🟫");
-                        Console.WriteLine("Se ha cerrado el camino a arriba");
+                        gameboard[row - 1, column] = new wall("🟫");
+                        printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino arriba").Expand());
                         Console.ReadKey();
                     }
                     break;
                 case 1:
-                    if (row < gameBoard.GetLength(0) - 1)
+                    if (row < gameboard.GetLength(0) - 1)
                     {
-                        gameBoard[row + 1, column] = new wall("🟫");
-                        Console.WriteLine("Se ha cerrado el camino a abajo");
+                        gameboard[row + 1, column] = new wall("🟫");
+                        printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino abajo").Expand());
                         Console.ReadKey();
                     }
                     break;
                 case 2: // Izquierda
                     if (column > 0)
                     {
-                        gameBoard[row, column - 1] = new wall("🟫");
-                        Console.WriteLine("Se ha cerrado el camino a la izquierda");
+                        gameboard[row, column - 1] = new wall("🟫");
+                        printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino a la izquierda").Expand());
                         Console.ReadKey();
                     }
                     break;
                 case 3: // Derecha
-                    if (column < gameBoard.GetLength(1) - 1)
+                    if (column < gameboard.GetLength(1) - 1)
                     {
-                        gameBoard[row, column + 1] = new wall("🟫");
-                        Console.WriteLine("Se ha cerrado el camino a la derecha");
+                        gameboard[row, column + 1] = new wall("🟫");
+                        printingMethods.layout["Bottom"].Update(new Panel("Se ha cerrado el camino a la derecha").Expand());
                         Console.ReadKey();
                     }
                     break;
             }
-            
+
         }
+
+        private void EnsurePathToCenter(Shell[,] gameboard, BaseCharacter character , PrintingMethods.PrintingMethods printingMethods)
+        {
+            int centerRow = gameboard.GetLength(0) / 2;
+            int centerColumn = gameboard.GetLength(1) / 2;
+            int row = character.PlayerRow;
+            int column = character.PlayerColumn;
+
+            while (row != centerRow || column != centerColumn)
+            {
+                if (row < centerRow && gameboard[row + 1, column].GetType() == typeof(wall))
+                {
+                    gameboard[row + 1, column] = new path("⬜️");
+                }
+                else if (row > centerRow && gameboard[row - 1, column].GetType() == typeof(wall))
+                {
+                    gameboard[row - 1, column] = new path("⬜️");
+                }
+                else if (column < centerColumn && gameboard[row
+                , column + 1].GetType() == typeof(wall))
+                {
+                    gameboard[row, column + 1] = new path("⬜️");
+                }
+                else if (column > centerColumn && gameboard[row, column - 1].GetType() == typeof(wall))
+                {
+                    gameboard[row, column - 1] = new path("⬜️");
+                }
+
+                if (row < centerRow) row++;
+                else if (row > centerRow) row--;
+                if (column < centerColumn) column++;
+                else if (column > centerColumn) column--;
+            }
+
+            printingMethods.layout["Bottom"].Update(new Panel("Se ha asegurado un camino al centro del laberinto").Expand());
+            Console.ReadKey();
+        }
+
         public virtual void CreateRandomTraps(Shell[,] gameBoard ,BaseTramp tramp, int startRow , int endRow , int startColumn , int endColumn , int numberOfTraps)
         {
             Random random = new Random();
@@ -65,7 +108,6 @@ namespace P_P.tramps
                     gameBoard[row, column].HasObject = true;
                     gameBoard[row, column].ObjectType = "tramp";
                     gameBoard[row, column].ObjectId = trampId;
-                   
                 }
                 else
                 {

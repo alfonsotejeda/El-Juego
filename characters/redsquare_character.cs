@@ -15,10 +15,11 @@ namespace P_P.characters
 
         public override void UseAbility(Shell[,] gameboard, BaseCharacter character , List<BaseTramp> tramps,List<BaseCharacter> characters)
         {
-            Console.WriteLine("Introduce el personaje que quieres Atacar");
+            printingMethods.layout["Bottom"].Update(new Panel("Introduce el personaje que quieres Atacar").Expand());
             int characterToAttack = DisplayCharactersToChange(characters , character , gameboard , tramps);
             
             characters[characterToAttack].Live -= 10;
+            printingMethods.layout["Bottom"].Update(new Panel($"Has atacado al personaje {characters[characterToAttack].Icon}").Expand());
         }
 
         public override int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)

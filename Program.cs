@@ -62,14 +62,17 @@ namespace P_P
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
                     {
                         if (AnsiConsole.Confirm("¿Deseas volver al menú principal?"))
+                        {
+                            printingMethods.layout["Bottom"].Update(new Panel("¿Deseas volver al menú principal?").Expand());
                             break;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                AnsiConsole.MarkupLine($"[red]Error en el juego: {ex.Message}[/]");
-                AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para volver al menú...[/]");
+                printingMethods.layout["Bottom"].Update(new Panel($"Error en el juego: {ex.Message}").Expand());
+                printingMethods.layout["Bottom"].Update(new Panel("Presiona cualquier tecla para volver al menú...").Expand());
                 Console.ReadKey(true);
             }
         }

@@ -1,6 +1,6 @@
 using P_P.board;
 using P_P.tramps;
-
+using Spectre.Console;
 namespace P_P.characters
 {
     public class YellowSquareCharacter : BaseCharacter
@@ -23,13 +23,13 @@ namespace P_P.characters
 
             while (true)
             {
-                Console.WriteLine("Elige una dirección para saltar la pared (WASD):");
+                printingMethods.layout["Bottom"].Update(new Panel("Elige una dirección para saltar la pared (WASD):").Expand());
                 char choice = char.ToUpper(Console.ReadKey().KeyChar);
-                Console.WriteLine();
+                printingMethods.layout["Bottom"].Update(new Panel("").Expand());
 
                 if (!directions.ContainsKey(choice))
                 {
-                    Console.WriteLine("Dirección inválida. Inténtalo de nuevo.");
+                    printingMethods.layout["Bottom"].Update(new Panel("Dirección inválida. Inténtalo de nuevo.").Expand());
                     continue;
                 }
 
@@ -60,7 +60,7 @@ namespace P_P.characters
                         }
                     }
                 }
-                Console.WriteLine("No hay pared cerca o no se puede saltar. Inténtalo de nuevo.");
+                printingMethods.layout["Bottom"].Update(new Panel("No hay pared cerca o no se puede saltar. Inténtalo de nuevo.").Expand());
             }
         }
     }

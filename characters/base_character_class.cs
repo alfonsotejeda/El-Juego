@@ -177,7 +177,7 @@ namespace P_P.characters
             
             int tempRow = character.PlayerRow;
             int tempColumn = character.PlayerColumn;
-           
+        
             character.PlayerRow = charactertoChange.PlayerRow;
             character.PlayerColumn = charactertoChange.PlayerColumn;
             charactertoChange.PlayerRow = tempRow;
@@ -185,7 +185,7 @@ namespace P_P.characters
 
             this.MovementCapacity = 0;
         }
-       public virtual int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)
+        public virtual int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)
         {
             // Crear las opciones de personajes
             var posibleChangeCharacters = new List<string>();
