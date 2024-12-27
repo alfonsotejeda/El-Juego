@@ -73,6 +73,12 @@ public class PrintingMethods
                         case "🟨":
                             PrintMulticolorPixel(canvas , i , j , Color.Yellow , Color.Gold1);
                             break;
+                        case "🟪":
+                            PrintMulticolorPixel(canvas , i , j , Color.Purple , Color.MediumPurple);
+                            break;
+                        case "🟧":
+                            PrintMulticolorPixel(canvas, i, j, Color.Orange1, Color.DarkOrange);
+                            break;
                     }
                 }
             }
@@ -85,7 +91,7 @@ public class PrintingMethods
             .AddItem("PlayerLive", baseCharacter.Live, Color.Green)
             .AddItem("PlayerMovements", baseCharacter.MovementCapacity, Color.Blue)
             .AddItem("PlayerCountDonw", baseCharacter.Countdown, Color.Red));
-            
+
         AnsiConsole.Write(layout);
             
         }

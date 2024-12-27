@@ -84,6 +84,7 @@ namespace P_P.characters
         {
             gameBoard[character.PlayerRow, character.PlayerColumn].HasCharacter = true;
             gameBoard[character.PlayerRow, character.PlayerColumn].CharacterIcon = character.Icon;
+            gameBoard[character.PlayerRow, character.PlayerColumn] = new P_P.board.Path("⬜️");
         }
 
         public void TakeTurn(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps , List<BaseCharacter> characters)

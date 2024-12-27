@@ -66,6 +66,7 @@ namespace P_P
             {
                 while (true)
                 {
+                    
                     foreach (BaseCharacter character in selectedCharacters)
                     {
                         printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
@@ -107,12 +108,20 @@ namespace P_P
             int countdownGreen = 3;
             int countdownRed = 2;
 
+            int movementCapacityViolet = 3;
+            int countdownViolet = 3;
+
+            int movementCapacityOrange = 3;
+            int countdownOrange = 3;
+
             List<BaseCharacter> characters = new List<BaseCharacter>
             {
                 new BlueSquareCharacter("🟦", "defense", ref movementCapacityBlue, ref standardRow, ref standardColumn, ref countdownBlue),
                 new YellowSquareCharacter("🟨", "jumpOveraWall", ref movementCapacityYellow, ref standardRow, ref standardColumn, ref countdownYellow),
                 new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref movementCapacityGreen, ref standardRow, ref standardColumn, ref countdownGreen),
-                new RedSquareCharacter("🟥", "attack", ref movementCapacityRed, ref standardRow, ref standardColumn, ref countdownRed)
+                new RedSquareCharacter("🟥", "attack", ref movementCapacityRed, ref standardRow, ref standardColumn, ref countdownRed),
+                new VioletSquareCharacter("🟪", "increaseMovement", ref movementCapacityViolet, ref standardRow, ref standardColumn, ref countdownViolet),
+                new OrangeSquareCharacter("🟧", "changemaze", ref movementCapacityOrange, ref standardRow, ref standardColumn, ref countdownOrange)
             };
 
             return characters;
