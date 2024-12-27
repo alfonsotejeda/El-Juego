@@ -69,7 +69,7 @@ namespace P_P
                     foreach (BaseCharacter character in selectedCharacters)
                     {
                         printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
-                        character.TakeTurn(gameBoard, character, tramps, characters);
+                        character.TakeTurn(gameBoard, character, tramps, selectedCharacters);
                     }
                 
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
@@ -117,6 +117,7 @@ namespace P_P
 
             return characters;
         }
+        
 
         static List<BaseTramp> InitializeTraps(int rows, int columns, Shell[,] gameBoard)
         {

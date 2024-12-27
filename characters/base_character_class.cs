@@ -15,6 +15,8 @@ namespace P_P.characters
         public int PlayerRow;
         public int Live = 100;
         public int Countdown;
+
+        private int _countdown;
         public  PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
         
         public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow, int countdown)
@@ -25,6 +27,7 @@ namespace P_P.characters
             this.PlayerColumn = playerColumn;
             this.PlayerRow = playerRow;
             this.Countdown = countdown;
+            this._countdown = countdown;
         }
 
         public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character , ConsoleKeyInfo key , List<BaseCharacter> characters , List<BaseTramp> tramps)
@@ -115,10 +118,11 @@ namespace P_P.characters
             while (character.MovementCapacity != 0)
             {
                 ConsoleKeyInfo key2 = Console.ReadKey();
-                if (key2.Key == ConsoleKey.H)
+                if (key2.Key == ConsoleKey.H && character.Countdown == character._countdown)
                 {
                     character.UseAbility(gameBoard , character , tramps, characters);
                     printingMethods.layout["Bottom"].Update(new Panel("Habilidad usada").Expand());
+                    this.Countdown = 0;
                     printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
                 }
                 else
@@ -157,8 +161,13 @@ namespace P_P.characters
         {
             MovementCapacity = 5;
             printingMethods.layout["Bottom"].Update(new Panel("Turno finalizado . Toca enter para pasar al siguiente jugador").Expand());
+            if (character.Countdown < character._countdown)
+            {
+                character.Countdown ++;
+            }
             printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
             Console.ReadKey();
+            
             printingMethods.PrintGameSpectre(gameBoard, character, characters , tramps);
         }
 
