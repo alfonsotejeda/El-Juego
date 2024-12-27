@@ -44,16 +44,29 @@ namespace P_P
             List<BaseCharacter> characters = InitializeCharacters(rows, columns);
             List<BaseTramp> tramps = InitializeTraps(rows, columns, gameBoard);
             
-            foreach (BaseCharacter character in characters)
+    
+            // Preguntar por la cantidad de jugadores
+            int numberOfPlayers = AnsiConsole.Ask<int>("¿Cuántos jugadores van a jugar? (1-4)");
+
+            // Validar la cantidad de jugadores
+            if (numberOfPlayers < 1 || numberOfPlayers > 4)
+            {
+                AnsiConsole.MarkupLine("[red]Número de jugadores no válido. Debe ser entre 1 y 4.[/]");
+                return;
+            }
+
+            List<BaseCharacter> selectedCharacters = SelectCharactersForPlayers(characters, numberOfPlayers);
+            SetPositions(selectedCharacters, rows, columns);
+
+            foreach (BaseCharacter character in selectedCharacters)
             {
                 character.PlaceCharacter(gameBoard, character);
             }
-            
             try
             {
                 while (true)
                 {
-                    foreach (BaseCharacter character in characters)
+                    foreach (BaseCharacter character in selectedCharacters)
                     {
                         printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
                         character.TakeTurn(gameBoard, character, tramps, characters);
@@ -79,28 +92,27 @@ namespace P_P
 
         static List<BaseCharacter> InitializeCharacters(int rows, int columns)
         {
-            int player1Row = 1;
-            int player1Column = 1;
-            int player1movementCapacity = 5;
-            
-            int player2StartRow = rows - 2;
-            int player2StartColumn = columns - 2;
-            int player2movementCapacity = 5;
-            
-            int player3StartRow = rows - 2;
-            int player3StartColumn = 1;
-            int player3movementCapacity = 5;
+            int standardRow = 1;
+            int standardColumn = 1;
 
-            int player4StartRow = 1;
-            int player4StartColumn = columns - 2;
-            int player4movementCapacity = 5;
+
+            int movementCapacityBlue = 3;
+            int movementCapacityYellow = 4;
+            int movementCapacityGreen = 2;
+            int movementCapacityRed = 5;
+
+    
+            int countdownBlue = 2;
+            int countdownYellow = 4;
+            int countdownGreen = 3;
+            int countdownRed = 2;
 
             List<BaseCharacter> characters = new List<BaseCharacter>
             {
-                new BlueSquareCharacter("🟦", "defense", ref player1movementCapacity, ref player1Row, ref player1Column),
-                new YellowSquareCharacter("🟨", "jumpOveraWall", ref player4movementCapacity, ref player4StartRow, ref player4StartColumn),
-                new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref player3movementCapacity, ref player3StartRow, ref player3StartColumn),
-                new RedSquareCharacter("🟥", "attack", ref player2movementCapacity, ref player2StartRow, ref player2StartColumn)
+                new BlueSquareCharacter("🟦", "defense", ref movementCapacityBlue, ref standardRow, ref standardColumn, ref countdownBlue),
+                new YellowSquareCharacter("🟨", "jumpOveraWall", ref movementCapacityYellow, ref standardRow, ref standardColumn, ref countdownYellow),
+                new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref movementCapacityGreen, ref standardRow, ref standardColumn, ref countdownGreen),
+                new RedSquareCharacter("🟥", "attack", ref movementCapacityRed, ref standardRow, ref standardColumn, ref countdownRed)
             };
 
             return characters;
@@ -124,6 +136,76 @@ namespace P_P
             }
 
             return tramps;
+        }
+
+        static List<BaseCharacter> SelectCharactersForPlayers(List<BaseCharacter> characters, int numberOfPlayers)
+        {
+            var characterOptions = characters.Select((character, index) => $"{index + 1}. {character.Icon} - {character.Ability}").ToList();
+            var selectedCharacters = new List<BaseCharacter>();
+
+            for (int i = 1; i <= numberOfPlayers; i++)
+            {
+                AnsiConsole.MarkupLine($"[bold yellow]Jugador {i}, selecciona tu personaje:[/]");
+                var selection = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("Selecciona tu personaje:")
+                        .PageSize(10)
+                        .AddChoices(characterOptions));
+
+                int selectedIndex = characterOptions.IndexOf(selection);
+                var selectedCharacter = characters[selectedIndex];
+
+                
+                var newCharacter = (BaseCharacter?)Activator.CreateInstance(selectedCharacter.GetType(), selectedCharacter.Icon, selectedCharacter.Ability, selectedCharacter.MovementCapacity, selectedCharacter.PlayerRow, selectedCharacter.PlayerColumn, selectedCharacter.Countdown);
+                if (newCharacter != null)
+                {
+                    selectedCharacters.Add(newCharacter);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Failed to create character instance.");
+                }
+            }
+
+            return selectedCharacters;
+        }
+
+        static void SetPositions(List<BaseCharacter> selectedCharacters, int rows, int columns)
+        {
+            int player1Row = 1;
+            int player1Column = 1;
+            
+            int player2StartRow = 1;
+            int player2StartColumn = columns - 2;
+            
+            int player3StartRow = rows - 2;
+            int player3StartColumn = 1;
+
+            int player4StartRow = rows - 2;
+            int player4StartColumn = columns - 2;
+            for(int i = 0; i < selectedCharacters.Count; i++)
+            {
+                if (i == 0)
+                {
+                    selectedCharacters[i].PlayerRow = player1Row;
+                    selectedCharacters[i].PlayerColumn = player1Column;
+                }
+                else if (i == 1)
+                {
+                    selectedCharacters[i].PlayerRow = player2StartRow;
+                    selectedCharacters[i].PlayerColumn = player2StartColumn;
+                }
+                else if (i == 2)
+                {
+                    selectedCharacters[i].PlayerRow = player3StartRow;
+                    selectedCharacters[i].PlayerColumn = player3StartColumn;
+                }
+                else if (i == 3)
+                {
+                    selectedCharacters[i].PlayerRow = player4StartRow;
+                    selectedCharacters[i].PlayerColumn = player4StartColumn;
+                }
+            }
         }
     }
 }

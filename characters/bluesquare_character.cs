@@ -5,8 +5,8 @@ namespace P_P.characters
 {
     public class BlueSquareCharacter : BaseCharacter
     {
-        public BlueSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn)
-            : base(icon, ability, movementCapacity, playerColumn, playerRow)
+        public BlueSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn, ref int countdown)
+            : base(icon, ability, movementCapacity, playerColumn, playerRow, countdown)
         {
             this.Icon = icon ?? throw new ArgumentNullException(nameof(icon));
         }

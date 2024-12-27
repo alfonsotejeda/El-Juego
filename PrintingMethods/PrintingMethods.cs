@@ -34,7 +34,8 @@ public class PrintingMethods
         // Imprimir cada celda como un "píxel" en el lienzo
         for (int i = 0; i < canvasHeight/2; i++)
         {
-            for (int j = 0; j < canvasWidth/2; j++)
+            for (int j = 0; j < canvasWidth/2; 
+                 j++)
             {
                 if (gameBoard[i, j].GetType() == typeof(Wall))
                 {
@@ -84,7 +85,7 @@ public class PrintingMethods
             .CenterLabel()
             .AddItem("PlayerLive", baseCharacter.Live, Color.Green)
             .AddItem("PlayerMovements", baseCharacter.MovementCapacity, Color.Blue)
-            .AddItem("PlayerCountDonw", 4, Color.Red));
+            .AddItem("PlayerCountDonw", baseCharacter.Countdown, Color.Red));
        
         AnsiConsole.Write(layout);
             

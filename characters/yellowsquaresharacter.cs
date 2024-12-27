@@ -5,8 +5,8 @@ namespace P_P.characters
 {
     public class YellowSquareCharacter : BaseCharacter
     {
-        public YellowSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn)
-            : base(icon, ability, movementCapacity, playerColumn, playerRow)
+        public YellowSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn, ref int countdown)
+            : base(icon, ability, movementCapacity, playerColumn, playerRow, countdown)
         {
             this.Icon = icon ?? throw new ArgumentNullException(nameof(icon));
         }
@@ -24,12 +24,15 @@ namespace P_P.characters
             while (true)
             {
                 printingMethods.layout["Bottom"].Update(new Panel("Elige una dirección para saltar la pared (WASD):").Expand());
+                printingMethods.PrintGameSpectre(gameboard, character, characters , tramps);
                 char choice = char.ToUpper(Console.ReadKey().KeyChar);
                 printingMethods.layout["Bottom"].Update(new Panel("").Expand());
+                printingMethods.PrintGameSpectre(gameboard, character, characters , tramps);
 
                 if (!directions.ContainsKey(choice))
                 {
                     printingMethods.layout["Bottom"].Update(new Panel("Dirección inválida. Inténtalo de nuevo.").Expand());
+                    printingMethods.PrintGameSpectre(gameboard, character, characters , tramps);
                     continue;
                 }
 
@@ -47,6 +50,7 @@ namespace P_P.characters
                         {
                             if (gameboard[newRow2, newColumn2].GetType() == typeof(P_P.board.Path))
                             {
+                                // Actualizar la posición del personaje
                                 gameboard[character.PlayerRow, character.PlayerColumn].HasCharacter = false;
                                 gameboard[character.PlayerRow, character.PlayerColumn].CharacterIcon = null;
                                 gameboard[character.PlayerRow, character.PlayerColumn] = new P_P.board.Path("⬜️");
@@ -55,11 +59,17 @@ namespace P_P.characters
                                 character.PlayerColumn = newColumn2;
                                 gameboard[newRow2, newColumn2].HasCharacter = true;
                                 gameboard[newRow2, newColumn2].CharacterIcon = character.Icon;
+
+                                // Salir del bucle después de un salto exitoso
+                                printingMethods.layout["Bottom"].Update(new Panel("Salto exitoso!").Expand());
+                                printingMethods.PrintGameSpectre(gameboard, character, characters , tramps);
+                                break;
                             }
                         }
                     }
                 }
                 printingMethods.layout["Bottom"].Update(new Panel("No hay pared cerca o no se puede saltar. Inténtalo de nuevo.").Expand());
+                printingMethods.PrintGameSpectre(gameboard, character, characters , tramps);
             }
         }
     }

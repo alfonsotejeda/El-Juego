@@ -14,14 +14,17 @@ namespace P_P.characters
         public int PlayerColumn;
         public int PlayerRow;
         public int Live = 100;
+        public int Countdown;
         public  PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-        public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow)
+        
+        public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow, int countdown)
         {
             this.Icon = name ?? throw new ArgumentNullException(nameof(name));
             this.Ability = ability ?? throw new ArgumentNullException(nameof(ability));
             this.MovementCapacity = movementCapacity;
             this.PlayerColumn = playerColumn;
             this.PlayerRow = playerRow;
+            this.Countdown = countdown;
         }
 
         public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character , ConsoleKeyInfo key , List<BaseCharacter> characters , List<BaseTramp> tramps)
