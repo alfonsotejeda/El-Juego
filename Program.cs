@@ -1,5 +1,10 @@
-using System.Dynamic;
+﻿using System.Dynamic;
+using P_P.board;
+using P_P.characters;
+using P_P.menu;
 using Spectre.Console;
+using P_P.PrintingMethods;
+using P_P.tramps;
 
 namespace P_P
 {
@@ -29,62 +34,178 @@ namespace P_P
 
         static void RunGame()
         {
-            int rows = 33;
-            int columns = 33;
-            string[] tramps = new string[5];
+            PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
+            int rows = 21;
+            int columns = 21;
             
             Board board = new Board(columns, rows);
             Shell[,] gameBoard = board.CreateBoard();
             
-            int player1StartRow = 1;
-            int player1StartColumn = 1;
-            BlueSquareCharacter blueSquareCharacter = new BlueSquareCharacter("🟦", "defense", 5, ref player1StartRow, ref player1StartColumn);
+            List<BaseCharacter> characters = InitializeCharacters(rows, columns);
+            List<BaseTramp> tramps = InitializeTraps(rows, columns, gameBoard);
             
-            int player2StartRow = 31;
-            int player2StartColumn = 31;
-            RedSquareCharacter redSquareCharacter = new RedSquareCharacter("🟥", "attack", 5, ref player2StartRow, ref player2StartColumn);
-            
-            gameBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn].HasCharacter = true;
-            gameBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn].CharacterIcon = blueSquareCharacter.icon;
-            gameBoard[blueSquareCharacter.playerStartRow, blueSquareCharacter.playerStartColumn].IsPath = false;
+    
+            // Preguntar por la cantidad de jugadores
+            int numberOfPlayers = AnsiConsole.Ask<int>("¿Cuántos jugadores van a jugar? (1-4)");
 
-            gameBoard[redSquareCharacter.playerStartRow, redSquareCharacter.playerStartColumn].HasCharacter = true;
-            gameBoard[redSquareCharacter.playerStartRow, redSquareCharacter.playerStartColumn].CharacterIcon = redSquareCharacter.icon;
-            gameBoard[redSquareCharacter.playerStartRow, redSquareCharacter.playerStartColumn].IsPath = false;
+            // Validar la cantidad de jugadores
+            if (numberOfPlayers < 1 || numberOfPlayers > 4)
+            {
+                AnsiConsole.MarkupLine("[red]Número de jugadores no válido. Debe ser entre 1 y 4.[/]");
+                return;
+            }
 
-            ClosePathTramp closePathTramp = new ClosePathTramp("🟩", 50, "c");
-            closePathTramp.CreateRandomTraps(gameBoard,0 ,rows / 2, 0, columns / 2);
-            tramps[0] = closePathTramp.trampId;
-            
-            
-            
+            List<BaseCharacter> selectedCharacters = SelectCharactersForPlayers(characters, numberOfPlayers);
+            SetPositions(selectedCharacters, rows, columns);
+
+            foreach (BaseCharacter character in selectedCharacters)
+            {
+                character.PlaceCharacter(gameBoard, character);
+            }
             try
-            
             {
                 while (true)
                 {
-                    board.PrintBoardSpectre(gameBoard);
-                    blueSquareCharacter.Move(ref blueSquareCharacter.playerStartRow, ref blueSquareCharacter.playerStartColumn, gameBoard, board);
-
-                    if (closePathTramp.CheckTrap(blueSquareCharacter, gameBoard))
+                    foreach (BaseCharacter character in selectedCharacters)
                     {
-                        Console.WriteLine("The player is trapped!");
-                        ConsoleKeyInfo key = Console.ReadKey();
+                        printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                        character.TakeTurn(gameBoard, character, tramps, selectedCharacters);
                     }
-                    
-                    // Check for escape key to return to menu
+                
                     if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
                     {
                         if (AnsiConsole.Confirm("¿Deseas volver al menú principal?"))
+                        {
+                            printingMethods.layout["Bottom"].Update(new Panel("¿Deseas volver al menú principal?").Expand());
                             break;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                AnsiConsole.MarkupLine($"[red]Error en el juego: {ex.Message}[/]");
-                AnsiConsole.MarkupLine("[yellow]Presiona cualquier tecla para volver al menú...[/]");
+                printingMethods.layout["Bottom"].Update(new Panel($"Error en el juego: {ex.Message}").Expand());
+                printingMethods.layout["Bottom"].Update(new Panel("Presiona cualquier tecla para volver al menú...").Expand());
                 Console.ReadKey(true);
+            }
+        }
+
+        static List<BaseCharacter> InitializeCharacters(int rows, int columns)
+        {
+            int standardRow = 1;
+            int standardColumn = 1;
+
+
+            int movementCapacityBlue = 3;
+            int movementCapacityYellow = 4;
+            int movementCapacityGreen = 2;
+            int movementCapacityRed = 5;
+
+    
+            int countdownBlue = 2;
+            int countdownYellow = 4;
+            int countdownGreen = 3;
+            int countdownRed = 2;
+
+            List<BaseCharacter> characters = new List<BaseCharacter>
+            {
+                new BlueSquareCharacter("🟦", "defense", ref movementCapacityBlue, ref standardRow, ref standardColumn, ref countdownBlue),
+                new YellowSquareCharacter("🟨", "jumpOveraWall", ref movementCapacityYellow, ref standardRow, ref standardColumn, ref countdownYellow),
+                new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref movementCapacityGreen, ref standardRow, ref standardColumn, ref countdownGreen),
+                new RedSquareCharacter("🟥", "attack", ref movementCapacityRed, ref standardRow, ref standardColumn, ref countdownRed)
+            };
+
+            return characters;
+        }
+        
+
+        static List<BaseTramp> InitializeTraps(int rows, int columns, Shell[,] gameBoard)
+        {
+            List<BaseTramp> tramps = new List<BaseTramp>
+            {
+                new GoToOriginTramp("goToOrigin"),
+                new ReduceLiveTramp("reduceLive"),
+                new ClosePathTramp("closePath")
+            };
+
+            foreach (BaseTramp tramp in tramps)
+            {
+                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows / 2, 1, columns / 2, 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, 1, rows / 2, columns / 2, columns, 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, rows / 2, rows, 1, columns / 2, 4);
+                tramp.CreateRandomTraps(gameBoard, tramp, rows / 2, rows, columns / 2, columns, 4);
+            }
+
+            return tramps;
+        }
+
+        static List<BaseCharacter> SelectCharactersForPlayers(List<BaseCharacter> characters, int numberOfPlayers)
+        {
+            var characterOptions = characters.Select((character, index) => $"{index + 1}. {character.Icon} - {character.Ability}").ToList();
+            var selectedCharacters = new List<BaseCharacter>();
+
+            for (int i = 1; i <= numberOfPlayers; i++)
+            {
+                AnsiConsole.MarkupLine($"[bold yellow]Jugador {i}, selecciona tu personaje:[/]");
+                var selection = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("Selecciona tu personaje:")
+                        .PageSize(10)
+                        .AddChoices(characterOptions));
+
+                int selectedIndex = characterOptions.IndexOf(selection);
+                var selectedCharacter = characters[selectedIndex];
+
+                
+                var newCharacter = (BaseCharacter?)Activator.CreateInstance(selectedCharacter.GetType(), selectedCharacter.Icon, selectedCharacter.Ability, selectedCharacter.MovementCapacity, selectedCharacter.PlayerRow, selectedCharacter.PlayerColumn, selectedCharacter.Countdown);
+                if (newCharacter != null)
+                {
+                    selectedCharacters.Add(newCharacter);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Failed to create character instance.");
+                }
+            }
+
+            return selectedCharacters;
+        }
+
+        static void SetPositions(List<BaseCharacter> selectedCharacters, int rows, int columns)
+        {
+            int player1Row = 1;
+            int player1Column = 1;
+            
+            int player2StartRow = 1;
+            int player2StartColumn = columns - 2;
+            
+            int player3StartRow = rows - 2;
+            int player3StartColumn = 1;
+
+            int player4StartRow = rows - 2;
+            int player4StartColumn = columns - 2;
+            for(int i = 0; i < selectedCharacters.Count; i++)
+            {
+                if (i == 0)
+                {
+                    selectedCharacters[i].PlayerRow = player1Row;
+                    selectedCharacters[i].PlayerColumn = player1Column;
+                }
+                else if (i == 1)
+                {
+                    selectedCharacters[i].PlayerRow = player2StartRow;
+                    selectedCharacters[i].PlayerColumn = player2StartColumn;
+                }
+                else if (i == 2)
+                {
+                    selectedCharacters[i].PlayerRow = player3StartRow;
+                    selectedCharacters[i].PlayerColumn = player3StartColumn;
+                }
+                else if (i == 3)
+                {
+                    selectedCharacters[i].PlayerRow = player4StartRow;
+                    selectedCharacters[i].PlayerColumn = player4StartColumn;
+                }
             }
         }
     }

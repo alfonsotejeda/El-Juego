@@ -7,6 +7,7 @@ A C# console-based maze game featuring a dynamic maze generator, multiple charac
 This is a two-player maze game where players navigate through a procedurally generated maze. The game features:
 - A Blue Square Character (Defense)
 - A Red Square Character (Attack)
+- A Green Square Character (Speed)
 - Dynamically generated maze divided into four quadrants
 - Special traps and interactive elements
 - Modern console-based UI using Spectre.Console
@@ -20,9 +21,10 @@ This is a two-player maze game where players navigate through a procedurally gen
 ## 🚀 Features
 
 - **Dynamic Maze Generation**: Uses a maze generator to create unique layouts in four quadrants
-- **Character System**: Two distinct characters with different properties
+- **Character System**: Three distinct characters with different properties
   - Blue Square (Defense): Starting position (1,1)
   - Red Square (Attack): Starting position (31,31)
+  - Green Square (Speed): Starting position (15,15)
 - **Interactive UI**: Uses Spectre.Console for enhanced visual presentation
 - **Menu System**: Main menu with multiple options (some under construction)
 - **Trap System**: Includes close path traps and other interactive elements
@@ -80,7 +82,7 @@ This is a two-player maze game where players navigate through a procedurally gen
 
 The project follows a modular design with separate classes for:
 - Board management (`Board` class)
-- Character control (`BlueSquareCharacter` and `RedSquareCharacter` classes)
+- Character control (`BlueSquareCharacter`, `RedSquareCharacter`, and `GreenSquareCharacter` classes)
 - Trap system (`ClosePathTramp` class)
 - Menu handling (`Menu` class)
 
