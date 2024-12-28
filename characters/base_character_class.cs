@@ -11,6 +11,7 @@ namespace P_P.characters
         public string Icon;
         public string Ability;
         public int MovementCapacity;
+        private int _movementCapacity;
         public int PlayerColumn;
         public int PlayerRow;
         public int Live = 100;
@@ -24,10 +25,12 @@ namespace P_P.characters
             this.Icon = name ?? throw new ArgumentNullException(nameof(name));
             this.Ability = ability ?? throw new ArgumentNullException(nameof(ability));
             this.MovementCapacity = movementCapacity;
+            this._movementCapacity = movementCapacity;
             this.PlayerColumn = playerColumn;
             this.PlayerRow = playerRow;
             this.Countdown = countdown;
             this._countdown = countdown;
+
         }
 
         public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character , ConsoleKeyInfo key , List<BaseCharacter> characters , List<BaseTramp> tramps)
@@ -84,7 +87,7 @@ namespace P_P.characters
         {
             gameBoard[character.PlayerRow, character.PlayerColumn].HasCharacter = true;
             gameBoard[character.PlayerRow, character.PlayerColumn].CharacterIcon = character.Icon;
-            gameBoard[character.PlayerRow, character.PlayerColumn] = new P_P.board.Path("⬜️");
+            
         }
 
         public void TakeTurn(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps , List<BaseCharacter> characters)
@@ -160,7 +163,7 @@ namespace P_P.characters
 
         private void EndTurn(Shell[,] gameBoard, BaseCharacter character, List<BaseCharacter> characters, List<BaseTramp> tramps)
         {
-            MovementCapacity = 5;
+            MovementCapacity = _movementCapacity;
             printingMethods.layout["Bottom"].Update(new Panel("Turno finalizado . Toca enter para pasar al siguiente jugador").Expand());
             if (character.Countdown < character._countdown)
             {
