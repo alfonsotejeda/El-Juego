@@ -99,7 +99,7 @@ namespace P_P
 
             int movementCapacityBlue = 3;
             int movementCapacityYellow = 4;
-            int movementCapacityGreen = 2;
+            int movementCapacityGreen = 3;
             int movementCapacityRed = 5;
 
     

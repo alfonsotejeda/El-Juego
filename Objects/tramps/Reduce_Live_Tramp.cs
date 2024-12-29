@@ -1,5 +1,6 @@
 using P_P.characters;
 using P_P.board;
+using Spectre.Console;
 namespace P_P.tramps
 {
     class ReduceLiveTramp : BaseTramp
@@ -10,20 +11,23 @@ namespace P_P.tramps
 
         public override void Interact(Shell[,] gameboard, BaseCharacter character ,List<BaseCharacter> characters , List<BaseTramp> tramps)
         {
+            PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
             Random random = new Random();
             int liveToReduce = random.Next(1, 50);
             character.Live -= liveToReduce;
-            Console.WriteLine($"You have lost {liveToReduce} points of life. You have {character.Live} points of life left.");
+            
+            printingMethods.layout["Bottom"].Update(new Panel($"Has perdido {liveToReduce} puntos de vida. Te quedan {character.Live} puntos de vida.").Expand());
+            printingMethods.PrintGameSpectre(gameboard , character , characters , tramps);
             if (liveToReduce > 40)
             {
-                Console.WriteLine("Critical tramp!");
+                printingMethods.layout["Bottom"].Update(new Panel("Trampa crítica!").Expand());
+                printingMethods.PrintGameSpectre(gameboard , character , characters , tramps);
             }
             CleanObjectPosition(gameboard , character);
             Console.ReadKey();
         }
 
-        public override void CreateRandomTraps(Shell[,] gameBoard, BaseTramp tramp, int startRow, int endRow,
-            int startColumn, int endColumn, int numberOfTraps)
+        public override void CreateRandomTraps(Shell[,] gameBoard, BaseTramp tramp, int startRow, int endRow, int startColumn, int endColumn, int numberOfTraps)
         {
             Random random = new Random();
             for (int i = 0; i < numberOfTraps; i++)
