@@ -7,8 +7,8 @@ namespace P_P.characters
 {
     public class OrangeSquareCharacter : BaseCharacter
     {
-        public OrangeSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn, ref int countdown)
-            : base(icon, ability, movementCapacity, playerRow,  playerColumn,  countdown)
+        public OrangeSquareCharacter(string icon, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn, ref int countdown, ref int visibility)
+            : base(icon, ability, movementCapacity, playerRow, playerColumn, countdown, visibility)
         {
         }
 
@@ -117,26 +117,7 @@ namespace P_P.characters
         {
             return int.Parse(selectedCharacter.Split(' ')[1]);
         }
-        private bool IsInFirstQuadrant(BaseCharacter character, Shell[,] gameboard)
-        {
-            return character.PlayerColumn <= gameboard.GetLength(1) / 2 && character.PlayerRow <= gameboard.GetLength(0) / 2;
-        }
-
-        private bool IsInSecondQuadrant(BaseCharacter character, Shell[,] gameboard)
-        {
-            return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow <= gameboard.GetLength(0) / 2;
-        }
-
-        private bool IsInThirdQuadrant(BaseCharacter character, Shell[,] gameboard)
-        {
-            return character.PlayerColumn <= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
-        }
-
-        private bool IsInFourthQuadrant(BaseCharacter character, Shell[,] gameboard)
-        {
-            return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
-        }
-        private void GenerateMazeInQuadrant(int rowStart, int rowEnd, int columnStart, int columnEnd, Shell[,] gameBoard, BaseCharacter character, BaseCharacter characterToChangeMaze , List<BaseTramp> tramps)
+        public void GenerateMazeInQuadrant(int rowStart, int rowEnd, int columnStart, int columnEnd, Shell[,] gameBoard, BaseCharacter character, BaseCharacter characterToChangeMaze , List<BaseTramp> tramps)
         {
             MazeGenerator mazeGenerator = new MazeGenerator();
             mazeGenerator.GenerateMaze(rowStart, rowEnd, columnStart, columnEnd, gameBoard);

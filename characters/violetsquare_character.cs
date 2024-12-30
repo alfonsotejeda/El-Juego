@@ -6,8 +6,8 @@ namespace P_P.characters
 {
     public class VioletSquareCharacter : BaseCharacter
     {
-        public VioletSquareCharacter(string name, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn, ref int countdown)
-            : base(name, ability, movementCapacity, playerColumn, playerRow, countdown)
+        public VioletSquareCharacter(string name, string ability, ref int movementCapacity, ref int playerRow, ref int playerColumn, ref int countdown, ref int visibility)
+            : base(name, ability, movementCapacity, playerColumn, playerRow, countdown, visibility)
         {
         }
 

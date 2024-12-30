@@ -63,26 +63,37 @@ public class PrintingMethods
                     {
                         case "🟦":
                             PrintMulticolorPixel(canvas , i , j , Color.Blue , Color.CadetBlue);
+                            PrintCharacterrVisibility(gameBoard , baseCharacter , characters , tramps , baseCharacter.Visibility , canvas);
                             break;
                         case "🟥":
                             PrintMulticolorPixel(canvas , i , j , Color.Red, Color.MediumVioletRed);
+                            PrintCharacterrVisibility(gameBoard , baseCharacter , characters , tramps , baseCharacter.Visibility , canvas);
                             break;
                         case "🟩":
                             PrintMulticolorPixel(canvas , i , j , Color.Green , Color.Green3);
+                            PrintCharacterrVisibility(gameBoard , baseCharacter , characters , tramps , baseCharacter.Visibility , canvas);
                             break;
                         case "🟨":
                             PrintMulticolorPixel(canvas , i , j , Color.Yellow , Color.Gold1);
+                            PrintCharacterrVisibility(gameBoard , baseCharacter , characters , tramps , baseCharacter.Visibility , canvas);
                             break;
                         case "🟪":
                             PrintMulticolorPixel(canvas , i , j , Color.Purple , Color.MediumPurple);
+                            PrintCharacterrVisibility(gameBoard , baseCharacter , characters , tramps , baseCharacter.Visibility , canvas);
                             break;
                         case "🟧":
                             PrintMulticolorPixel(canvas, i, j, Color.Orange1, Color.DarkOrange);
+                            PrintCharacterrVisibility(gameBoard , baseCharacter , characters , tramps , baseCharacter.Visibility , canvas);
                             break;
                     }
                 }
             }
+            foreach (BaseCharacter character in characters)
+            {
+                PrintCharacterrVisibility(gameBoard , character , characters , tramps , character.Visibility , canvas);
+            }
         }
+
         layout["Left"].Update(canvas);
         layout["Top"].Update(new BarChart()
             .Width(60)
@@ -94,7 +105,7 @@ public class PrintingMethods
 
         AnsiConsole.Write(layout);
             
-        }
+    }
         private void PrintPixel(Canvas canvas , int i , int j ,Color color)
         {
             canvas.SetPixel(j * 2, i * 2, color);
@@ -129,4 +140,254 @@ public class PrintingMethods
                         .Centered());
             
         }
+        public void PrintCharacterrVisibility(Shell[,] gameBoard , BaseCharacter character , List<BaseCharacter> characters , List<BaseTramp> tramps , int characterrVisibility , Canvas canvas)
+        {
+            if(character.IsInFirstQuadrant(character , gameBoard)) PrintFristCuadrant(gameBoard , character , characters , tramps , characterrVisibility , canvas);
+            if(character.IsInSecondQuadrant(character , gameBoard)) PrintSecondQuadrant(gameBoard , character , characters , tramps , characterrVisibility , canvas);
+            if(character.IsInThirdQuadrant(character , gameBoard)) PrintThirdQuadrant(gameBoard , character , characters , tramps , characterrVisibility , canvas);
+            if(character.IsInFourthQuadrant(character , gameBoard)) PrintFourthQuadrant(gameBoard , character , characters , tramps , characterrVisibility , canvas);
+
+        }
+        private void PrintFristCuadrant(Shell[,] gameBoard , BaseCharacter character , List<BaseCharacter> characters , List<BaseTramp> tramps , int characterrVisibility , Canvas canvas)
+        {
+            for(int row = 1 ; row < gameBoard.GetLength(0)/2 ; row ++ ){
+                for(int column = 1; column < gameBoard.GetLength(1)/2 ; column ++)
+                {
+                    if(Math.Abs(row - character.PlayerRow) + Math.Abs(column - character.PlayerColumn) <= characterrVisibility)
+                    {
+                        if (gameBoard[row, column].GetType() == typeof(Wall))
+                        {
+                            PrintPixel(canvas , row , column , Color.Black);
+                        }
+                        else if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
+                        {
+                            PrintPixel(canvas , row , column , Color.White);
+                        }
+                        if(gameBoard[row, column].IsCenter)
+                        {
+                            PrintPixel(canvas , row , column , Color.Violet);
+                        }
+                        if (gameBoard[row, column].HasObject)
+                        {
+                            switch (gameBoard[row, column].ObjectType)
+                            {
+                                case "tramp":
+                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    break;
+                            }
+                        }
+                        if (gameBoard[row, column].HasCharacter)
+                        {
+                            switch (gameBoard[row, column].CharacterIcon)
+                            {
+                                case "🟦":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Blue , Color.CadetBlue);
+                                    break;
+                                case "🟥":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Red, Color.MediumVioletRed);
+                                    break;
+                                case "🟩":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Green , Color.Green3);
+                                    break;
+                                case "🟨":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Yellow , Color.Gold1);
+                                    break;
+                                case "🟪":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Purple , Color.MediumPurple);
+                                    break;
+                                case "🟧":
+                                    PrintMulticolorPixel(canvas, row, column, Color.Orange1, Color.DarkOrange);
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PrintPixel(canvas , row , column , Color.Grey);
+                    }
+                }
+            }
+        }
+        private void PrintSecondQuadrant(Shell[,] gameBoard , BaseCharacter character , List<BaseCharacter> characters , List<BaseTramp> tramps , int characterrVisibility , Canvas canvas)
+        {
+            for(int row = 1 ; row < gameBoard.GetLength(0)/2 ; row ++ ){
+                for(int column = gameBoard.GetLength(1)/2+1 ; column < gameBoard.GetLength(1)-1 ; column ++)
+                {
+                    if(Math.Abs(row - character.PlayerRow) + Math.Abs(column - character.PlayerColumn) <= characterrVisibility)
+                    {
+                        if (gameBoard[row, column].GetType() == typeof(Wall))
+                        {
+
+                            PrintPixel(canvas , row , column , Color.Black);
+                        }
+                        else if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
+                        {
+                            PrintPixel(canvas , row , column , Color.White);
+                        }
+                        if(gameBoard[row, column].IsCenter)
+                        {
+                            PrintPixel(canvas , row , column , Color.Violet);
+                        }
+                        if (gameBoard[row, column].HasObject)
+                        {
+                            switch (gameBoard[row, column].ObjectType)
+                            {
+                                case "tramp":
+                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    break;
+                            }
+                        }
+                        if (gameBoard[row, column].HasCharacter)
+                        {
+                            switch (gameBoard[row, column].CharacterIcon)
+                            {
+                                case "🟦":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Blue , Color.CadetBlue);
+                                    break;
+                                case "🟥":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Red, Color.MediumVioletRed);
+                                    break;
+                                case "🟩":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Green , Color.Green3);
+                                    break;
+                                case "🟨":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Yellow , Color.Gold1);
+                                    break;
+                                case "🟪":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Purple , Color.MediumPurple);
+                                    break;
+                                case "🟧":
+                                    PrintMulticolorPixel(canvas, row, column, Color.Orange1, Color.DarkOrange);
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PrintPixel(canvas , row , column , Color.Grey);
+                    }
+                }
+            }
+        }
+        private void PrintThirdQuadrant(Shell[,] gameBoard , BaseCharacter character , List<BaseCharacter> characters , List<BaseTramp> tramps , int characterrVisibility , Canvas canvas)
+        {
+            for(int row = gameBoard.GetLength(0)/2+1 ; row < gameBoard.GetLength(0)-1 ; row ++ ){
+                for(int column = 1 ; column < gameBoard.GetLength(1)/2 ; column ++)
+                {
+                    if(Math.Abs(row - character.PlayerRow) + Math.Abs(column - character.PlayerColumn) <= characterrVisibility)
+                    {
+                        if (gameBoard[row, column].GetType() == typeof(Wall))
+                        {
+                            PrintPixel(canvas , row , column , Color.Black);
+                        }
+                        else if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
+                        {
+                            PrintPixel(canvas , row , column , Color.White);
+                        }
+                        if(gameBoard[row, column].IsCenter)
+                        {
+                            PrintPixel(canvas , row , column , Color.Violet);
+                        }
+                        if (gameBoard[row, column].HasObject)
+                        {
+                            switch (gameBoard[row, column].ObjectType)
+                            {
+                                case "tramp":
+                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    break;
+                            }
+                        }
+                        if (gameBoard[row, column].HasCharacter)
+                        {
+                            switch (gameBoard[row, column].CharacterIcon)
+                            {
+                                case "🟦":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Blue , Color.CadetBlue);
+                                    break;
+                                case "🟥":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Red, Color.MediumVioletRed);
+                                    break;
+                                case "🟩":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Green , Color.Green3);
+                                    break;
+                                case "🟨":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Yellow , Color.Gold1);
+                                    break;
+                                case "🟪":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Purple , Color.MediumPurple);
+                                    break;
+                                case "🟧":
+                                    PrintMulticolorPixel(canvas, row, column, Color.Orange1, Color.DarkOrange);
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PrintPixel(canvas , row , column , Color.Grey);
+                    }
+                }
+            }
+        }
+        private void PrintFourthQuadrant(Shell[,] gameBoard , BaseCharacter character  , List<BaseCharacter> characters , List<BaseTramp> tramps , int characterrVisibility , Canvas canvas)
+        {
+            for(int row = gameBoard.GetLength(0)/2 + 1 ; row < gameBoard.GetLength(0)-1 ; row ++ ){
+                for(int column = gameBoard.GetLength(1)/2 +1  ; column < gameBoard.GetLength(1)-1 ; column ++)
+                {
+                    if(Math.Abs(row - character.PlayerRow) + Math.Abs(column - character.PlayerColumn) <= characterrVisibility)
+                    {
+                        if (gameBoard[row, column].GetType() == typeof(Wall))
+                        {
+                            PrintPixel(canvas , row , column , Color.Black);
+                        }
+                        else if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
+                        {
+                            PrintPixel(canvas , row , column , Color.White);
+                        }
+                        if(gameBoard[row, column].IsCenter)
+                        {
+                            PrintPixel(canvas , row , column , Color.Violet);
+                        }
+                        if (gameBoard[row, column].HasObject)
+                        {
+                            switch (gameBoard[row, column].ObjectType)
+                            {
+                                case "tramp":
+                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    break;
+                            }
+                        }
+                        if (gameBoard[row, column].HasCharacter)
+                        {
+                            switch (gameBoard[row, column].CharacterIcon)
+                            {
+                                case "🟦":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Blue , Color.CadetBlue);
+                                    break;
+                                case "🟥":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Red, Color.MediumVioletRed);
+                                    break;
+                                case "🟩":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Green , Color.Green3);
+                                    break;
+                                case "🟨":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Yellow , Color.Gold1);
+                                    break;
+                                case "🟪":
+                                    PrintMulticolorPixel(canvas , row , column , Color.Purple , Color.MediumPurple);
+                                    break;
+                                case "🟧":
+                                    PrintMulticolorPixel(canvas, row, column, Color.Orange1, Color.DarkOrange);
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        PrintPixel(canvas , row , column , Color.Grey);
+                    }
+                }
+            }
+        }
+
 }

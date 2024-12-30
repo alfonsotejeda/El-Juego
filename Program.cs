@@ -104,7 +104,7 @@ namespace P_P
 
     
             int countdownBlue = 2;
-            int countdownYellow = 4;
+            int countdownYellow = 3;
             int countdownGreen = 3;
             int countdownRed = 2;
 
@@ -114,14 +114,21 @@ namespace P_P
             int movementCapacityOrange = 3;
             int countdownOrange = 3;
 
+            int visibilityBlue = 5;
+            int visibilityYellow = 3;
+            int visibilityGreen = 4;
+            int visibilityRed = 3;
+            int visibilityViolet = 3;
+            int visibilityOrange = 6;
+
             List<BaseCharacter> characters = new List<BaseCharacter>
             {
-                new BlueSquareCharacter("🟦", "defense", ref movementCapacityBlue, ref standardRow, ref standardColumn, ref countdownBlue),
-                new YellowSquareCharacter("🟨", "jumpOveraWall", ref movementCapacityYellow, ref standardRow, ref standardColumn, ref countdownYellow),
-                new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref movementCapacityGreen, ref standardRow, ref standardColumn, ref countdownGreen),
-                new RedSquareCharacter("🟥", "attack", ref movementCapacityRed, ref standardRow, ref standardColumn, ref countdownRed),
-                new VioletSquareCharacter("🟪", "increaseMovement", ref movementCapacityViolet, ref standardRow, ref standardColumn, ref countdownViolet),
-                new OrangeSquareCharacter("🟧", "changemaze", ref movementCapacityOrange, ref standardRow, ref standardColumn, ref countdownOrange)
+                new BlueSquareCharacter("🟦", "defense", ref movementCapacityBlue, ref standardRow, ref standardColumn, ref countdownBlue, ref visibilityBlue),
+                new YellowSquareCharacter("🟨", "jumpOveraWall", ref movementCapacityYellow, ref standardRow, ref standardColumn, ref countdownYellow, ref visibilityYellow),
+                new GreenSquareCharacter("🟩", "removeOneRandomTramp", ref movementCapacityGreen, ref standardRow, ref standardColumn, ref countdownGreen, ref visibilityGreen),
+                new RedSquareCharacter("🟥", "attack", ref movementCapacityRed, ref standardRow, ref standardColumn, ref countdownRed, ref visibilityRed),
+                new VioletSquareCharacter("🟪", "increaseMovement", ref movementCapacityViolet, ref standardRow, ref standardColumn, ref countdownViolet, ref visibilityViolet),
+                new OrangeSquareCharacter("🟧", "changemaze", ref movementCapacityOrange, ref standardRow, ref standardColumn, ref countdownOrange, ref visibilityOrange)
             };
 
             return characters;
@@ -166,7 +173,7 @@ namespace P_P
                 var selectedCharacter = characters[selectedIndex];
 
                 
-                var newCharacter = (BaseCharacter?)Activator.CreateInstance(selectedCharacter.GetType(), selectedCharacter.Icon, selectedCharacter.Ability, selectedCharacter.MovementCapacity, selectedCharacter.PlayerRow, selectedCharacter.PlayerColumn, selectedCharacter.Countdown);
+                var newCharacter = (BaseCharacter?)Activator.CreateInstance(selectedCharacter.GetType(), selectedCharacter.Icon, selectedCharacter.Ability, selectedCharacter.MovementCapacity, selectedCharacter.PlayerRow, selectedCharacter.PlayerColumn, selectedCharacter.Countdown , selectedCharacter.Visibility);
                 if (newCharacter != null)
                 {
                     selectedCharacters.Add(newCharacter);

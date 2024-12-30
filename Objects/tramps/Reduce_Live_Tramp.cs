@@ -30,11 +30,13 @@ namespace P_P.tramps
         public override void CreateRandomTraps(Shell[,] gameBoard, BaseTramp tramp, int startRow, int endRow, int startColumn, int endColumn, int numberOfTraps)
         {
             Random random = new Random();
+            int centerRow = gameBoard.GetLength(0) / 2;
+            int centerColumn = gameBoard.GetLength(1) / 2;
             for (int i = 0; i < numberOfTraps; i++)
             {
                 int row = random.Next(startRow, endRow);
                 int column = random.Next(startColumn, endColumn);
-                if (gameBoard[row, column].GetType() == typeof(P_P.board.Path))
+                if (gameBoard[row, column].GetType() == typeof(P_P.board.Path) && !(row == centerRow && column == centerColumn))
                 {
                     this.positionRow[i] = row;
                     this.positionColumn[i] = column;

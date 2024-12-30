@@ -16,11 +16,12 @@ namespace P_P.characters
         public int PlayerRow;
         public int Live = 100;
         public int Countdown;
-
+        public int Visibility;
+        private int _visibility;
         private int _countdown;
         public  PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
         
-        public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow, int countdown)
+        public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow, int countdown, int visibility)
         {
             this.Icon = name ?? throw new ArgumentNullException(nameof(name));
             this.Ability = ability ?? throw new ArgumentNullException(nameof(ability));
@@ -30,6 +31,8 @@ namespace P_P.characters
             this.PlayerRow = playerRow;
             this.Countdown = countdown;
             this._countdown = countdown;
+            this.Visibility = visibility;
+            this._visibility = visibility;
 
         }
 
@@ -264,6 +267,25 @@ namespace P_P.characters
             string selectedCharacter = posibleChangeCharacters[selectedIndex];
             int selectedCharacterIndex = int.Parse(selectedCharacter.Split(' ')[1]);
             return selectedCharacterIndex;
+        }
+        public bool IsInFirstQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn <= gameboard.GetLength(1) / 2 && character.PlayerRow <= gameboard.GetLength(0) / 2;
+        }
+
+        public bool IsInSecondQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow <= gameboard.GetLength(0) / 2;
+        }
+
+        public bool IsInThirdQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn <= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
+        }
+
+        public bool IsInFourthQuadrant(BaseCharacter character, Shell[,] gameboard)
+        {
+            return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
         }
     }
 }

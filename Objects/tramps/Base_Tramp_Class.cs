@@ -21,17 +21,19 @@ namespace P_P.tramps
         public virtual void CreateRandomTraps(Shell[,] gameBoard, BaseTramp tramp, int startRow, int endRow, int startColumn, int endColumn, int numberOfTraps)
         {
             Random random = new Random();
+            int centerRow = gameBoard.GetLength(0) / 2;
+            int centerColumn = gameBoard.GetLength(1) / 2;
             for (int i = 0; i < numberOfTraps; i++)
             {
-                PlaceTrap(gameBoard, random, startRow, endRow, startColumn, endColumn, i);
+                PlaceTrap(gameBoard, random, startRow, endRow, startColumn, endColumn, i, centerRow, centerColumn);
             }
         }
 
-        private void PlaceTrap(Shell[,] gameBoard, Random random, int startRow, int endRow, int startColumn, int endColumn, int index)
+        private void PlaceTrap(Shell[,] gameBoard, Random random, int startRow, int endRow, int startColumn, int endColumn, int index, int centerRow, int centerColumn)
         {
             int row = random.Next(startRow, endRow);
             int column = random.Next(startColumn, endColumn);
-            if (gameBoard[row, column].GetType() == typeof(P_P.board.Path) && !gameBoard[row, column].HasObject && !gameBoard[row, column].HasCharacter)
+            if (gameBoard[row, column].GetType() == typeof(P_P.board.Path) && !gameBoard[row, column].HasObject && !gameBoard[row, column].HasCharacter && !(row == centerRow && column == centerColumn))
             {
                 this.positionRow[index] = row;
                 this.positionColumn[index] = column;
@@ -40,7 +42,7 @@ namespace P_P.tramps
             }
             else
             {
-                PlaceTrap(gameBoard, random, startRow, endRow, startColumn, endColumn, index);
+                PlaceTrap(gameBoard, random, startRow, endRow, startColumn, endColumn, index, centerRow, centerColumn);
             }
         }
 
