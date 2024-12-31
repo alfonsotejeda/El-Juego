@@ -53,7 +53,7 @@ public class PrintingMethods
                     switch (gameBoard[i, j].ObjectType)
                     {
                         case "tramp":
-                            PrintPixel(canvas , i , j , Color.DarkRed);
+                            PrintPixel(canvas , i , j , Color.White);
                             break;
                     }
                 }
@@ -172,7 +172,7 @@ public class PrintingMethods
                             switch (gameBoard[row, column].ObjectType)
                             {
                                 case "tramp":
-                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    PrintPixel(canvas , row , column , Color.White);
                                     break;
                             }
                         }
@@ -233,7 +233,7 @@ public class PrintingMethods
                             switch (gameBoard[row, column].ObjectType)
                             {
                                 case "tramp":
-                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    PrintPixel(canvas , row , column , Color.White);
                                     break;
                             }
                         }
@@ -293,7 +293,7 @@ public class PrintingMethods
                             switch (gameBoard[row, column].ObjectType)
                             {
                                 case "tramp":
-                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    PrintPixel(canvas , row , column , Color.White);
                                     break;
                             }
                         }
@@ -353,7 +353,7 @@ public class PrintingMethods
                             switch (gameBoard[row, column].ObjectType)
                             {
                                 case "tramp":
-                                    PrintPixel(canvas , row , column , Color.DarkRed);
+                                    PrintPixel(canvas , row , column , Color.White);
                                     break;
                             }
                         }

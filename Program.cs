@@ -141,7 +141,7 @@ namespace P_P
             {
                 new GoToOriginTramp("goToOrigin"),
                 new ReduceLiveTramp("reduceLive"),
-                new ClosePathTramp("closePath")
+                //new ClosePathTramp("closePath")
             };
 
             foreach (BaseTramp tramp in tramps)
