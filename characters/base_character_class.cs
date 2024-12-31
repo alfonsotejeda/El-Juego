@@ -11,7 +11,7 @@ namespace P_P.characters
         public string Icon;
         public string Ability;
         public int MovementCapacity;
-        private int _movementCapacity;
+        public int _movementCapacity;
         public int PlayerColumn;
         public int PlayerRow;
         public int Live = 100;

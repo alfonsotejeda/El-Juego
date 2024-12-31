@@ -14,6 +14,7 @@ namespace P_P.characters
         public override void UseAbility(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps, List<BaseCharacter> characters)
         {
             character.MovementCapacity += 2;
+            character._movementCapacity += 2;
         }
     }
 }
