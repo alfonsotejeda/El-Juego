@@ -35,8 +35,8 @@ namespace P_P
         static void RunGame()
         {
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            int rows = 21;
-            int columns = 21;
+            int rows = 29;
+            int columns = 29;
             
             Board board = new Board(columns, rows);
             Shell[,] gameBoard = board.CreateBoard();

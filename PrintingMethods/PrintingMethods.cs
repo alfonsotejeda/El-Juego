@@ -19,7 +19,7 @@ public class PrintingMethods
                     .SplitRows(
                         new Layout("Top"),
                         new Layout("Bottom")));
-        layout["Left"].Size(133);
+        layout["Left"].Size(125);
         layout["Top"].Size(10);
         layout["Bottom"].Size(10);
     }
