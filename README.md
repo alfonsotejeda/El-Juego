@@ -61,6 +61,7 @@ Un juego de laberinto en consola desarrollado en C# que presenta generación din
 
 ## 🏗️ Estructura del Proyecto
 
+```
 P_P/
 ├── board/
 │ ├── board.cs # Lógica del tablero
@@ -76,6 +77,7 @@ P_P/
 │ ├── tramps/ # Sistema de trampas
 │ └── interactiveobjects.cs
 └── Program.cs # Punto de entrada
+```
 
 ## 🚀 Instalación y Ejecución
 
