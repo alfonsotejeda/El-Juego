@@ -109,8 +109,8 @@ Las contribuciones son bienvenidas. Por favor:
 
 ## 📝 Licencia
 
-[Añadir información de licencia]
+MIT Licence
 
 ## 👥 Autores
 
-[Añadir información de autores]
+Alfosno Tejeda Rodríguez
