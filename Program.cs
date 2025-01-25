@@ -97,10 +97,10 @@ namespace P_P
             int standardColumn = 1;
 
 
-            int movementCapacityBlue = 3;
-            int movementCapacityYellow = 4;
-            int movementCapacityGreen = 3;
-            int movementCapacityRed = 5;
+            int movementCapacityBlue = 8;
+            int movementCapacityYellow =10 ;
+            int movementCapacityGreen = 7;
+            int movementCapacityRed = 9;
 
     
             int countdownBlue = 2;
@@ -108,10 +108,10 @@ namespace P_P
             int countdownGreen = 3;
             int countdownRed = 2;
 
-            int movementCapacityViolet = 3;
+            int movementCapacityViolet = 9;
             int countdownViolet = 3;
 
-            int movementCapacityOrange = 3;
+            int movementCapacityOrange = 8;
             int countdownOrange = 3;
 
             int visibilityBlue = 5;
