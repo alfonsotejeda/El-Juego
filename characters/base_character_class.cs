@@ -36,8 +36,17 @@ namespace P_P.characters
             this._visibility = visibility;
         }
 
-        public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character , ConsoleKeyInfo key , List<BaseCharacter> characters , List<BaseTramp> tramps)
+        public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character, ConsoleKeyInfo key, List<BaseCharacter> characters, List<BaseTramp> tramps)
         {
+            if (Live <= 0)
+            {
+                ReturnToStartPosition(gameBoard, character);
+                Live = 100;
+                printingMethods.layout["Bottom"].Update(new Panel("¡Has perdido toda tu vida! Volviendo a la posición inicial...").Expand());
+                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                return;
+            }
+
             int newRow = playerRow;
             int newColumn = playerColumn;
 
@@ -311,6 +320,37 @@ namespace P_P.characters
         protected bool HasEnoughPlayers()
         {
             return NumberOfPlayers > 1;
+        }
+
+        private void ReturnToStartPosition(Shell[,] gameBoard, BaseCharacter character)
+        {
+            gameBoard[PlayerRow, PlayerColumn].HasCharacter = false;
+            gameBoard[PlayerRow, PlayerColumn].CharacterIcon = null;
+            gameBoard[PlayerRow, PlayerColumn] = new P_P.board.Path("⬜️");
+
+            if (PlayerColumn == 1 && PlayerRow == 1)
+            {
+                PlayerRow = 1;
+                PlayerColumn = 1;
+            }
+            else if (PlayerColumn == gameBoard.GetLength(1) - 2 && PlayerRow == 1)
+            {
+                PlayerRow = 1;
+                PlayerColumn = gameBoard.GetLength(1) - 2;
+            }
+            else if (PlayerColumn == 1 && PlayerRow == gameBoard.GetLength(0) - 2)
+            {
+                PlayerRow = gameBoard.GetLength(0) - 2;
+                PlayerColumn = 1;
+            }
+            else
+            {
+                PlayerRow = gameBoard.GetLength(0) - 2;
+                PlayerColumn = gameBoard.GetLength(1) - 2;
+            }
+
+            gameBoard[PlayerRow, PlayerColumn].HasCharacter = true;
+            gameBoard[PlayerRow, PlayerColumn].CharacterIcon = Icon;
         }
     }
 }
