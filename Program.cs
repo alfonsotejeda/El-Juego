@@ -21,14 +21,6 @@ namespace P_P
                 {
                     RunGame();
                 }
-                else if (option == "2")
-                {
-                    System.Console.WriteLine("En contrucción");
-                }
-                else if (option == "3")
-                {
-                    System.Console.WriteLine("En contrucción");
-                }
             }
         }
 
@@ -54,6 +46,9 @@ namespace P_P
                 AnsiConsole.MarkupLine("[red]Número de jugadores no válido. Debe ser entre 1 y 4.[/]");
                 return;
             }
+
+            // Establecer el número de jugadores en la clase BaseCharacter
+            BaseCharacter.SetNumberOfPlayers(numberOfPlayers);
 
             List<BaseCharacter> selectedCharacters = SelectCharactersForPlayers(characters, numberOfPlayers);
             SetPositions(selectedCharacters, rows, columns);
@@ -97,10 +92,10 @@ namespace P_P
             int standardColumn = 1;
 
 
-            int movementCapacityBlue = 3;
-            int movementCapacityYellow = 4;
-            int movementCapacityGreen = 3;
-            int movementCapacityRed = 5;
+            int movementCapacityBlue = 8;
+            int movementCapacityYellow =10 ;
+            int movementCapacityGreen = 7;
+            int movementCapacityRed = 9;
 
     
             int countdownBlue = 2;
@@ -108,10 +103,10 @@ namespace P_P
             int countdownGreen = 3;
             int countdownRed = 2;
 
-            int movementCapacityViolet = 3;
+            int movementCapacityViolet = 9;
             int countdownViolet = 3;
 
-            int movementCapacityOrange = 3;
+            int movementCapacityOrange = 8;
             int countdownOrange = 3;
 
             int visibilityBlue = 5;

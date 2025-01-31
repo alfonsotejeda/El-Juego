@@ -20,6 +20,7 @@ namespace P_P.characters
         private int _visibility;
         private int _countdown;
         public  PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
+        public static int NumberOfPlayers { get; private set; }
         
         public BaseCharacter(string name, string ability, int movementCapacity, int playerColumn, int playerRow, int countdown, int visibility)
         {
@@ -33,11 +34,19 @@ namespace P_P.characters
             this._countdown = countdown;
             this.Visibility = visibility;
             this._visibility = visibility;
-
         }
 
-        public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character , ConsoleKeyInfo key , List<BaseCharacter> characters , List<BaseTramp> tramps)
+        public void Move(ref int playerRow, ref int playerColumn, ref int movementCapacity, Shell[,] gameBoard, BaseCharacter character, ConsoleKeyInfo key, List<BaseCharacter> characters, List<BaseTramp> tramps)
         {
+            if (Live <= 0)
+            {
+                ReturnToStartPosition(gameBoard, character);
+                Live = 100;
+                printingMethods.layout["Bottom"].Update(new Panel("¡Has perdido toda tu vida! Volviendo a la posición inicial...").Expand());
+                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                return;
+            }
+
             int newRow = playerRow;
             int newColumn = playerColumn;
 
@@ -111,11 +120,20 @@ namespace P_P.characters
 
         private void HandleCharacterChange(Shell[,] gameBoard, BaseCharacter character, List<BaseCharacter> characters, List<BaseTramp> tramps)
         {
-            printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
-            int characterToChange = DisplayCharactersToChange(characters , character , gameBoard , tramps);
-            character.ChangeWith(character , characters[characterToChange] , gameBoard);
-            printingMethods.layout["Bottom"].Update(new Panel("Te has cambiado con el personaje " + characters[characterToChange].Icon).Expand());
-            printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+            if (!HasEnoughPlayers())
+            {
+                printingMethods.layout["Bottom"].Update(new Panel("No hay suficientes jugadores para cambiar de personaje").Expand());
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+                Console.ReadKey();
+            }
+            else
+            {
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+                int characterToChange = DisplayCharactersToChange(characters , character , gameBoard , tramps);
+                character.ChangeWith(character , characters[characterToChange] , gameBoard);
+                printingMethods.layout["Bottom"].Update(new Panel("Te has cambiado con el personaje " + characters[characterToChange].Icon).Expand());
+                printingMethods.PrintGameSpectre(gameBoard , character , characters , tramps);
+            }
         }
 
         private void HandleMovementOrAbility(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps, List<BaseCharacter> characters, ConsoleKeyInfo key)
@@ -286,6 +304,53 @@ namespace P_P.characters
         public bool IsInFourthQuadrant(BaseCharacter character, Shell[,] gameboard)
         {
             return character.PlayerColumn >= gameboard.GetLength(1) / 2 && character.PlayerRow >= gameboard.GetLength(0) / 2;
+        }
+
+        // Método estático para establecer el número de jugadores
+        public static void SetNumberOfPlayers(int players)
+        {
+            if (players < 1 || players > 4)
+            {
+                throw new ArgumentException("El número de jugadores debe estar entre 1 y 4");
+            }
+            NumberOfPlayers = players;
+        }
+
+        // Método para verificar si hay suficientes jugadores para una acción
+        protected bool HasEnoughPlayers()
+        {
+            return NumberOfPlayers > 1;
+        }
+
+        private void ReturnToStartPosition(Shell[,] gameBoard, BaseCharacter character)
+        {
+            gameBoard[PlayerRow, PlayerColumn].HasCharacter = false;
+            gameBoard[PlayerRow, PlayerColumn].CharacterIcon = null;
+            gameBoard[PlayerRow, PlayerColumn] = new P_P.board.Path("⬜️");
+
+            if (PlayerColumn == 1 && PlayerRow == 1)
+            {
+                PlayerRow = 1;
+                PlayerColumn = 1;
+            }
+            else if (PlayerColumn == gameBoard.GetLength(1) - 2 && PlayerRow == 1)
+            {
+                PlayerRow = 1;
+                PlayerColumn = gameBoard.GetLength(1) - 2;
+            }
+            else if (PlayerColumn == 1 && PlayerRow == gameBoard.GetLength(0) - 2)
+            {
+                PlayerRow = gameBoard.GetLength(0) - 2;
+                PlayerColumn = 1;
+            }
+            else
+            {
+                PlayerRow = gameBoard.GetLength(0) - 2;
+                PlayerColumn = gameBoard.GetLength(1) - 2;
+            }
+
+            gameBoard[PlayerRow, PlayerColumn].HasCharacter = true;
+            gameBoard[PlayerRow, PlayerColumn].CharacterIcon = Icon;
         }
     }
 }

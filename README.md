@@ -1,116 +1,105 @@
-# 🎮 Laberinto Multijugador
+# Maze Game Project
 
-Un juego de laberinto en consola desarrollado en C# que presenta generación dinámica de laberintos, múltiples personajes y mecánicas interactivas, utilizando la biblioteca Spectre.Console para una presentación visual mejorada.
+A C# console-based maze game featuring a dynamic maze generator, multiple characters, and interactive gameplay using the Spectre.Console library for enhanced visual presentation.
 
-## 📋 Características Principales
+## 🎮 Game Overview
 
-### 🎯 Jugabilidad
-- **Multijugador**: Soporte para 1-4 jugadores
-- **Generación Dinámica**: Laberinto único dividido en cuatro cuadrantes
-- **Sistema de Turnos**: Movimiento estratégico por turnos
-- **Interfaz Moderna**: UI mejorada con Spectre.Console
+This is a two-player maze game where players navigate through a procedurally generated maze. The game features:
+- A Blue Square Character (Defense)
+- A Red Square Character (Attack)
+- A Green Square Character (Speed)
+- Dynamically generated maze divided into four quadrants
+- Special traps and interactive elements
+- Modern console-based UI using Spectre.Console
 
-### 👾 Personajes
-- **🟦 Cuadrado Azul (Defensa)**
-  - Habilidad: Aumenta la vida en 10 puntos
-  - Movimientos por turno: 3
-  - Visibilidad: 5 casillas
+## 🏗️ Project Structure
 
-- **🟥 Cuadrado Rojo (Ataque)**
-  - Habilidad: Ataca a otros jugadores
-  - Movimientos por turno: 5
-  - Visibilidad: 3 casillas
+- `Program.cs`: Main entry point and game loop
+- `board/board.cs`: Board generation and display logic
+- Additional character and trap classes
 
-- **🟩 Cuadrado Verde (Velocidad)**
-  - Habilidad: Elimina trampas aleatorias
-  - Movimientos por turno: 3
-  - Visibilidad: 4 casillas
+## 🚀 Features
 
-- **🟨 Cuadrado Amarillo (Salto)**
-  - Habilidad: Salta sobre paredes
-  - Movimientos por turno: 4
-  - Visibilidad: 3 casillas
+- **Dynamic Maze Generation**: Uses a maze generator to create unique layouts in four quadrants
+- **Character System**: Three distinct characters with different properties
+  - Blue Square (Defense): Starting position (1,1)
+  - Red Square (Attack): Starting position (31,31)
+  - Green Square (Speed): Starting position (15,15)
+- **Interactive UI**: Uses Spectre.Console for enhanced visual presentation
+- **Menu System**: Main menu with multiple options (some under construction)
+- **Trap System**: Includes close path traps and other interactive elements
 
-- **🟪 Cuadrado Violeta (Mejora)**
-  - Habilidad: Aumenta capacidad de movimiento
-  - Movimientos por turno: 3
-  - Visibilidad: 3 casillas
+## 💡 Suggestions for Implementation
 
-- **🟧 Cuadrado Naranja (Cambio)**
-  - Habilidad: Modifica el laberinto
-  - Movimientos por turno: 3
-  - Visibilidad: 6 casillas
+1. **Game Mechanics Enhancement**:
+   - Implement scoring system
+   - Add time limits for maze completion
+   - Create power-ups and special abilities for characters
 
-### 🎲 Trampas y Objetos
-- **Trampa de Origen**: Teletransporta al jugador al inicio
-- **Trampa de Vida**: Reduce la vida del jugador
-- **Trampa de Camino**: Modifica la estructura del laberinto
+2. **UI Improvements**:
+   - Add color-coded status indicators
+   - Implement a more detailed HUD
+   - Add animation effects for movement and actions
 
-## 🛠️ Requisitos Técnicos
+3. **Gameplay Features**:
+   - Add multiplayer support
+   - Implement different difficulty levels
+   - Create various maze generation algorithms
 
-- .NET 8.0
-- Spectre.Console (v0.49.1)
-- Spectre.Console.Cli (v0.49.1)
+4. **Code Structure**:
+   - Implement dependency injection
+   - Add unit tests for core functionality
+   - Create separate configuration files
 
-## 🎮 Controles
+5. **Additional Features**:
+   - Save/Load game state
+   - High score system
+   - Different game modes
+   - Sound effects and background music
 
-- **W,A,S,D**: Movimiento
-- **H**: Activar habilidad especial
-- **C**: Cambiar de personaje
-- **ESC**: Volver al menú principal
+## 🛠️ Technical Requirements
 
-## 🏗️ Estructura del Proyecto
+- .NET Core/Framework
+- Spectre.Console package
+- C# 7.0 or higher
 
-```
-P_P/
-├── board/
-│ ├── board.cs # Lógica del tablero
-│ ├── shell.cs # Clase base para celdas
-│ ├── path.cs # Caminos transitables
-│ └── wall.cs # Paredes del laberinto
-├── characters/
-│ ├── base_character_class.cs
-│ ├── bluesquare_character.cs
-│ ├── redsquare_character.cs
-│ └── [otros personajes]
-├── Objects/
-│ ├── tramps/ # Sistema de trampas
-│ └── interactiveobjects.cs
-└── Program.cs # Punto de entrada
-```
+## 🎯 Future Improvements
 
-## 🚀 Instalación y Ejecución
+1. Complete the construction of menu options 2 and 3
+2. Implement proper exception handling throughout the game
+3. Add player statistics and progression system
+4. Enhance character movement and interaction mechanics
+5. Add more trap types and obstacles
 
-1. Clonar el repositorio
-2. Asegurarse de tener .NET 8.0 instalado
-3. Ejecutar en terminal:
+## 🎲 How to Play
 
-## 🎯 Próximas Mejoras
+1. Run the program
+2. Select option 1 from the main menu to start the game
+3. Use movement controls to navigate through the maze
+4. Press ESC to return to the main menu
 
-1. Sistema de puntuación
-2. Límites de tiempo
-3. Nuevos tipos de trampas
-4. Mejoras en la UI
-5. Guardado de partidas
+## 🔍 Code Architecture
 
-## ⚠️ Problemas Conocidos
+The project follows a modular design with separate classes for:
+- Board management (`Board` class)
+- Character control (`BlueSquareCharacter`, `RedSquareCharacter`, and `GreenSquareCharacter` classes)
+- Trap system (`ClosePathTramp` class)
+- Menu handling (`Menu` class)
 
-1. Opciones 2 y 3 del menú en construcción
-2. Condiciones de victoria necesitan refinamiento
-3. Colisiones entre personajes pueden mejorarse
+## ⚠️ Known Issues
 
-## 🤝 Contribuciones
+1. Menu options 2 and 3 are currently under construction
+2. Need to implement proper game ending conditions
+3. Character collision handling could be improved
 
-Las contribuciones son bienvenidas. Por favor:
+## 🤝 Contributing
 
-1. Haz fork del proyecto
-2. Crea una rama para tu feature
-3. Envía un pull request
+Feel free to contribute to this project by:
+1. Implementing suggested features
+2. Fixing known issues
+3. Improving code documentation
+4. Adding new game mechanics
 
-## 📝 Licencia
+## 📝 License
 
-MIT Licence
-
-## 👥 Autores
-
-Alfosno Tejeda Rodríguez
+[Add your license information here]

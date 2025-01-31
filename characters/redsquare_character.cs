@@ -13,13 +13,22 @@ namespace P_P.characters
             this.icon = icon ?? throw new ArgumentNullException(nameof(icon));
         }
 
-        public override void UseAbility(Shell[,] gameboard, BaseCharacter character , List<BaseTramp> tramps,List<BaseCharacter> characters)
+        public override void UseAbility(Shell[,] gameboard, BaseCharacter character, List<BaseTramp> tramps, List<BaseCharacter> characters)
         {
-            printingMethods.layout["Bottom"].Update(new Panel("Introduce el personaje que quieres Atacar").Expand());
-            int characterToAttack = DisplayCharactersToChange(characters , character , gameboard , tramps);
-            
-            characters[characterToAttack].Live -= 10;
-            printingMethods.layout["Bottom"].Update(new Panel($"Has atacado al personaje {characters[characterToAttack].Icon}").Expand());
+            if (!HasEnoughPlayers())
+            {
+                printingMethods.layout["Bottom"].Update(new Panel("Esta habilidad requiere más de un jugador").Expand());
+                printingMethods.PrintGameSpectre(gameboard, character, characters, tramps);
+                Console.ReadKey();
+            }
+            else
+            {
+                printingMethods.layout["Bottom"].Update(new Panel("Introduce el personaje que quieres Atacar").Expand());
+                int characterToAttack = DisplayCharactersToChange(characters, character, gameboard, tramps);
+                
+                characters[characterToAttack].Live -= 10;
+                printingMethods.layout["Bottom"].Update(new Panel($"Has atacado al personaje {characters[characterToAttack].Icon}").Expand());
+            }
         }
 
         public override int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)
