@@ -15,33 +15,41 @@ namespace P_P.characters
         public override void UseAbility(Shell[,] gameBoard, BaseCharacter character, List<BaseTramp> tramps, List<BaseCharacter> characters)
         {
             PrintingMethods.PrintingMethods printingMethods = new PrintingMethods.PrintingMethods();
-            MazeGenerator mazeGenerator = new MazeGenerator();
-            int characterToChangeMazeIndex = DisplayCharactersToChange(characters, character, gameBoard, tramps);
-            BaseCharacter characterToChangeMaze = characters[characterToChangeMazeIndex];
+            if (!HasEnoughPlayers())
+            {
+                printingMethods.layout["Bottom"].Update(new Panel("Esta habilidad requiere más de un jugador").Expand());
+                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                Console.ReadKey();
+            }
+            else{
+                MazeGenerator mazeGenerator = new MazeGenerator();
+                int characterToChangeMazeIndex = DisplayCharactersToChange(characters, character, gameBoard, tramps);
+                BaseCharacter characterToChangeMaze = characters[characterToChangeMazeIndex];
 
-            if (IsInFirstQuadrant(characterToChangeMaze, gameBoard))
-            {
-                GenerateMazeInQuadrant(0, gameBoard.GetLength(0) / 2, 0, gameBoard.GetLength(1) / 2, gameBoard, character, characterToChangeMaze, tramps);
-                printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
-                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
-            }
-            else if (IsInSecondQuadrant(characterToChangeMaze, gameBoard))
-            {
-                GenerateMazeInQuadrant(0, gameBoard.GetLength(0) / 2, gameBoard.GetLength(1) / 2, gameBoard.GetLength(1), gameBoard, character, characterToChangeMaze, tramps);
-                printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
-                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
-            }
-            else if (IsInThirdQuadrant(characterToChangeMaze, gameBoard))
-            {
-                GenerateMazeInQuadrant(gameBoard.GetLength(0) / 2, gameBoard.GetLength(0), 0, gameBoard.GetLength(1) / 2, gameBoard, character, characterToChangeMaze, tramps);
-                printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
-                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
-            }
-            else if (IsInFourthQuadrant(characterToChangeMaze, gameBoard))
-            {
-                GenerateMazeInQuadrant(gameBoard.GetLength(0) / 2, gameBoard.GetLength(0), gameBoard.GetLength(1) / 2, gameBoard.GetLength(1), gameBoard, character, characterToChangeMaze, tramps);
-                printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
-                printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                if (IsInFirstQuadrant(characterToChangeMaze, gameBoard))
+                {
+                    GenerateMazeInQuadrant(0, gameBoard.GetLength(0) / 2, 0, gameBoard.GetLength(1) / 2, gameBoard, character, characterToChangeMaze, tramps);
+                    printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
+                    printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                }
+                else if (IsInSecondQuadrant(characterToChangeMaze, gameBoard))
+                {
+                    GenerateMazeInQuadrant(0, gameBoard.GetLength(0) / 2, gameBoard.GetLength(1) / 2, gameBoard.GetLength(1), gameBoard, character, characterToChangeMaze, tramps);
+                    printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
+                    printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                }
+                else if (IsInThirdQuadrant(characterToChangeMaze, gameBoard))
+                {
+                    GenerateMazeInQuadrant(gameBoard.GetLength(0) / 2, gameBoard.GetLength(0), 0, gameBoard.GetLength(1) / 2, gameBoard, character, characterToChangeMaze, tramps);
+                    printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
+                    printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                }
+                else if (IsInFourthQuadrant(characterToChangeMaze, gameBoard))
+                {
+                    GenerateMazeInQuadrant(gameBoard.GetLength(0) / 2, gameBoard.GetLength(0), gameBoard.GetLength(1) / 2, gameBoard.GetLength(1), gameBoard, character, characterToChangeMaze, tramps);
+                    printingMethods.layout["Bottom"].Update(new Panel($"Has cambiado el laberinto del personaje {characterToChangeMaze.Icon}").Expand());
+                    printingMethods.PrintGameSpectre(gameBoard, character, characters, tramps);
+                }
             }
         }
         public override int DisplayCharactersToChange(List<BaseCharacter> characters, BaseCharacter character, Shell[,] gameBoard, List<BaseTramp> tramps)
