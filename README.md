@@ -1,4 +1,4 @@
-# Informe del Juego de Laberinto
+# Informe del Juego
 
 ## 1. Cómo Ejecutar el Proyecto
 
