@@ -21,14 +21,6 @@ namespace P_P
                 {
                     RunGame();
                 }
-                else if (option == "2")
-                {
-                    System.Console.WriteLine("En contrucción");
-                }
-                else if (option == "3")
-                {
-                    System.Console.WriteLine("En contrucción");
-                }
             }
         }
 
