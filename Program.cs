@@ -47,6 +47,9 @@ namespace P_P
                 return;
             }
 
+            // Establecer el número de jugadores en la clase BaseCharacter
+            BaseCharacter.SetNumberOfPlayers(numberOfPlayers);
+
             List<BaseCharacter> selectedCharacters = SelectCharactersForPlayers(characters, numberOfPlayers);
             SetPositions(selectedCharacters, rows, columns);
 
