@@ -4,7 +4,7 @@ namespace P_P.menu
 {
     public class Menu
     {
-        private const string TITLE = "BIENVENIDO AL JUEGO";
+        private const string TITLE = "BIENVENIDO A El JUEGO";
         private bool isSpanish = true;
         
         public Menu()

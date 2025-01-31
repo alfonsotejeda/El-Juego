@@ -12,6 +12,7 @@ namespace P_P
     {
         static void Main(string[] args)
         {
+            Console.Clear();
             Menu menu = new Menu();
             while (true)
             {

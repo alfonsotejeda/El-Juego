@@ -1,105 +1,117 @@
-# Maze Game Project
+# Informe del Juego de Laberinto
 
-A C# console-based maze game featuring a dynamic maze generator, multiple characters, and interactive gameplay using the Spectre.Console library for enhanced visual presentation.
+## 1. Cómo Ejecutar el Proyecto
 
-## 🎮 Game Overview
+### Requisitos Previos
+- .NET Core/Framework instalado
+- Visual Studio o Visual Studio Code
+- Paquete Spectre.Console instalado
 
-This is a two-player maze game where players navigate through a procedurally generated maze. The game features:
-- A Blue Square Character (Defense)
-- A Red Square Character (Attack)
-- A Green Square Character (Speed)
-- Dynamically generated maze divided into four quadrants
-- Special traps and interactive elements
-- Modern console-based UI using Spectre.Console
+### Pasos para Ejecutar
+1. Clonar el repositorio
+2. Abrir la solución en Visual Studio/VS Code
+3. Restaurar los paquetes NuGet
+4. Compilar el proyecto
+5. Ejecutar el programa
 
-## 🏗️ Project Structure
+## 2. Cómo Jugar
 
-- `Program.cs`: Main entry point and game loop
-- `board/board.cs`: Board generation and display logic
-- Additional character and trap classes
+### Inicio del Juego
+1. Ejecutar el programa
+2. Seleccionar la opción 1 del menú principal
+3. Introducir el número de jugadores (1-4)
+4. Cada jugador selecciona su personaje
 
-## 🚀 Features
+### Controles
+- **W**: Mover arriba
+- **S**: Mover abajo
+- **A**: Mover izquierda
+- **D**: Mover derecha
+- **H**: Usar habilidad especial
+- **C**: Cambiar de personaje (requiere más de un jugador)
+- **ESC**: Volver al menú principal
 
-- **Dynamic Maze Generation**: Uses a maze generator to create unique layouts in four quadrants
-- **Character System**: Three distinct characters with different properties
-  - Blue Square (Defense): Starting position (1,1)
-  - Red Square (Attack): Starting position (31,31)
-  - Green Square (Speed): Starting position (15,15)
-- **Interactive UI**: Uses Spectre.Console for enhanced visual presentation
-- **Menu System**: Main menu with multiple options (some under construction)
-- **Trap System**: Includes close path traps and other interactive elements
+### Personajes Disponibles
+1. 🟦 Cuadrado Azul (Defensa)
+   - Habilidad: Aumenta su vida
+   - Movimiento: 8 casillas
+   - Visibilidad: 5 casillas
 
-## 💡 Suggestions for Implementation
+2. 🟥 Cuadrado Rojo (Ataque)
+   - Habilidad: Ataca a otros jugadores (-10 vida)
+   - Movimiento: 9 casillas
+   - Visibilidad: 3 casillas
 
-1. **Game Mechanics Enhancement**:
-   - Implement scoring system
-   - Add time limits for maze completion
-   - Create power-ups and special abilities for characters
+3. 🟩 Cuadrado Verde (Trampas)
+   - Habilidad: Elimina trampas aleatorias
+   - Movimiento: 7 casillas
+   - Visibilidad: 4 casillas
 
-2. **UI Improvements**:
-   - Add color-coded status indicators
-   - Implement a more detailed HUD
-   - Add animation effects for movement and actions
+4. 🟨 Cuadrado Amarillo (Salto)
+   - Habilidad: Salta sobre paredes
+   - Movimiento: 10 casillas
+   - Visibilidad: 3 casillas
 
-3. **Gameplay Features**:
-   - Add multiplayer support
-   - Implement different difficulty levels
-   - Create various maze generation algorithms
+5. 🟪 Cuadrado Violeta (Movimiento)
+   - Habilidad: Aumenta su capacidad de movimiento
+   - Movimiento: 9 casillas
+   - Visibilidad: 3 casillas
 
-4. **Code Structure**:
-   - Implement dependency injection
-   - Add unit tests for core functionality
-   - Create separate configuration files
+6. 🟧 Cuadrado Naranja (Laberinto)
+   - Habilidad: Cambia el laberinto de otros jugadores
+   - Movimiento: 8 casillas
+   - Visibilidad: 6 casillas
 
-5. **Additional Features**:
-   - Save/Load game state
-   - High score system
-   - Different game modes
-   - Sound effects and background music
+### Sistema de Vida y Respawn
+- Cada personaje comienza con 100 de vida
+- Al perder toda la vida, el personaje vuelve a su posición inicial
+- La vida se restaura al respawnear
 
-## 🛠️ Technical Requirements
+## 3. Detalles de Implementación
 
-- .NET Core/Framework
-- Spectre.Console package
-- C# 7.0 or higher
+### Estructura del Proyecto
+- **Program.cs**: Punto de entrada y lógica principal
+- **board/**: Generación y manejo del laberinto
+- **characters/**: Clases de personajes y habilidades
+- **tramps/**: Sistema de trampas
+- **PrintingMethods/**: Métodos de visualización
 
-## 🎯 Future Improvements
+### Características Principales
 
-1. Complete the construction of menu options 2 and 3
-2. Implement proper exception handling throughout the game
-3. Add player statistics and progression system
-4. Enhance character movement and interaction mechanics
-5. Add more trap types and obstacles
+#### Sistema de Jugadores
+- Soporte para 1-4 jugadores
+- Posiciones iniciales únicas para cada jugador
+- Sistema de turnos por jugador
 
-## 🎲 How to Play
+#### Laberinto
+- Generación procedural
+- División en cuatro cuadrantes
+- Paredes y caminos dinámicos
 
-1. Run the program
-2. Select option 1 from the main menu to start the game
-3. Use movement controls to navigate through the maze
-4. Press ESC to return to the main menu
+#### Sistema de Habilidades
+- Habilidades únicas por personaje
+- Cooldown específico por habilidad
+- Restricciones basadas en el número de jugadores
 
-## 🔍 Code Architecture
+#### Sistema de Trampas
+- Trampas aleatorias en cada cuadrante
+- Diferentes tipos de efectos
+  - Volver al origen
+  - Reducir vida
+  - Bloquear camino
 
-The project follows a modular design with separate classes for:
-- Board management (`Board` class)
-- Character control (`BlueSquareCharacter`, `RedSquareCharacter`, and `GreenSquareCharacter` classes)
-- Trap system (`ClosePathTramp` class)
-- Menu handling (`Menu` class)
+#### Interfaz de Usuario
+- UI basada en Spectre.Console
+- Paneles informativos
+- Menús interactivos
+- Visualización del estado del juego
 
-## ⚠️ Known Issues
+### Mecánicas de Juego
+1. **Movimiento**: Sistema basado en turnos con capacidad limitada
+2. **Combate**: Sistema de vida y daño entre jugadores
+3. **Exploración**: Visibilidad limitada por personaje
+4. **Interacción**: Habilidades y efectos entre jugadores
 
-1. Menu options 2 and 3 are currently under construction
-2. Need to implement proper game ending conditions
-3. Character collision handling could be improved
-
-## 🤝 Contributing
-
-Feel free to contribute to this project by:
-1. Implementing suggested features
-2. Fixing known issues
-3. Improving code documentation
-4. Adding new game mechanics
-
-## 📝 License
-
-[Add your license information here]
+### Sistema de Victoria
+- Llegar al centro del laberinto
+- Sobrevivir a las trampas y otros jugadores 
